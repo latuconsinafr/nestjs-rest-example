@@ -1,10 +1,10 @@
 {
   "name": "personal-practice",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "This is my personal full and long-term-practice.",
+  "author": "Farista Latuconsina",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
