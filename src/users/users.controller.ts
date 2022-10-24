@@ -7,10 +7,13 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  SetMetadata,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { NotFoundException } from '../exceptions/not-found.exception';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
+import { RolesGuard } from '../guards/roles.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
@@ -21,6 +24,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @SetMetadata('roles', ['admin'])
+  @UseGuards(RolesGuard)
   async createUser(@Body() createUserDto: CreateUserDto): Promise<void> {
     this.usersService.create(createUserDto);
   }
