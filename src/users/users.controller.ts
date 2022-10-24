@@ -2,12 +2,17 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
   Query,
+  UseFilters,
 } from '@nestjs/common';
+import { HttpExceptionFilter } from '../filters/http-exception.filter';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ListAllUsers } from './dto/list-all-users.dto';
 import { User } from './interfaces/user.interface';
@@ -26,6 +31,9 @@ export class UsersController {
 
   // * Asynchronous example
   @Get()
+  // * Prefer applying filters by using classes instead of instances when possible
+  // * Reference: https://docs.nestjs.com/exception-filters
+  @UseFilters(HttpExceptionFilter)
   async findAllUsers(@Query() query: ListAllUsers): Promise<User[]> {
     return this.usersService.findAll();
 
@@ -42,6 +50,8 @@ export class UsersController {
 
   @Get(':id')
   findOneUser(@Param('id') id: string): string {
+    throw new ForbiddenException();
+
     return `This action returns a #${id} user.`;
   }
 

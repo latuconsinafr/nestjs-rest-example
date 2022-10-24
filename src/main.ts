@@ -1,6 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { loggerMiddleware } from './middleware/logger.middleware';
+import { AllExceptionsFilter } from './filters/all-exceptions.filter';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { loggerMiddleware } from './middlewares/logger.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -11,6 +13,12 @@ async function bootstrap() {
 
   // * Global middleware
   // app.use(loggerMiddleware);
+
+  // * Global filter
+  // app.useGlobalFilters(new HttpExceptionFilter());
+
+  // const { httpAdapter } = app.get(HttpAdapterHost);
+  // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
 
   await app.listen(3000);
 }
