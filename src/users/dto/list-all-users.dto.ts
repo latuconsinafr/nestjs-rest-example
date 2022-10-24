@@ -1,3 +1,3 @@
 export class ListAllUsers {
-  limit: number;
+  limit?: number;
 }
