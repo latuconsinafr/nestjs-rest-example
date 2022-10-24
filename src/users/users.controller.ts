@@ -2,20 +2,18 @@ import {
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
-  Query,
   UseFilters,
 } from '@nestjs/common';
+import { NotFoundException } from '../exceptions/not-found.exception';
 import { HttpExceptionFilter } from '../filters/http-exception.filter';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ListAllUsers } from './dto/list-all-users.dto';
 import { User } from './interfaces/user.interface';
+import { UserByIdPipe } from './pipes/user-by-id.pipe';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -23,10 +21,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto): string {
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<void> {
     this.usersService.create(createUserDto);
-
-    return `This action adds a new user (username: ${createUserDto.username} and password: ${createUserDto.password}).`;
   }
 
   // * Asynchronous example
@@ -34,12 +30,8 @@ export class UsersController {
   // * Prefer applying filters by using classes instead of instances when possible
   // * Reference: https://docs.nestjs.com/exception-filters
   @UseFilters(HttpExceptionFilter)
-  async findAllUsers(@Query() query: ListAllUsers): Promise<User[]> {
+  async findAllUsers(): Promise<User[]> {
     return this.usersService.findAll();
-
-    // return `This action returns all users (limit: ${
-    //   query.limit
-    // } items). Users: ${this.usersService.findAll()}`;
   }
 
   // * Observable streams example
@@ -49,19 +41,24 @@ export class UsersController {
   // }
 
   @Get(':id')
-  findOneUser(@Param('id') id: string): string {
-    throw new ForbiddenException();
+  findOneUser(
+    @Param('id', UserByIdPipe)
+    user: User,
+  ): User {
+    if (user === undefined) {
+      throw new NotFoundException();
+    }
 
-    return `This action returns a #${id} user.`;
+    return user;
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string): string {
+  updateUser(@Param('id', ParseIntPipe) id: number): string {
     return `This action updates a #${id} user.`;
   }
 
   @Delete(':id')
-  removeUser(@Param('id') id: string) {
+  removeUser(@Param('id', ParseIntPipe) id: number) {
     return `This action removes a #${id} user.`;
   }
 }
