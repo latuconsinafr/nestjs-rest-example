@@ -1,6 +1,12 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { CacheInterceptor } from './interceptors/cache.interceptor';
+import { ErrorsInterceptor } from './interceptors/errors.interceptor';
+import { ExcludeNullInterceptor } from './interceptors/exclude-null.interceptor';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,6 +26,16 @@ async function bootstrap() {
 
   // * Global pipe
   app.useGlobalPipes(new ValidationPipe());
+
+  // * Global interceptor
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    new CacheInterceptor(),
+    new TransformInterceptor(),
+    new ExcludeNullInterceptor(),
+    new ErrorsInterceptor(),
+    new TimeoutInterceptor(),
+  );
 
   await app.listen(3000);
 }
