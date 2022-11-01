@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 // * Consider using the simpler functional middleware alternative any time your middleware doesn't need any dependencies.
 // * Reference: https://docs.nestjs.com/middleware
-export function csrfMiddleware(
+export function csurfMiddleware(
   req: Request,
   res: Response,
   next: NextFunction,
@@ -16,7 +16,7 @@ export function csrfMiddleware(
 }
 
 // @Injectable()
-// export class CSRFMiddleware implements NestMiddleware {
+// export class CSURFMiddleware implements NestMiddleware {
 //   use(req: any, res: any, next: NextFunction) {
 //     const token = req.csrfToken();
 

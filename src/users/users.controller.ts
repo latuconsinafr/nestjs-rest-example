@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { NotFoundException } from '../exceptions/not-found.exception';
-import { HttpExceptionFilter } from '../filters/http-exception.filter';
+import { AllExceptionsFilter } from '../filters/all-exceptions.filter';
 import { RolesGuard } from '../guards/roles.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
@@ -34,7 +34,7 @@ export class UsersController {
   @Get()
   // * Prefer applying filters by using classes instead of instances when possible
   // * Reference: https://docs.nestjs.com/exception-filters
-  @UseFilters(HttpExceptionFilter)
+  // @UseFilters(AllExceptionsFilter)
   async findAllUsers(): Promise<User[]> {
     return this.usersService.findAll();
   }
@@ -51,7 +51,7 @@ export class UsersController {
     user: User,
   ): User {
     if (user === undefined) {
-      throw new NotFoundException();
+      throw new NotFoundException({ message: 'User not found' });
     }
 
     return user;

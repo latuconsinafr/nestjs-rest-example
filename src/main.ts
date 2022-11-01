@@ -1,5 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { ErrorsInterceptor } from './interceptors/errors.interceptor';
@@ -11,8 +11,11 @@ import { Logger } from 'nestjs-pino';
 import helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
+import { csurfMiddleware } from './middlewares/csurf.middleware';
 import * as compression from 'compression';
-import { csrfMiddleware } from './middlewares/csrf.middleware';
+import { AllExceptionsFilter } from './filters/all-exceptions.filter';
+import { ValidationError } from 'class-validator';
+import { UnprocessableEntityException } from './exceptions/unprocessable-entity.exception';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -23,32 +26,37 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
-  // * CORS
-  app.enableCors();
-
-  // * Logger
+  // * Logger section * //
   app.useLogger(app.get(Logger));
 
-  // * Global middleware
+  // * CORS section * //
+  app.enableCors();
+
+  // * Global middleware section * //
   // * Note that applying helmet as global or registering it must come before other calls to app.use() or setup functions that may call app.use()
   // * Reference: https://docs.nestjs.com/security/helmet
   app.use(helmet());
+  // * CSURF middleware requires either session middleware or cookie-parser to be initialized first. Please see that documentation for further instructions.
   app.use(cookieParser());
-  // * This middleware requires either session middleware or cookie-parser to be initialized first. Please see that documentation for further instructions.
   app.use(csurf({ cookie: { sameSite: true } }));
-  app.use(csrfMiddleware);
+  app.use(csurfMiddleware);
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
   app.use(compression());
-  // app.use(loggerMiddleware);
 
   // * Global filter
-  // app.useGlobalFilters(new HttpExceptionFilter());
-
-  // const { httpAdapter } = app.get(HttpAdapterHost);
-  // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
+  app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
 
   // * Global pipe
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      disableErrorMessages: process.env.NODE_ENV === 'production',
+      whitelist: true,
+      transform: true,
+      exceptionFactory: (errors: ValidationError[]) => {
+        return new UnprocessableEntityException({}, errors);
+      },
+    }),
+  );
 
   // * Global interceptor
   // app.useGlobalInterceptors(
