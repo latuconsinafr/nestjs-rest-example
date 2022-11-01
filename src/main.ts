@@ -12,6 +12,7 @@ import helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import * as compression from 'compression';
+import { csrfMiddleware } from './middlewares/csrf.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -35,13 +36,7 @@ async function bootstrap() {
   app.use(cookieParser());
   // * This middleware requires either session middleware or cookie-parser to be initialized first. Please see that documentation for further instructions.
   app.use(csurf({ cookie: { sameSite: true } }));
-  app.use((req: any, res: any, next: any) => {
-    const token = req.csrfToken();
-    res.cookie('XSRF-TOKEN', token);
-    res.locals.csrfToken = token;
-
-    next();
-  });
+  app.use(csrfMiddleware);
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
   app.use(compression());
   // app.use(loggerMiddleware);
