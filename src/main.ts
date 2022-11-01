@@ -34,7 +34,14 @@ async function bootstrap() {
   app.use(helmet());
   app.use(cookieParser());
   // * This middleware requires either session middleware or cookie-parser to be initialized first. Please see that documentation for further instructions.
-  app.use(csurf());
+  app.use(csurf({ cookie: { sameSite: true } }));
+  app.use((req: any, res: any, next: any) => {
+    const token = req.csrfToken();
+    res.cookie('XSRF-TOKEN', token);
+    res.locals.csrfToken = token;
+
+    next();
+  });
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
   app.use(compression());
   // app.use(loggerMiddleware);
@@ -49,14 +56,14 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // * Global interceptor
-  app.useGlobalInterceptors(
-    new LoggingInterceptor(),
-    new CacheInterceptor(),
-    new TransformInterceptor(),
-    new ExcludeNullInterceptor(),
-    new ErrorsInterceptor(),
-    new TimeoutInterceptor(),
-  );
+  // app.useGlobalInterceptors(
+  //   new LoggingInterceptor(),
+  //   new CacheInterceptor(),
+  //   new TransformInterceptor(),
+  //   new ExcludeNullInterceptor(),
+  //   new ErrorsInterceptor(),
+  //   new TimeoutInterceptor(),
+  // );
 
   await app.listen(3000);
 }

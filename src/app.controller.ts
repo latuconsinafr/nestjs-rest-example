@@ -1,13 +1,13 @@
 import { Controller, Get, Query, Redirect } from '@nestjs/common';
-import { AppService } from './app.service';
+import { APP_NAME } from './common/constants/app.constant';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  private welcomeHtmlString = `<h2 style="position: absolute; top: 50%; left: 50%; -moz-transform: translateX(-50%) translateY(-50%); -webkit-transform: translateX(-50%) translateY(-50%); transform: translateX(-50%) translateY(-50%);"><span>Welcome to ${APP_NAME}!</span></h2>`;
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  index(): string {
+    return this.welcomeHtmlString;
   }
 
   @Get('docs')
