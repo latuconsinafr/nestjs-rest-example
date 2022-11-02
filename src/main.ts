@@ -35,11 +35,11 @@ async function bootstrap() {
   app.use(helmet());
   // * CSURF middleware requires either session middleware or cookie-parser to be initialized first.
   // * @see {@link https://github.com/expressjs/csurf#csurf) documentation`}
-  app.use(cookieParser());
-  app.use(
-    csurf({ cookie: { sameSite: process.env.NODE_ENV === 'production' } }),
-  );
-  app.use(csurfMiddleware);
+  if (process.env.NODE_ENV === 'production') {
+    app.use(cookieParser());
+    app.use(csurf({ cookie: { sameSite: true } }));
+    app.use(csurfMiddleware);
+  }
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
   app.use(compression());
 

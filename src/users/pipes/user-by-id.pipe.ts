@@ -1,9 +1,5 @@
-import {
-  Injectable,
-  PipeTransform,
-  ArgumentMetadata,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common';
+import { UnprocessableEntityException } from '../../exceptions/unprocessable-entity.exception';
 import { UsersService } from '../users.service';
 
 /**
@@ -18,7 +14,9 @@ export class UserByIdPipe implements PipeTransform<string> {
     const val = parseInt(value, 10);
 
     if (isNaN(val)) {
-      throw new BadRequestException('Input validation failed');
+      throw new UnprocessableEntityException({
+        message: 'Invalid user id',
+      });
     }
 
     return this.usersService.findById(val);

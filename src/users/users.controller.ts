@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
   SetMetadata,
@@ -12,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { NotFoundException } from '../exceptions/not-found.exception';
 import { RolesGuard } from '../guards/roles.guard';
+import { ParseIntPipe } from '../pipes/parse-int.pipe';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
