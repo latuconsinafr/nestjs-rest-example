@@ -6,10 +6,14 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../users.service';
 
+/**
+ * Defines the user by id pipe.
+ */
 @Injectable()
 export class UserByIdPipe implements PipeTransform<string> {
   constructor(private readonly usersService: UsersService) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   transform(value: string, metadata: ArgumentMetadata) {
     const val = parseInt(value, 10);
 

@@ -2,7 +2,15 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { ERR_NOT_FOUND } from '../common/constants/error.constant';
 import { ErrorMessageInterface } from '../common/interfaces/error-message.interface';
 
+/**
+ * Defines the custom not found exception class.
+ */
 export class NotFoundException extends HttpException {
+  /**
+   * The constructor.
+   *
+   * @param err The custom error message to throw if any
+   */
   constructor(err?: ErrorMessageInterface) {
     const errorMessage: ErrorMessageInterface = {
       error: err?.error ?? ERR_NOT_FOUND,

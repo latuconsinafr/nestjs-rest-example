@@ -2,6 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 
 // * Consider using the simpler functional middleware alternative any time your middleware doesn't need any dependencies.
 // * Reference: https://docs.nestjs.com/middleware
+/**
+ * Embed a XSRF token into the local cookies.
+ *
+ * @param req The incoming request
+ * @param res The response to serve
+ * @param next The next function after this method in middleware order
+ */
 export function csurfMiddleware(
   req: Request,
   res: Response,

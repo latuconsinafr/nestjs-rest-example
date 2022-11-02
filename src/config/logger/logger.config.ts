@@ -2,6 +2,9 @@ import { Params } from 'nestjs-pino';
 import pino from 'pino';
 import { APP_NAME } from '../../common/constants/app.constant';
 
+/**
+ * Defines the logger configuration using pino logger.
+ */
 export const loggerConfig: Params = {
   pinoHttp: {
     name: APP_NAME,

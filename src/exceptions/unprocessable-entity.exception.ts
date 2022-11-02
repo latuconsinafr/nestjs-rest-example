@@ -2,7 +2,16 @@ import { HttpException, HttpStatus, ValidationError } from '@nestjs/common';
 import { ERR_UNPROCESSABLE_ENTITY } from '../common/constants/error.constant';
 import { ErrorMessageInterface } from '../common/interfaces/error-message.interface';
 
+/**
+ * Defines the unprocessable entity exception class.
+ */
 export class UnprocessableEntityException extends HttpException {
+  /**
+   * The constructor.
+   *
+   * @param err The custom error message to throw if any
+   * @param errors The validation error if any
+   */
   constructor(err?: ErrorMessageInterface, errors?: ValidationError[]) {
     const errorMessage: ErrorMessageInterface = {
       error: err?.error ?? ERR_UNPROCESSABLE_ENTITY,
