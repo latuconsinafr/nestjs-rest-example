@@ -12,7 +12,7 @@ export class ParseIntPipe implements PipeTransform<string, number> {
 
     if (isNaN(val)) {
       throw new UnprocessableEntityException({
-        message: 'Invalid integer value',
+        message: 'Unable to parse value to int',
       });
     }
 

@@ -7,7 +7,8 @@ import {
   Logger,
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { ERR_NOT_FOUND } from '../common/constants/error.constant';
+import { ErrorCode } from '../common/enums/error-code.enum';
+import { BaseResponse } from '../common/interfaces/http-response.interface';
 
 /**
  * Defines the all exceptions filter.
@@ -16,6 +17,11 @@ import { ERR_NOT_FOUND } from '../common/constants/error.constant';
 export class AllExceptionsFilter implements ExceptionFilter {
   private readonly logger = new Logger(AllExceptionsFilter.name);
 
+  /**
+   * The constructor.
+   *
+   * @param httpAdapterHost The http adapter host
+   */
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
   /**
@@ -37,12 +43,20 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? (exception.getResponse() as object)
         : undefined;
 
-    const responseBody = {
+    const baseResponseBody: BaseResponse = {
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
+      success: false,
+      message: 'Error',
+    };
+
+    const responseBody = {
+      ...baseResponseBody,
       ...response,
-      ...(httpStatus === 404 ? { error: ERR_NOT_FOUND } : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
+      ...(httpStatus === 404
+        ? { error: ErrorCode.ERR_NOT_FOUND, help: 'Help is not available' }
+        : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

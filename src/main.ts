@@ -1,5 +1,5 @@
 import { ValidationPipe } from '@nestjs/common';
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from 'nestjs-pino';
 import helmet from 'helmet';
@@ -7,9 +7,13 @@ import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
 import { csurfMiddleware } from './middlewares/csurf.middleware';
 import * as compression from 'compression';
-import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 import { ValidationError } from 'class-validator';
 import { UnprocessableEntityException } from './exceptions/unprocessable-entity.exception';
+import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { CacheInterceptor } from './interceptors/cache.interceptor';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 /**
  * Defines the application bootstrapping function.
@@ -44,7 +48,8 @@ async function bootstrap() {
   app.use(compression());
 
   // * Global filter section
-  app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
+  // app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   // * Global pipe section
   app.useGlobalPipes(
@@ -59,14 +64,12 @@ async function bootstrap() {
   );
 
   // * Global interceptor section
-  // app.useGlobalInterceptors(
-  //   new LoggingInterceptor(),
-  //   new CacheInterceptor(),
-  //   new TransformInterceptor(),
-  //   new ExcludeNullInterceptor(),
-  //   new ErrorsInterceptor(),
-  //   new TimeoutInterceptor(),
-  // );
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    new CacheInterceptor(),
+    new TransformInterceptor(),
+    new TimeoutInterceptor(),
+  );
 
   await app.listen(3000);
 }

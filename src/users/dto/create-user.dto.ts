@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 
 /**
  * Defines the DTO that carries data to create a user.
@@ -6,6 +6,7 @@ import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
+  @Length(5, 10)
   username: string;
 
   @IsNotEmpty()

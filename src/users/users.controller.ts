@@ -9,8 +9,10 @@ import {
   SetMetadata,
   UseGuards,
 } from '@nestjs/common';
+import { SuccessResponse } from '../common/interfaces/http-response.interface';
 import { NotFoundException } from '../exceptions/not-found.exception';
 import { RolesGuard } from '../guards/roles.guard';
+import { BaseSuccessResponse } from '../interceptors/transform.interceptor';
 import { ParseIntPipe } from '../pipes/parse-int.pipe';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
@@ -46,8 +48,11 @@ export class UsersController {
    */
   @Get()
   // @UseFilters(AllExceptionsFilter)
-  async findAllUsers(): Promise<User[]> {
-    return this.usersService.findAll();
+  async findAllUsers(): Promise<SuccessResponse> {
+    return new BaseSuccessResponse({
+      message: 'Users retrieved',
+      data: this.usersService.findAll(),
+    });
   }
 
   // * Observable streams example
@@ -67,12 +72,15 @@ export class UsersController {
   findUserById(
     @Param('id', UserByIdPipe)
     user: User,
-  ): User {
+  ): SuccessResponse {
     if (user === undefined) {
-      throw new NotFoundException({ message: 'User not found' });
+      throw new NotFoundException();
     }
 
-    return user;
+    return new BaseSuccessResponse({
+      message: 'User retrieved',
+      data: user,
+    });
   }
 
   /**

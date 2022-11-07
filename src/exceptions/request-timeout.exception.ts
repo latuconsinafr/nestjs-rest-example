@@ -3,9 +3,9 @@ import { ErrorCode } from '../common/enums/error-code.enum';
 import { ErrorResponse } from '../common/interfaces/http-response.interface';
 
 /**
- * Defines the custom not found exception class.
+ * Defines the custom request timeout exception class.
  */
-export class NotFoundException extends HttpException {
+export class RequestTimeoutException extends HttpException {
   /**
    * The constructor.
    *
@@ -13,14 +13,18 @@ export class NotFoundException extends HttpException {
    */
   constructor(errorMessage?: ErrorResponse) {
     const message: ErrorResponse = {
-      message: errorMessage?.message ?? 'Resource not found',
-      error: errorMessage?.error ?? ErrorCode.ERR_NOT_FOUND,
+      message: errorMessage?.message ?? 'Request timeout',
+      error: errorMessage?.error ?? ErrorCode.ERR_REQUEST_TIMEOUT,
       help: errorMessage?.help ?? 'Help is not available',
     };
 
     super(
-      HttpException.createBody(message, message.error, HttpStatus.NOT_FOUND),
-      HttpStatus.NOT_FOUND,
+      HttpException.createBody(
+        message,
+        message.error,
+        HttpStatus.REQUEST_TIMEOUT,
+      ),
+      HttpStatus.REQUEST_TIMEOUT,
     );
   }
 }

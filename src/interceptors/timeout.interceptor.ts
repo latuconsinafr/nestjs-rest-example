@@ -3,7 +3,6 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  RequestTimeoutException,
 } from '@nestjs/common';
 import {
   Observable,
@@ -12,16 +11,19 @@ import {
   TimeoutError,
   throwError,
 } from 'rxjs';
+import { APP_MAX_TIMEOUT } from '../common/constants/app.constant';
+import { RequestTimeoutException } from '../exceptions/request-timeout.exception';
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
-      timeout(5000),
+      timeout(APP_MAX_TIMEOUT),
       catchError((err) => {
         if (err instanceof TimeoutError) {
           return throwError(() => new RequestTimeoutException());
         }
+
         return throwError(() => err);
       }),
     );

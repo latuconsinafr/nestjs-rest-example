@@ -15,7 +15,7 @@ export class UserByIdPipe implements PipeTransform<string> {
 
     if (isNaN(val)) {
       throw new UnprocessableEntityException({
-        message: 'Invalid user id',
+        message: 'Unable to parse the value to int',
       });
     }
 

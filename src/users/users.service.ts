@@ -22,7 +22,11 @@ export class UsersService {
    * @param user A user to create
    */
   create(user: Omit<User, 'id'>): void {
-    this.users.push({ ...user, id: this.users.length + 1 });
+    this.users.push({
+      id: this.users.length + 1,
+      ...user,
+      description: user.description || null,
+    });
   }
 
   /**
