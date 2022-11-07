@@ -30,12 +30,15 @@ export class BaseSuccessResponse {
 }
 
 /**
- * Defines the transform interceptor for application response.
+ * Defines interceptor to transform all application responses.
  */
 @Injectable()
 export class TransformInterceptor<T>
   implements NestInterceptor<T, Response<T>>
 {
+  /**
+   * {@inheritDoc NestInterceptor.intercept}
+   */
   intercept(
     context: ExecutionContext,
     next: CallHandler,

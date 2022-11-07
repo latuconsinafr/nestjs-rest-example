@@ -21,7 +21,7 @@ import { HttpExceptionFilter } from './filters/http-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     // * Make it throw an error instead exit with the code 1
-    // * @see {@link https://docs.nestjs.com/first-steps) documentation`}
+    // * @see {@link https://docs.nestjs.com/first-steps) documentation}
     abortOnError: false,
     // * This will force NestJS to wait for logger to be ready instead of using built-in logger on start
     bufferLogs: true,
@@ -35,10 +35,10 @@ async function bootstrap() {
 
   // * Global middleware section
   // * Note that applying helmet as global or registering it must come before other calls to app.use() or setup functions that may call app.use()
-  // * @see {@link https://docs.nestjs.com/security/helmet) documentation`}
+  // * @see {@link https://docs.nestjs.com/security/helmet) documentation}
   app.use(helmet());
   // * CSURF middleware requires either session middleware or cookie-parser to be initialized first.
-  // * @see {@link https://github.com/expressjs/csurf#csurf) documentation`}
+  // * @see {@link https://github.com/expressjs/csurf#csurf) documentation}
   if (process.env.NODE_ENV === 'production') {
     app.use(cookieParser());
     app.use(csurf({ cookie: { sameSite: true } }));

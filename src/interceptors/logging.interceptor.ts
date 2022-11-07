@@ -7,10 +7,16 @@ import {
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 
+/**
+ * Defines interceptor for logging.
+ */
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger(LoggingInterceptor.name);
 
+  /**
+   * {@inheritDoc NestInterceptor.intercept}
+   */
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const url = context.switchToHttp().getRequest().url;
 
