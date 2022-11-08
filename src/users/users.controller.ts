@@ -10,7 +10,6 @@ import {
 import { UserRole } from '../common/enums/user-role.enum';
 import { SuccessResponse } from '../common/interfaces/http-response.interface';
 import { Auth } from '../decorators/auth.decorator';
-import { NotFoundException } from '../exceptions/not-found.exception';
 import { BaseSuccessResponse } from '../interceptors/transform.interceptor';
 import { ParseIntPipe } from '../pipes/parse-int.pipe';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -71,10 +70,6 @@ export class UsersController {
     @Param('id', UserByIdPipe)
     user: User,
   ): SuccessResponse {
-    if (user === undefined) {
-      throw new NotFoundException();
-    }
-
     return new BaseSuccessResponse({
       message: 'User retrieved',
       data: user,

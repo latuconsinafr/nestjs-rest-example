@@ -15,5 +15,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 }

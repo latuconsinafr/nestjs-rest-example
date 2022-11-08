@@ -12,7 +12,7 @@ export class UsersService {
       id: 1,
       username: 'user',
       password: 'password',
-      description: null,
+      description: 'This is user',
     },
   ];
 
@@ -25,7 +25,6 @@ export class UsersService {
     this.users.push({
       id: this.users.length + 1,
       ...user,
-      description: user.description || null,
     });
   }
 
