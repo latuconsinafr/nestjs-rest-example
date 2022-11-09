@@ -2,6 +2,12 @@ import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 
 /**
  * Defines the DTO that carries data to create a user.
+ *
+ * @usageNotes
+ * The CreateUserDto contains user attribute:
+ * - `username`: The username of user
+ * - `password`: The password of user
+ * - `description`: The description of user
  */
 export class CreateUserDto {
   @IsNotEmpty()

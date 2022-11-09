@@ -1,20 +1,21 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { UserRole } from '../common/enums/user-role.enum';
+import { UserRole } from '../common/enums/role.enum';
 import { RolesGuard } from '../guards/roles.guard';
 
 /**
- * Custom auth decorator based on user roles.
+ * Decorator that combine multiple decorators to apply authentication,
+ * to the scope of controller or method, depending on its context.
  *
- * @param roles Array of user roles to bind
- * @returns The function
+ * @example
+ * `Auth(UserRole.SUPER_ADMIN)`
+ *
+ * @usageNotes
+ * This decorator applies:
+ * - `@SetMetadata` decorator
+ * - `@UseGuards` decorator
+ *
+ * @param roles An array of user roles to bind
  */
-export function Auth(
-  ...roles: UserRole[]
-): // eslint-disable-next-line @typescript-eslint/ban-types
-<TFunction extends Function, Y>(
-  target: object | TFunction,
-  propertyKey?: string | symbol,
-  descriptor?: TypedPropertyDescriptor<Y>,
-) => void {
+export function Auth(...roles: UserRole[]) {
   return applyDecorators(SetMetadata('roles', roles), UseGuards(RolesGuard));
 }

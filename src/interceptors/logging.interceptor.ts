@@ -8,10 +8,16 @@ import {
 import { Observable, tap } from 'rxjs';
 
 /**
- * Defines interceptor for logging.
+ * Defines interceptor for logging the time takes between a specified incoming request and outgoing response.
+ *
+ * @see [Interceptors](https://docs.nestjs.com/interceptors)
+ * @see [Logger](https://docs.nestjs.com/techniques/logger#logger)
  */
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
+  /**
+   * The logger to logging the time takes between a specified incoming request and outgoing response.
+   */
   private readonly logger = new Logger(LoggingInterceptor.name);
 
   /**

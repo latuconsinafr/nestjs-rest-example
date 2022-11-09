@@ -1,7 +1,9 @@
 import { ArgumentMetadata } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { NotFoundException } from '../../../exceptions/not-found.exception';
-import { UnprocessableEntityException } from '../../../exceptions/unprocessable-entity.exception';
+import {
+  NotFoundException,
+  UnprocessableEntityException,
+} from '../../../../exceptions/http.exception';
 import { User } from '../../interfaces/user.interface';
 import { UserByIdPipe } from '../../pipes/user-by-id.pipe';
 import { UsersService } from '../../users.service';

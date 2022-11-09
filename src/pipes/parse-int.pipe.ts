@@ -1,8 +1,14 @@
 import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common';
-import { UnprocessableEntityException } from '../exceptions/unprocessable-entity.exception';
+import { UnprocessableEntityException } from '../exceptions/http.exception';
 
 /**
- * Defines the parse int from string value pipe.
+ * Class defining the implementation of a pipe that parse int from any string value.
+ *
+ * @usageNotes
+ * The transform method will throw `UnprocessableEntityException`,
+ * if fail to parse the string value.
+ *
+ * @see [Pipes](https://docs.nestjs.com/pipes)
  */
 @Injectable()
 export class ParseIntPipe implements PipeTransform<string, number> {

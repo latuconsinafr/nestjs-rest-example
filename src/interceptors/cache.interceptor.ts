@@ -8,6 +8,9 @@ import { Observable, of } from 'rxjs';
 
 /**
  * Defines interceptor for caching.
+ *
+ * @see [Interceptors](https://docs.nestjs.com/interceptors)
+ * @see [Caching](https://docs.nestjs.com/techniques/caching#caching)
  */
 @Injectable()
 export class CacheInterceptor implements NestInterceptor {

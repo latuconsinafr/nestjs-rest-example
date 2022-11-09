@@ -8,12 +8,12 @@ import * as csurf from 'csurf';
 import { csurfMiddleware } from './middlewares/csurf.middleware';
 import * as compression from 'compression';
 import { ValidationError } from 'class-validator';
-import { UnprocessableEntityException } from './exceptions/unprocessable-entity.exception';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { UnprocessableEntityException } from './exceptions/http.exception';
 
 /**
  * Defines the application bootstrapping function.

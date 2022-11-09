@@ -5,10 +5,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable, map } from 'rxjs';
-import {
-  BaseResponse,
-  SuccessResponse,
-} from '../common/interfaces/http-response.interface';
+import { BaseResponse } from '../common/interfaces/http-response.interface';
 
 /**
  * Defines default response.
@@ -18,19 +15,15 @@ export interface Response<T> {
 }
 
 /**
- * Defines the base success response interface & also implemented class.
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface BaseSuccessResponse extends SuccessResponse {}
-export class BaseSuccessResponse {
-  constructor(successMessage?: SuccessResponse) {
-    this.message = successMessage?.message;
-    this.data = successMessage?.data;
-  }
-}
-
-/**
- * Defines interceptor to transform all application responses.
+ * Defines interceptor for intercepting the outgoing response.
+ * This interceptor transform outgoing response to the shape of {@link BaseResponse} merged with SuccessResponse.
+ *
+ * @usageNotes
+ * Any error response would be catch by `HttpExceptionFilter`.
+ * Hence, this interceptor just transform outgoing success response.
+ *
+ * @see [Interceptors](https://docs.nestjs.com/interceptors)
+ * @see [Exception Filters](https://docs.nestjs.com/exception-filters)
  */
 @Injectable()
 export class TransformInterceptor<T>

@@ -4,14 +4,14 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
-import { UserRole } from '../common/enums/user-role.enum';
-import { SuccessResponse } from '../common/interfaces/http-response.interface';
-import { Auth } from '../decorators/auth.decorator';
-import { BaseSuccessResponse } from '../interceptors/transform.interceptor';
-import { ParseIntPipe } from '../pipes/parse-int.pipe';
+import { SuccessResponseDto } from '../../common/dto/responses/response.dto';
+import { UserRole } from '../../common/enums/role.enum';
+import { SuccessResponse } from '../../common/interfaces/http-response.interface';
+import { Auth } from '../../decorators/auth.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './interfaces/user.interface';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
@@ -30,7 +30,7 @@ export class UsersController {
    * @param createUserDto The DTO that carries data to create a user
    */
   @Post()
-  @Auth(UserRole.ADMIN)
+  @Auth(UserRole.SUPER_ADMIN)
   async createUser(@Body() createUserDto: CreateUserDto): Promise<void> {
     this.usersService.create(createUserDto);
   }
@@ -46,7 +46,7 @@ export class UsersController {
   @Get()
   // @UseFilters(AllExceptionsFilter)
   async findAllUsers(): Promise<SuccessResponse> {
-    return new BaseSuccessResponse({
+    return new SuccessResponseDto({
       message: 'Users retrieved',
       data: this.usersService.findAll(),
     });
@@ -70,7 +70,7 @@ export class UsersController {
     @Param('id', UserByIdPipe)
     user: User,
   ): SuccessResponse {
-    return new BaseSuccessResponse({
+    return new SuccessResponseDto({
       message: 'User retrieved',
       data: user,
     });

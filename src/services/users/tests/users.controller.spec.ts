@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import { BaseSuccessResponse } from '../../interceptors/transform.interceptor';
+import { SuccessResponseDto } from '../../../common/dto/responses/response.dto';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../interfaces/user.interface';
 import { UsersController } from '../users.controller';
@@ -66,9 +66,9 @@ describe('UsersController', () => {
       expect(usersServiceFindAllSpy).toHaveBeenCalledTimes(1);
     });
 
-    it(`should return a ${BaseSuccessResponse.name} with message and data contains array of users`, async () => {
+    it(`should return a ${SuccessResponseDto.name} with message and data contains array of users`, async () => {
       expect(await usersController.findAllUsers()).toStrictEqual(
-        new BaseSuccessResponse({
+        new SuccessResponseDto({
           message: 'Users retrieved',
           data: users,
         }),
@@ -77,9 +77,9 @@ describe('UsersController', () => {
   });
 
   describe('when findUserById is called', () => {
-    it(`should return a ${BaseSuccessResponse.name} with message and data contains user`, () => {
+    it(`should return a ${SuccessResponseDto.name} with message and data contains user`, () => {
       expect(usersController.findUserById(users[0])).toStrictEqual(
-        new BaseSuccessResponse({
+        new SuccessResponseDto({
           message: 'User retrieved',
           data: users[0],
         }),

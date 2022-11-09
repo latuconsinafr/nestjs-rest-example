@@ -1,5 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
-import { ErrorCode } from '../enums/error-code.enum';
+import { ErrorCode } from '../enums/error.enum';
 
 /**
  * Defines the base response interface.

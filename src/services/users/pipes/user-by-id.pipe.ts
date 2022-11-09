@@ -1,11 +1,21 @@
 import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common';
-import { NotFoundException } from '../../exceptions/not-found.exception';
-import { UnprocessableEntityException } from '../../exceptions/unprocessable-entity.exception';
+import {
+  NotFoundException,
+  UnprocessableEntityException,
+} from '../../../exceptions/http.exception';
 import { User } from '../interfaces/user.interface';
 import { UsersService } from '../users.service';
 
 /**
- * Defines the user by id pipe.
+ * Class defining the implementation of a pipe that parse int from any string value {@link ParseIntPipe},
+ * also parse the user entity from the parsed int user identifier value.
+ *
+ * @usageNotes
+ * The transform method will throw {@link UnprocessableEntityException}, if fail to parse the string value.
+ *
+ * Also the transform method will throw {@link NotFoundException}, if fail to parse the user entity from the parsed int user identifier value.
+ *
+ * @see [Pipes](https://docs.nestjs.com/pipes)
  */
 @Injectable()
 export class UserByIdPipe implements PipeTransform<string> {
@@ -24,7 +34,9 @@ export class UserByIdPipe implements PipeTransform<string> {
     const user = this.usersService.findById(val);
 
     if (user === undefined) {
-      throw new NotFoundException();
+      throw new NotFoundException({
+        message: 'User not found',
+      });
     }
 
     return user;

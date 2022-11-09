@@ -1,9 +1,9 @@
 /**
- * Defines enum for all application error code.
+ * Defines enum for application user role.
  */
 export enum UserRole {
   /**
    * Defines role for super-admin, the user who has highest privilege in the system.
    */
-  ADMIN = 'admin',
+  SUPER_ADMIN = 'super-admin',
 }
