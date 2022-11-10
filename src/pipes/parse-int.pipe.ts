@@ -1,5 +1,5 @@
 import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common';
-import { UnprocessableEntityException } from '../exceptions/http.exception';
+import { UnprocessableEntityException } from '../exceptions/http.exceptions';
 
 /**
  * Class defining the implementation of a pipe that parse int from any string value.

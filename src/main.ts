@@ -13,7 +13,7 @@ import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
-import { UnprocessableEntityException } from './exceptions/http.exception';
+import { UnprocessableEntityException } from './exceptions/http.exceptions';
 
 /**
  * Defines the application bootstrapping function.
@@ -66,9 +66,9 @@ async function bootstrap() {
   // * Global interceptor section
   app.useGlobalInterceptors(
     new LoggingInterceptor(),
+    new TimeoutInterceptor(),
     new CacheInterceptor(),
     new TransformInterceptor(),
-    new TimeoutInterceptor(),
   );
 
   await app.listen(3000);

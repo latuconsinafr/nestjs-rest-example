@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UserRole } from '../../common/enums/role.enum';
 import { User } from './interfaces/user.interface';
 
 // * Service will be responsible for data storage and retrieval
@@ -12,6 +13,7 @@ export class UsersService {
       id: 1,
       username: 'user',
       password: 'password',
+      roles: [UserRole.SUPER_ADMIN],
       description: 'This is user',
     },
   ];

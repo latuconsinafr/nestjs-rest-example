@@ -18,12 +18,18 @@ export class CacheInterceptor implements NestInterceptor {
    * {@inheritDoc NestInterceptor.intercept}
    */
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const isCached = false; // TODO: This should be moved to environment variable or app configuration
-
-    if (isCached) {
+    if (this.isCached()) {
       return of([]); // TODO: This should be replaced with cached value
     }
 
     return next.handle();
+  }
+
+  // TODO: This should be moved to environment variable or app configuration
+  /**
+   * @returns The flag indicates that response should be cached or not.
+   */
+  private isCached(): boolean {
+    return false;
   }
 }

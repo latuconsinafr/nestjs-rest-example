@@ -17,7 +17,7 @@ export interface BaseResponse {
  */
 export interface SuccessResponse {
   message?: string; // * The additional message if any, otherwise null
-  data?: object; // * The returned data if any, otherwise undefined
+  data?: object | null; // * The returned data if any, otherwise undefined or null
 }
 
 /**
@@ -34,5 +34,5 @@ export interface ValidationErrorResponse {
 export interface ErrorResponse {
   message?: string | ValidationErrorResponse[]; // * The error message, could be a string or validation error message if any, otherwise default message will be returned as response
   error?: ErrorCode; // * Application error code if any, otherwise the default error code from exception
-  help?: string; // * The help if any, otherwise default help message will be returned as response
+  help?: string | null; // * The help if any, otherwise default help message will be returned as response
 }

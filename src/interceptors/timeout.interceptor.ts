@@ -3,7 +3,6 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  RequestTimeoutException,
 } from '@nestjs/common';
 import {
   Observable,
@@ -13,6 +12,7 @@ import {
   throwError,
 } from 'rxjs';
 import { APP_MAX_TIMEOUT } from '../common/constants/app.constant';
+import { RequestTimeoutException } from '../exceptions/http.exceptions';
 
 /**
  * Defines interceptor for intercepting any incoming request that exceed the maximum allowed request time.

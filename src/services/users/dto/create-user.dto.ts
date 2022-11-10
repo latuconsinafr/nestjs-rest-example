@@ -1,4 +1,12 @@
-import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Length,
+} from 'class-validator';
+import { UserRole } from '../../../common/enums/role.enum';
 
 /**
  * Defines the DTO that carries data to create a user.
@@ -7,6 +15,7 @@ import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
  * The CreateUserDto contains user attribute:
  * - `username`: The username of user
  * - `password`: The password of user
+ * - `roles`: The roles of user
  * - `description`: The description of user
  */
 export class CreateUserDto {
@@ -18,6 +27,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   password: string;
+
+  @IsNotEmpty()
+  @IsArray()
+  @IsEnum(UserRole, { each: true })
+  roles: UserRole[];
 
   @IsOptional()
   @IsString()

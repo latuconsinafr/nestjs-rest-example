@@ -3,10 +3,11 @@ import { Test } from '@nestjs/testing';
 import {
   NotFoundException,
   UnprocessableEntityException,
-} from '../../../../exceptions/http.exception';
-import { User } from '../../interfaces/user.interface';
-import { UserByIdPipe } from '../../pipes/user-by-id.pipe';
-import { UsersService } from '../../users.service';
+} from '../../../exceptions/http.exceptions';
+import { User } from '../interfaces/user.interface';
+import { UserByIdPipe } from '../pipes/user-by-id.pipe';
+import { UsersService } from '../users.service';
+import { usersStub } from './stubs/users.stub';
 
 describe('UserByIdPipe', () => {
   let userByIdPipe: UserByIdPipe;
@@ -27,14 +28,11 @@ describe('UserByIdPipe', () => {
       metatype: Number,
       data: 'id',
     };
-    users = [
-      {
-        id: 1,
-        username: 'user',
-        password: 'password',
-        description: 'This is user',
-      },
-    ];
+    users = [...usersStub];
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('when transform is called', () => {

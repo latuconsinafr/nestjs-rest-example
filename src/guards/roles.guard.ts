@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserRole } from '../common/enums/role.enum';
+import { User } from '../services/users/interfaces/user.interface';
 
 /**
  * Class defining function that implement guard based on {@link UserRole}.
@@ -22,19 +22,17 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
 
-    if (!roles) {
+    if (!roles || roles.length == 0) {
       return true;
     }
 
-    // const request = context.switchToHttp().getRequest();
-    // const user = request.user;
+    const request = context.switchToHttp().getRequest();
 
-    //! Simulate user roles
-    const user = {
-      roles: [UserRole.SUPER_ADMIN],
-    };
+    if (!request.user) {
+      return false;
+    }
 
-    return this.matchRoles(roles, user.roles);
+    return this.matchRoles(roles, request.user.roles);
   }
 
   /**

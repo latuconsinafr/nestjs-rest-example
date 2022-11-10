@@ -47,4 +47,4 @@ export const APP_LICENSE_URL = 'https://opensource.org/licenses/MIT';
 /**
  * Defines the application maximum timeout in ms.
  */
-export const APP_MAX_TIMEOUT = 5000;
+export const APP_MAX_TIMEOUT = 2500;

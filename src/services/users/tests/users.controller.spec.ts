@@ -4,6 +4,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../interfaces/user.interface';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
+import { usersStub } from './stubs/users.stub';
 
 describe('UsersController', () => {
   let usersController: UsersController;
@@ -19,32 +20,30 @@ describe('UsersController', () => {
     usersService = moduleRef.get<UsersService>(UsersService);
     usersController = moduleRef.get<UsersController>(UsersController);
 
-    users = [
-      {
-        id: 1,
-        username: 'user',
-        password: 'password',
-        description: 'This is user',
-      },
-    ];
+    users = [...usersStub];
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('when createUser is called', () => {
-    let userToCreate: CreateUserDto;
     let usersServiceCreateSpy: jest.SpyInstance<void, [user: Omit<User, 'id'>]>;
+    let userToCreate: CreateUserDto;
 
     beforeEach(() => {
+      usersServiceCreateSpy = jest.spyOn(usersService, 'create');
       userToCreate = {
         username: users[0].username,
         password: users[0].password,
+        roles: users[0].roles,
       };
-      usersServiceCreateSpy = jest.spyOn(usersService, 'create');
     });
 
     it(`should call ${UsersService.name} create method`, async () => {
       await usersController.createUser(userToCreate);
 
-      expect(usersServiceCreateSpy).toHaveBeenCalledTimes(1);
+      expect(usersServiceCreateSpy).toBeCalledTimes(1);
     });
 
     it('should return undefined', async () => {
@@ -57,13 +56,13 @@ describe('UsersController', () => {
 
     beforeEach(() => {
       usersServiceFindAllSpy = jest.spyOn(usersService, 'findAll');
-      usersServiceFindAllSpy.mockImplementation(() => users);
+      usersServiceFindAllSpy.mockReturnValue(users);
     });
 
     it(`should call ${UsersService.name} findAll method`, async () => {
       await usersController.findAllUsers();
 
-      expect(usersServiceFindAllSpy).toHaveBeenCalledTimes(1);
+      expect(usersServiceFindAllSpy).toBeCalledTimes(1);
     });
 
     it(`should return a ${SuccessResponseDto.name} with message and data contains array of users`, async () => {

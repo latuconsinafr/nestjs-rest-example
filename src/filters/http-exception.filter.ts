@@ -33,7 +33,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     this.logger.error(exception);
 
     const ctx = host.switchToHttp();
-    const request = ctx.getResponse<Request>();
+    const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const httpStatus = exception.getStatus();
 
@@ -45,7 +45,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const baseResponseBody: BaseResponse = {
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
-      path: request.url ?? 'Path not found', // TODO: Temporary solution, it has to be the original requested URL
+      path: request.url,
       success: false,
       message: 'Error',
     };

@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing';
-import { UsersModule } from '../users.module';
+import { AppModule } from '../app.module';
 
-describe('UsersModule', () => {
-  let usersModule: UsersModule;
+describe('AppModule', () => {
+  let appModule: AppModule;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [UsersModule],
+      imports: [AppModule],
     }).compile();
 
-    usersModule = moduleRef.get<UsersModule>(UsersModule);
+    appModule = moduleRef.get<AppModule>(AppModule);
   });
 
   afterEach(() => {
@@ -17,6 +17,6 @@ describe('UsersModule', () => {
   });
 
   it('should be defined', () => {
-    expect(usersModule).toBeDefined();
+    expect(appModule).toBeDefined();
   });
 });
