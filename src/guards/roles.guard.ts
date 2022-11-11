@@ -1,6 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { User } from '../services/users/interfaces/user.interface';
 
 /**
  * Class defining function that implement guard based on {@link UserRole}.
@@ -28,7 +27,7 @@ export class RolesGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
 
-    if (!request.user) {
+    if (!request.user || !request.user.roles) {
       return false;
     }
 

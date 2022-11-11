@@ -23,7 +23,7 @@ export class SuccessResponseDto {
    * - `message`: The message to be returned, if any
    * - `data`: The data to be returned, if any
    *
-   * @param successResponse
+   * @param successResponse The success response to be returned
    */
   constructor(successResponse?: SuccessResponse) {
     this.message = successResponse?.message;
