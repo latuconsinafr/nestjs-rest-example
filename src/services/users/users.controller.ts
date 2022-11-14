@@ -8,12 +8,13 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { SuccessResponseDto } from '../../common/dto/responses/response.dto';
 import { UserRole } from '../../common/enums/role.enum';
 import { SuccessResponse } from '../../common/interfaces/http-response.interface';
 import { Auth } from '../../decorators/auth.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './interfaces/user.interface';
+import { User } from './entities/user.entity';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
 import { UsersService } from './users.service';
 
@@ -30,9 +31,8 @@ export class UsersController {
    * @param createUserDto The DTO that carries data to create a user
    */
   @Post()
-  @Auth(UserRole.SUPER_ADMIN)
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<void> {
-    this.usersService.create(createUserDto);
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return await this.usersService.create(plainToInstance(User, createUserDto));
   }
 
   // * Asynchronous example
@@ -48,7 +48,7 @@ export class UsersController {
   async findAllUsers(): Promise<SuccessResponse> {
     return new SuccessResponseDto({
       message: 'Users retrieved',
-      data: this.usersService.findAll(),
+      data: await this.usersService.findAll(),
     });
   }
 
@@ -96,6 +96,7 @@ export class UsersController {
    * @returns The action string.
    */
   @Delete(':id')
+  @Auth(UserRole.SUPER_ADMIN)
   removeUser(@Param('id', ParseIntPipe) id: number) {
     return `This action removes a #${id} user.`;
   }

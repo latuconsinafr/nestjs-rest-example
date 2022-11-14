@@ -1,7 +1,9 @@
 import { Test } from '@nestjs/testing';
-import { User } from '../interfaces/user.interface';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { usersData } from '../../../database/data/users.data';
+import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
-import { usersStub } from './stubs/users.stub';
 
 describe('UsersService', () => {
   let usersService: UsersService;
@@ -9,12 +11,15 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [
+        UsersService,
+        { provide: getRepositoryToken(User), useValue: mockedRepository },
+      ],
     }).compile();
 
     usersService = moduleRef.get<UsersService>(UsersService);
 
-    users = [...usersStub];
+    users = [...usersData];
   });
 
   afterEach(() => {
@@ -22,20 +27,32 @@ describe('UsersService', () => {
   });
 
   describe('when create is called', () => {
-    it('should return undefined', () => {
-      expect(usersService.create(users[0])).toBeUndefined();
+    beforeEach(() => {
+      mockedRepository.create.mockReturnValue(users[0]);
+    });
+
+    it('should return undefined', async () => {
+      expect(await usersService.create(users[0])).toBe(users[0]);
     });
   });
 
   describe('when findAll is called', () => {
-    it('should return array of users', () => {
-      expect(usersService.findAll()).toStrictEqual(users);
+    beforeEach(() => {
+      mockedRepository.find.mockResolvedValue(users);
+    });
+
+    it('should return array of users', async () => {
+      expect(await usersService.findAll()).toStrictEqual(users);
     });
   });
 
   describe('when findById is called', () => {
-    it('should return a user', () => {
-      expect(usersService.findById(users[0].id)).toStrictEqual(users[0]);
+    beforeEach(() => {
+      mockedRepository.findOneBy.mockReturnValue(users[0]);
+    });
+
+    it('should return a user', async () => {
+      expect(await usersService.findById(users[0].id)).toStrictEqual(users[0]);
     });
   });
 });

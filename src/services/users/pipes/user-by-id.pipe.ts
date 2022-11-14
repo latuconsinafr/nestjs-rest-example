@@ -3,7 +3,7 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '../../../exceptions/http.exceptions';
-import { User } from '../interfaces/user.interface';
+import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
 
 /**
@@ -21,8 +21,11 @@ import { UsersService } from '../users.service';
 export class UserByIdPipe implements PipeTransform<string> {
   constructor(private readonly usersService: UsersService) {}
 
+  /**
+   * {@inheritDoc PipeTransform.transform}
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  transform(value: string, metadata: ArgumentMetadata): User {
+  async transform(value: string, metadata: ArgumentMetadata): Promise<User> {
     const val = parseInt(value, 10);
 
     if (isNaN(val)) {
@@ -31,9 +34,9 @@ export class UserByIdPipe implements PipeTransform<string> {
       });
     }
 
-    const user = this.usersService.findById(val);
+    const user = await this.usersService.findById(val);
 
-    if (user === undefined) {
+    if (user === null) {
       throw new NotFoundException({
         message: 'User not found',
       });

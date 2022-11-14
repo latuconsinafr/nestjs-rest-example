@@ -12,6 +12,9 @@ import { UnprocessableEntityException } from '../exceptions/http.exceptions';
  */
 @Injectable()
 export class ParseIntPipe implements PipeTransform<string, number> {
+  /**
+   * {@inheritDoc ExceptionFilter.catch}
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   transform(value: string, metadata: ArgumentMetadata): number {
     const val = parseInt(value, 10);

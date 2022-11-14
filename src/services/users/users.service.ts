@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UserRole } from '../../common/enums/role.enum';
-import { User } from './interfaces/user.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './entities/user.entity';
 
 // * Service will be responsible for data storage and retrieval
 /**
@@ -8,26 +9,30 @@ import { User } from './interfaces/user.interface';
  */
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [
-    {
-      id: 1,
-      username: 'user',
-      password: 'password',
-      roles: [UserRole.SUPER_ADMIN],
-      description: 'This is user',
-    },
-  ];
+  /**
+   * The constructor.
+   *
+   * @param usersRepository The repository of user entity
+   */
+  constructor(
+    @InjectRepository(User) private usersRepository: Repository<User>,
+  ) {}
 
   /**
    * Create a user.
    *
    * @param user A user to create
+   *
+   * @returns The created user.
    */
-  create(user: Omit<User, 'id'>): void {
-    this.users.push({
-      id: this.users.length + 1,
+  async create(user: User): Promise<User> {
+    const createdUser: User = this.usersRepository.create({
       ...user,
     });
+
+    await this.usersRepository.save(createdUser);
+
+    return createdUser;
   }
 
   /**
@@ -35,8 +40,8 @@ export class UsersService {
    *
    * @returns The users array.
    */
-  findAll(): User[] {
-    return this.users;
+  async findAll(): Promise<User[]> {
+    return await this.usersRepository.find();
   }
 
   /**
@@ -44,9 +49,9 @@ export class UsersService {
    *
    * @param id The id to find
    *
-   * @returns The use if it exists, otherwise undefined.
+   * @returns The user if it exists, otherwise null.
    */
-  findById(id: number): User | undefined {
-    return this.users.find((user) => user.id === id);
+  async findById(id: number): Promise<User | null> {
+    return await this.usersRepository.findOneBy({ id });
   }
 }

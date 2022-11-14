@@ -1,10 +1,12 @@
 import { Test } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { SuccessResponseDto } from '../../../common/dto/responses/response.dto';
+import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { usersData } from '../../../database/data/users.data';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { User } from '../interfaces/user.interface';
+import { User } from '../entities/user.entity';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
-import { usersStub } from './stubs/users.stub';
 
 describe('UsersController', () => {
   let usersController: UsersController;
@@ -14,13 +16,16 @@ describe('UsersController', () => {
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [UsersController],
-      providers: [UsersService],
+      providers: [
+        UsersService,
+        { provide: getRepositoryToken(User), useValue: mockedRepository },
+      ],
     }).compile();
 
     usersService = moduleRef.get<UsersService>(UsersService);
     usersController = moduleRef.get<UsersController>(UsersController);
 
-    users = [...usersStub];
+    users = [...usersData];
   });
 
   afterEach(() => {
@@ -28,7 +33,7 @@ describe('UsersController', () => {
   });
 
   describe('when createUser is called', () => {
-    let usersServiceCreateSpy: jest.SpyInstance<void, [user: Omit<User, 'id'>]>;
+    let usersServiceCreateSpy: jest.SpyInstance<Promise<User>, [user: User]>;
     let userToCreate: CreateUserDto;
 
     beforeEach(() => {
@@ -52,11 +57,11 @@ describe('UsersController', () => {
   });
 
   describe('when findAllUsers is called', () => {
-    let usersServiceFindAllSpy: jest.SpyInstance<User[], []>;
+    let usersServiceFindAllSpy: jest.SpyInstance<Promise<User[]>, []>;
 
     beforeEach(() => {
       usersServiceFindAllSpy = jest.spyOn(usersService, 'findAll');
-      usersServiceFindAllSpy.mockReturnValue(users);
+      usersServiceFindAllSpy.mockResolvedValue(users);
     });
 
     it(`should call ${UsersService.name} findAll method`, async () => {

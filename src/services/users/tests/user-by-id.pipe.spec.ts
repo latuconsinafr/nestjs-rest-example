@@ -1,13 +1,15 @@
 import { ArgumentMetadata } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { usersData } from '../../../database/data/users.data';
 import {
   NotFoundException,
   UnprocessableEntityException,
 } from '../../../exceptions/http.exceptions';
-import { User } from '../interfaces/user.interface';
+import { User } from '../entities/user.entity';
 import { UserByIdPipe } from '../pipes/user-by-id.pipe';
 import { UsersService } from '../users.service';
-import { usersStub } from './stubs/users.stub';
 
 describe('UserByIdPipe', () => {
   let userByIdPipe: UserByIdPipe;
@@ -17,7 +19,11 @@ describe('UserByIdPipe', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [UserByIdPipe, UsersService],
+      providers: [
+        UserByIdPipe,
+        UsersService,
+        { provide: getRepositoryToken(User), useValue: mockedRepository },
+      ],
     }).compile();
 
     userByIdPipe = moduleRef.get<UserByIdPipe>(UserByIdPipe);
@@ -28,7 +34,7 @@ describe('UserByIdPipe', () => {
       metatype: Number,
       data: 'id',
     };
-    users = [...usersStub];
+    users = [...usersData];
   });
 
   afterEach(() => {
@@ -37,12 +43,12 @@ describe('UserByIdPipe', () => {
 
   describe('when transform is called', () => {
     describe('and the string value is unable to be parsed to int', () => {
-      it(`should throw ${UnprocessableEntityException.name}`, () => {
+      it(`should throw ${UnprocessableEntityException.name}`, async () => {
         const value = 'asdxxasd';
 
-        expect(() => {
-          userByIdPipe.transform(value, argumentMetaData);
-        }).toThrow(UnprocessableEntityException);
+        await expect(
+          userByIdPipe.transform(value, argumentMetaData),
+        ).rejects.toThrow(UnprocessableEntityException);
       });
     });
 
@@ -54,22 +60,22 @@ describe('UserByIdPipe', () => {
       });
 
       describe('and the user is not found', () => {
-        it(`should throw ${NotFoundException.name}`, () => {
-          jest.spyOn(usersService, 'findById').mockReturnValue(undefined);
+        it(`should throw ${NotFoundException.name}`, async () => {
+          jest.spyOn(usersService, 'findById').mockResolvedValue(null);
 
-          expect(() => {
-            userByIdPipe.transform(value, argumentMetaData);
-          }).toThrow(NotFoundException);
+          await expect(
+            userByIdPipe.transform(value, argumentMetaData),
+          ).rejects.toThrow(NotFoundException);
         });
       });
 
       describe('and the user is found', () => {
-        it(`should return the user`, () => {
-          jest.spyOn(usersService, 'findById').mockReturnValue(users[0]);
+        it(`should return the user`, async () => {
+          jest.spyOn(usersService, 'findById').mockResolvedValue(users[0]);
 
-          expect(userByIdPipe.transform(value, argumentMetaData)).toEqual(
-            users[0],
-          );
+          expect(
+            await userByIdPipe.transform(value, argumentMetaData),
+          ).toStrictEqual(users[0]);
         });
       });
     });

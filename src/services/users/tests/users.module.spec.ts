@@ -6,7 +6,7 @@ describe('UsersModule', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [UsersModule],
+      providers: [UsersModule],
     }).compile();
 
     usersModule = moduleRef.get<UsersModule>(UsersModule);
