@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { UserRole } from '../common/enums/role.enum';
+import { UserRole } from '../common/enums/user-role.enum';
 import { RolesGuard } from '../guards/roles.guard';
 
 /**
@@ -7,7 +7,7 @@ import { RolesGuard } from '../guards/roles.guard';
  * to the scope of controller or method, depending on its context.
  *
  * @example
- * `Auth(UserRole.SUPER_ADMIN)`
+ * `Auth(UserRole.SuperAdmin)`
  *
  * @usageNotes
  * This decorator applies:

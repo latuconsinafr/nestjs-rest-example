@@ -6,6 +6,7 @@ import { loggerConfig } from './logger/logger.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSourceOptions } from 'typeorm';
 import { databaseConfig } from './database/database.config';
+import { appConfig } from './app/app.config';
 
 /**
  * Defines the application configuration module.
@@ -14,7 +15,7 @@ import { databaseConfig } from './database/database.config';
   imports: [
     NestConfigModule.forRoot({
       isGlobal: true,
-      load: [loggerConfig, databaseConfig],
+      load: [appConfig, loggerConfig, databaseConfig],
     }),
     LoggerModule.forRootAsync({
       inject: [ConfigService],

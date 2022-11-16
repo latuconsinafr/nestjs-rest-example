@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { SuccessResponseDto } from '../../common/dto/responses/response.dto';
-import { UserRole } from '../../common/enums/role.enum';
+import { UserRole } from '../../common/enums/user-role.enum';
 import { SuccessResponse } from '../../common/interfaces/http-response.interface';
 import { Auth } from '../../decorators/auth.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -96,7 +96,7 @@ export class UsersController {
    * @returns The action string.
    */
   @Delete(':id')
-  @Auth(UserRole.SUPER_ADMIN)
+  @Auth(UserRole.SuperAdmin)
   removeUser(@Param('id', ParseIntPipe) id: number) {
     return `This action removes a #${id} user.`;
   }

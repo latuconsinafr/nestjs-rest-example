@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { UserRole } from '../../../common/enums/role.enum';
+import { UserRole } from '../../../common/enums/user-role.enum';
 
 /**
  * Defines the user entity.

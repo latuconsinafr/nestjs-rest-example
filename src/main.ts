@@ -14,6 +14,8 @@ import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { UnprocessableEntityException } from './exceptions/http.exceptions';
+import { ConfigService } from '@nestjs/config';
+import { AppConfigOptions, Environment } from './config/app/app.config';
 
 /**
  * Defines the application bootstrapping function.
@@ -27,6 +29,14 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
+  // * Config section
+  const configService = app.get(ConfigService);
+  const appConfig = configService.get<AppConfigOptions>('app') ?? {
+    environment: Environment.Development,
+    host: 'localhost',
+    port: 3000,
+  };
+
   // * Logger section
   app.useLogger(app.get(Logger));
 
@@ -39,7 +49,7 @@ async function bootstrap() {
   app.use(helmet());
   // * CSURF middleware requires either session middleware or cookie-parser to be initialized first.
   // * @see {@link https://github.com/expressjs/csurf#csurf) documentation}
-  if (process.env.NODE_ENV === 'production') {
+  if (appConfig.environment === Environment.Production) {
     app.use(cookieParser());
     app.use(csurf({ cookie: { sameSite: true } }));
     app.use(csurfMiddleware);
@@ -54,7 +64,7 @@ async function bootstrap() {
   // * Global pipe section
   app.useGlobalPipes(
     new ValidationPipe({
-      disableErrorMessages: process.env.NODE_ENV === 'production',
+      disableErrorMessages: appConfig.environment === Environment.Production,
       whitelist: true,
       transform: true,
       exceptionFactory: (errors: ValidationError[]) => {
@@ -71,7 +81,7 @@ async function bootstrap() {
     new TransformInterceptor(),
   );
 
-  await app.listen(3000);
+  await app.listen(appConfig.port, appConfig.host);
 }
 
 /**

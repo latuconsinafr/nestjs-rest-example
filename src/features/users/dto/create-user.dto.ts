@@ -6,7 +6,7 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { UserRole } from '../../../common/enums/role.enum';
+import { UserRole } from '../../../common/enums/user-role.enum';
 
 /**
  * Defines the DTO that carries data to create a user.

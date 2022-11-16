@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer';
-import { UserRole } from '../../common/enums/role.enum';
+import { UserRole } from '../../common/enums/user-role.enum';
 import { User } from '../../features/users/entities/user.entity';
 
 /**
@@ -10,7 +10,7 @@ export const usersData: User[] = [
     id: 1,
     username: 'admin',
     password: 'password',
-    roles: [UserRole.SUPER_ADMIN],
+    roles: [UserRole.SuperAdmin],
     description: 'This is admin user',
   } as User),
 ];

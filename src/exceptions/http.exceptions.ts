@@ -25,9 +25,9 @@ export class NotFoundException extends HttpException {
    * - The `errorResponse` argument defines the JSON response body.
    *
    * By default, the JSON response body contains three properties:
-   * - `message`: the string {@link ErrorMessage.ERR_NOT_FOUND_MESSAGE} by default;
+   * - `message`: the string {@link ErrorMessage.ErrorNotFoundMessage} by default;
    * override this by supplying a string in the errorResponse parameter.
-   * - `error`: the enum {@link ErrorCode.ERR_NOT_FOUND} by default;
+   * - `error`: the enum {@link ErrorCode.ErrorNotFound} by default;
    * override this by supplying any value of `ErrorCode` in the errorResponse parameter.
    * - `help`: the string {@link defaultHelpMessage} by default;
    * override this by supplying a string in the errorResponse parameter.
@@ -37,8 +37,8 @@ export class NotFoundException extends HttpException {
   constructor(errorResponse?: ErrorResponse) {
     const httpStatus = HttpStatus.NOT_FOUND;
     const response: ErrorResponse = {
-      message: errorResponse?.message ?? ErrorMessage.ERR_NOT_FOUND_MESSAGE,
-      error: errorResponse?.error ?? ErrorCode.ERR_NOT_FOUND,
+      message: errorResponse?.message ?? ErrorMessage.ErrorNotFoundMessage,
+      error: errorResponse?.error ?? ErrorCode.ErrorNotFound,
       help: errorResponse?.help ?? defaultHelpMessage,
     };
 
@@ -66,9 +66,9 @@ export class RequestTimeoutException extends HttpException {
    * - The `errorResponse` argument defines the JSON response body.
    *
    * By default, the JSON response body contains three properties:
-   * - `message`: the string {@link ErrorMessage.ERR_REQUEST_TIMEOUT_MESSAGE} by default;
+   * - `message`: the string {@link ErrorMessage.ErrorRequestTimeoutMessage} by default;
    * override this by supplying a string in the errorResponse parameter.
-   * - `error`: the enum {@link ErrorCode.ERR_REQUEST_TIMEOUT} by default;
+   * - `error`: the enum {@link ErrorCode.ErrorRequestTimeout} by default;
    * override this by supplying any value of `ErrorCode` in the errorResponse parameter.
    * - `help`: the string {@link defaultHelpMessage} by default;
    * override this by supplying a string in the errorResponse parameter.
@@ -79,8 +79,8 @@ export class RequestTimeoutException extends HttpException {
     const httpStatus = HttpStatus.REQUEST_TIMEOUT;
     const response: ErrorResponse = {
       message:
-        errorResponse?.message ?? ErrorMessage.ERR_REQUEST_TIMEOUT_MESSAGE,
-      error: errorResponse?.error ?? ErrorCode.ERR_REQUEST_TIMEOUT,
+        errorResponse?.message ?? ErrorMessage.ErrorRequestTimeoutMessage,
+      error: errorResponse?.error ?? ErrorCode.ErrorRequestTimeout,
       help: errorResponse?.help ?? defaultHelpMessage,
     };
 
@@ -109,9 +109,9 @@ export class UnprocessableEntityException extends HttpException {
    * - The `errors` argument defines validation error.
    *
    * By default, the JSON response body contains three properties:
-   * - `message`: the string {@link ErrorMessage.ERR_UNPROCESSABLE_ENTITY_MESSAGE} by default;
+   * - `message`: the string {@link ErrorMessage.ErrorUnprocessableEntityMessage} by default;
    * override this by supplying a string in the errorResponse parameter.
-   * - `error`: the enum {@link ErrorCode.ERR_UNPROCESSABLE_ENTITY} by default;
+   * - `error`: the enum {@link ErrorCode.ErrorUnprocessableEntity} by default;
    * override this by supplying any value of `ErrorCode` in the errorResponse parameter.
    * - `help`: the string {@link defaultHelpMessage} by default;
    * override this by supplying a string in the errorResponse parameter.
@@ -131,8 +131,50 @@ export class UnprocessableEntityException extends HttpException {
                 ? Object.values(error.constraints)
                 : [],
             }))
-          : ErrorMessage.ERR_UNPROCESSABLE_ENTITY_MESSAGE),
-      error: errorResponse?.error ?? ErrorCode.ERR_UNPROCESSABLE_ENTITY,
+          : ErrorMessage.ErrorUnprocessableEntityMessage),
+      error: errorResponse?.error ?? ErrorCode.ErrorUnprocessableEntity,
+      help: errorResponse?.help ?? defaultHelpMessage,
+    };
+
+    super(
+      HttpException.createBody(response, response.error, httpStatus),
+      httpStatus,
+    );
+  }
+}
+
+/**
+ * Defines an HTTP exception for *Internal Server Error* type errors.
+ *
+ * @see [Built-in HTTP exceptions](https://docs.nestjs.com/exception-filters#built-in-http-exceptions)
+ */
+export class InternalServerErrorException extends HttpException {
+  /**
+   * Instantiate an `InternalServerErrorException` Exception.
+   *
+   * @example
+   * `throw new InternalServerErrorException()`
+   *
+   * @usageNotes
+   * The HTTP response status code will be 500.
+   * - The `errorResponse` argument defines the JSON response body.
+   *
+   * By default, the JSON response body contains three properties:
+   * - `message`: the string {@link ErrorMessage.ErrorInternalServerErrorMessage} by default;
+   * override this by supplying a string in the errorResponse parameter.
+   * - `error`: the enum {@link ErrorCode.ErrorInternalServerError} by default;
+   * override this by supplying any value of `ErrorCode` in the errorResponse parameter.
+   * - `help`: the string {@link defaultHelpMessage} by default;
+   * override this by supplying a string in the errorResponse parameter.
+   *
+   * @param errorResponse Object describing the error condition, if any
+   */
+  constructor(errorResponse?: ErrorResponse) {
+    const httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    const response: ErrorResponse = {
+      message:
+        errorResponse?.message ?? ErrorMessage.ErrorInternalServerErrorMessage,
+      error: errorResponse?.error ?? ErrorCode.ErrorInternalServerError,
       help: errorResponse?.help ?? defaultHelpMessage,
     };
 

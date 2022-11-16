@@ -7,28 +7,28 @@ export enum ErrorCode {
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}
    */
-  ERR_NOT_FOUND = 'error-not-found',
+  ErrorNotFound = 'error-not-found',
 
   /**
    * Defines code for the request timeout error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408 documentation}
    */
-  ERR_REQUEST_TIMEOUT = 'error-request-timeout',
+  ErrorRequestTimeout = 'error-request-timeout',
 
   /**
    * Defines code for the unprocessable entity error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422 documentation}
    */
-  ERR_UNPROCESSABLE_ENTITY = 'error-unprocessable-entity',
+  ErrorUnprocessableEntity = 'error-unprocessable-entity',
 
   /**
    * Defines code for the internal server error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500 documentation}
    */
-  ERR_INTERNAL_SERVER_ERROR = 'error-internal-server-error',
+  ErrorInternalServerError = 'error-internal-server-error',
 }
 
 /**
@@ -40,26 +40,26 @@ export enum ErrorMessage {
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}
    */
-  ERR_NOT_FOUND_MESSAGE = 'Resource not found',
+  ErrorNotFoundMessage = 'Resource not found',
 
   /**
    * Defines default message for the request timeout error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408 documentation}
    */
-  ERR_REQUEST_TIMEOUT_MESSAGE = 'Request timeout',
+  ErrorRequestTimeoutMessage = 'Request timeout',
 
   /**
    * Defines default message for the unprocessable entity error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422 documentation}
    */
-  ERR_UNPROCESSABLE_ENTITY_MESSAGE = 'Unprocessable entity',
+  ErrorUnprocessableEntityMessage = 'Unprocessable entity',
 
   /**
    * Defines default message for the internal server error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500 documentation}
    */
-  ERR_INTERNAL_SERVER_ERROR_MESSAGE = 'Internal server error',
+  ErrorInternalServerErrorMessage = 'Internal server error',
 }

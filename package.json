@@ -90,6 +90,7 @@
     ],
     "coveragePathIgnorePatterns": [
       ".main.ts",
+      ".module.ts",
       ".migration.config.ts",
       "<rootDir>/database/migrations/"
     ],

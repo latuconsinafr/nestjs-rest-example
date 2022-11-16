@@ -1,6 +1,6 @@
 import { Reflector } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
-import { UserRole } from '../../common/enums/role.enum';
+import { UserRole } from '../../common/enums/user-role.enum';
 import { mockedGetRequest } from '../../common/utils/mocks/arguments-host.mock';
 import { mockedExecutionContext } from '../../common/utils/mocks/execution-context.mock';
 import { mockedReflector } from '../../common/utils/mocks/reflector.mock';
@@ -50,7 +50,7 @@ describe('RolesGuard', () => {
 
     describe('and Roles decorator is set with matching roles', () => {
       beforeEach(() => {
-        reflectorGetSpy.mockReturnValue([UserRole.SUPER_ADMIN]);
+        reflectorGetSpy.mockReturnValue([UserRole.SuperAdmin]);
       });
 
       describe('and there is no user in the request', () => {
@@ -66,7 +66,7 @@ describe('RolesGuard', () => {
       describe('and the user has role that is allowed', () => {
         it('should return true', () => {
           mockedGetRequest.mockReturnValue({
-            user: { roles: [UserRole.SUPER_ADMIN] },
+            user: { roles: [UserRole.SuperAdmin] },
           });
 
           expect(rolesGuard.canActivate(executionContext)).toBeTruthy();
@@ -76,7 +76,7 @@ describe('RolesGuard', () => {
       describe('and the user has role that is not allowed', () => {
         it('should return false', () => {
           mockedGetRequest.mockReturnValue({
-            user: { roles: [UserRole.USER] },
+            user: { roles: [UserRole.User] },
           });
 
           expect(rolesGuard.canActivate(executionContext)).toBeFalsy();

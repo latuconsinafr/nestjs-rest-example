@@ -72,7 +72,7 @@ describe('HttpExceptionFilter', () => {
         timestamp: date.toISOString(),
         path: url,
         success: false,
-        message: ErrorMessage.ERR_UNPROCESSABLE_ENTITY_MESSAGE,
+        message: ErrorMessage.ErrorUnprocessableEntityMessage,
       });
     });
 
@@ -96,7 +96,7 @@ describe('HttpExceptionFilter', () => {
         timestamp: date.toISOString(),
         path: url,
         success: false,
-        error: ErrorCode.ERR_UNPROCESSABLE_ENTITY,
+        error: ErrorCode.ErrorUnprocessableEntity,
         help: 'Help is not available',
         message: validationErrors.map((error) => ({
           property: error.property,

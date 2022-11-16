@@ -54,7 +54,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       ...baseResponseBody,
       ...exceptionResponse,
       ...(httpStatus === 404
-        ? { error: ErrorCode.ERR_NOT_FOUND, help: defaultHelpMessage }
+        ? { error: ErrorCode.ErrorNotFound, help: defaultHelpMessage }
         : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
     };
 
