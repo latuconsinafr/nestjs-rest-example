@@ -1,8 +1,8 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-import { UsersModule } from '../../src/services/users/users.module';
-import { UsersService } from '../../src/services/users/users.service';
+import { UsersModule } from '../../src/features/users/users.module';
+import { UsersService } from '../../src/features/users/users.service';
 
 describe('Users', () => {
   let app: INestApplication;
