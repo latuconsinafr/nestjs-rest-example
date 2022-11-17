@@ -1,12 +1,10 @@
 import { ArgumentMetadata } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { mockedRepository } from '../../../../common/utils/mocks/repository.mock';
+import { NotFoundException } from '../../../../common/exceptions/not-found.exception';
+import { UnprocessableEntityException } from '../../../../common/exceptions/unprocessable-entity.exception';
+import { mockedRepository } from '../../../../common/module-utils/utils/mocks/repository.mock';
 import { usersData } from '../../../../database/data/users.data';
-import {
-  NotFoundException,
-  UnprocessableEntityException,
-} from '../../../../exceptions/http.exceptions';
 import { User } from '../../entities/user.entity';
 import { UserByIdPipe } from '../../pipes/user-by-id.pipe';
 import { UsersService } from '../../users.service';

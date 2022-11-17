@@ -1,8 +1,6 @@
 import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common';
-import {
-  NotFoundException,
-  UnprocessableEntityException,
-} from '../../../exceptions/http.exceptions';
+import { NotFoundException } from '../../../common/exceptions/not-found.exception';
+import { UnprocessableEntityException } from '../../../common/exceptions/unprocessable-entity.exception';
 import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
 

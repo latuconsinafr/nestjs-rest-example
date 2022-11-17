@@ -1,12 +1,12 @@
-import { APP_NAME } from '../../common/constants/app.constant';
+import { APP_NAME } from '../../common/constants';
 import { registerAs } from '@nestjs/config';
 import { Params } from 'nestjs-pino';
 import pino from 'pino';
 import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { isEnvValid } from '../../helpers/validators/is-env-valid.validator';
+import { isEnvValid } from '../../common/module-utils/utils/validators/is-env-valid.validator.util';
 import { Transform } from 'class-transformer';
-import { toNumber } from '../../helpers/transformers/to-number.transformer';
-import { toBoolean } from '../../helpers/transformers/to-boolean.transformer';
+import { toNumber } from '../../common/module-utils/utils/transformers/to-number.transformer.util';
+import { toBoolean } from '../../common/module-utils/utils/transformers/to-boolean.transformer.util';
 
 /**
  * Defines class to hold logger-related environment variables.

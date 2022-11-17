@@ -9,14 +9,14 @@ import {
   Put,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { SuccessResponseDto } from '../../common/dto/responses/response.dto';
+import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { UserRole } from '../../common/enums/user-role.enum';
-import { SuccessResponse } from '../../common/interfaces/http-response.interface';
-import { Auth } from '../../decorators/auth.decorator';
+import { Auth } from '../../common/decorators/auth.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
 import { UsersService } from './users.service';
+import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
 
 /**
  * Defines the users controller.
@@ -31,8 +31,15 @@ export class UsersController {
    * @param createUserDto The DTO that carries data to create a user
    */
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.usersService.create(plainToInstance(User, createUserDto));
+  async createUser(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<SuccessResponse> {
+    const userToCreate = plainToInstance(User, createUserDto);
+
+    return new SuccessResponseDto({
+      message: 'User created',
+      data: await this.usersService.create(userToCreate),
+    });
   }
 
   // * Asynchronous example

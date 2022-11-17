@@ -1,4 +1,4 @@
-import { APP_NAME } from '../../common/constants/app.constant';
+import { APP_NAME } from '../../common/constants';
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { databaseConfig } from './database.config';

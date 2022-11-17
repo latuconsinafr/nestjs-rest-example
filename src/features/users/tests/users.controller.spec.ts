@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { SuccessResponseDto } from '../../../common/dto/responses/response.dto';
-import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { SuccessResponseDto } from '../../../common/dto/responses/success-response.dto';
+import { mockedRepository } from '../../../common/module-utils/utils/mocks/repository.mock';
 import { usersData } from '../../../database/data/users.data';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
@@ -38,6 +38,7 @@ describe('UsersController', () => {
 
     beforeEach(() => {
       usersServiceCreateSpy = jest.spyOn(usersService, 'create');
+      usersServiceCreateSpy.mockResolvedValue(users[0]);
       userToCreate = {
         username: users[0].username,
         password: users[0].password,
@@ -51,8 +52,13 @@ describe('UsersController', () => {
       expect(usersServiceCreateSpy).toBeCalledTimes(1);
     });
 
-    it('should return undefined', async () => {
-      expect(await usersController.createUser(userToCreate)).toBeUndefined();
+    it('should return the created user', async () => {
+      expect(await usersController.createUser(userToCreate)).toStrictEqual(
+        new SuccessResponseDto({
+          message: 'User created',
+          data: users[0],
+        }),
+      );
     });
   });
 

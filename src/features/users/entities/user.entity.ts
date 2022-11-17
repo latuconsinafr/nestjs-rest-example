@@ -17,7 +17,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column()
   username: string;
 
   @Column()
@@ -26,6 +26,6 @@ export class User {
   @Column('enum', { enum: UserRole })
   roles: UserRole[];
 
-  @Column({ nullable: true })
-  description?: string;
+  @Column({ type: 'text', nullable: true })
+  description?: string | null | undefined;
 }

@@ -8,9 +8,9 @@ import {
   IsString,
 } from 'class-validator';
 import { DataSourceOptions } from 'typeorm';
-import { toBoolean } from '../../helpers/transformers/to-boolean.transformer';
-import { toNumber } from '../../helpers/transformers/to-number.transformer';
-import { isEnvValid } from '../../helpers/validators/is-env-valid.validator';
+import { toBoolean } from '../../common/module-utils/utils/transformers/to-boolean.transformer.util';
+import { toNumber } from '../../common/module-utils/utils/transformers/to-number.transformer.util';
+import { isEnvValid } from '../../common/module-utils/utils/validators/is-env-valid.validator.util';
 
 /**
  * Defines class to hold database-related environment variables.

@@ -5,17 +5,17 @@ import { Logger } from 'nestjs-pino';
 import helmet from 'helmet';
 import * as cookieParser from 'cookie-parser';
 import * as csurf from 'csurf';
-import { csurfMiddleware } from './middlewares/csurf.middleware';
+import { csurfMiddleware } from './common/middlewares/csurf.middleware';
 import * as compression from 'compression';
 import { ValidationError } from 'class-validator';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
-import { LoggingInterceptor } from './interceptors/logging.interceptor';
-import { TimeoutInterceptor } from './interceptors/timeout.interceptor';
-import { TransformInterceptor } from './interceptors/transform.interceptor';
-import { CacheInterceptor } from './interceptors/cache.interceptor';
-import { UnprocessableEntityException } from './exceptions/http.exceptions';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import { CacheInterceptor } from './common/interceptors/cache.interceptor';
 import { ConfigService } from '@nestjs/config';
 import { AppConfigOptions, Environment } from './config/app/app.config';
+import { UnprocessableEntityException } from './common/exceptions/unprocessable-entity.exception';
 
 /**
  * Defines the application bootstrapping function.
