@@ -45,15 +45,17 @@ async function bootstrap() {
 
   // * Global middleware section
   // * Note that applying helmet as global or registering it must come before other calls to app.use() or setup functions that may call app.use()
-  // * @see {@link https://docs.nestjs.com/security/helmet) documentation}
+  // * @see {@link https://docs.nestjs.com/security/helmet)}
   app.use(helmet());
+
   // * CSURF middleware requires either session middleware or cookie-parser to be initialized first.
-  // * @see {@link https://github.com/expressjs/csurf#csurf) documentation}
+  // * @see {@link https://github.com/expressjs/csurf#csurf)}
   if (appConfig.environment === Environment.Production) {
     app.use(cookieParser());
     app.use(csurf({ cookie: { sameSite: true } }));
     app.use(csurfMiddleware);
   }
+
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
   app.use(compression());
 
@@ -64,9 +66,18 @@ async function bootstrap() {
   // * Global pipe section
   app.useGlobalPipes(
     new ValidationPipe({
+      // * Some production environments prefer to disable detailed errors
       disableErrorMessages: appConfig.environment === Environment.Production,
+
+      // * To filter out properties that should not be received by the method handler
+      // * @see {@link https://docs.nestjs.com/techniques/validation#stripping-properties}
       whitelist: true,
+
+      // * Payloads coming in over the network are plain JavaScript objects
+      // * If this set to true, it will automatically transform payloads to be objects typed according to their DTO classes.
+      // * @see {@link https://docs.nestjs.com/techniques/validation#transform-payload-objects}
       transform: true,
+
       exceptionFactory: (errors: ValidationError[]) => {
         return new UnprocessableEntityException({}, errors);
       },

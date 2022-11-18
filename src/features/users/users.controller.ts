@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -12,11 +11,13 @@ import { plainToInstance } from 'class-transformer';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { UserRole } from '../../common/enums/user-role.enum';
 import { Auth } from '../../common/decorators/auth.decorator';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserRequest } from './dto/requests/create-user-request.dto';
 import { User } from './entities/user.entity';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
 import { UsersService } from './users.service';
 import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
+import { UpdateUserRequest } from './dto/requests/update-user-request.dto';
+import { ConflictException } from '../../common/exceptions/conflict.exception';
 
 /**
  * Defines the users controller.
@@ -28,13 +29,15 @@ export class UsersController {
   /**
    * Create a user endpoint.
    *
-   * @param createUserDto The DTO that carries data to create a user
+   * @param createUserRequest The DTO that carries data to create a user
+   *
+   * @returns The success response with `'User created'` message and created `user` data.
    */
   @Post()
   async createUser(
-    @Body() createUserDto: CreateUserDto,
+    @Body() createUserRequest: CreateUserRequest,
   ): Promise<SuccessResponse> {
-    const userToCreate = plainToInstance(User, createUserDto);
+    const userToCreate = plainToInstance(User, createUserRequest);
 
     return new SuccessResponseDto({
       message: 'User created',
@@ -48,7 +51,7 @@ export class UsersController {
   /**
    * Get all users endpoint.
    *
-   * @returns The users array.
+   * @returns The success response with `'Users retrieved'` message and `users` data.
    */
   @Get()
   // @UseFilters(AllExceptionsFilter)
@@ -70,13 +73,13 @@ export class UsersController {
    *
    * @param user The specified user to get
    *
-   * @returns The user.
+   * @returns The success response with `'User retrieved'` message and a `user` data.
    */
   @Get(':id')
-  findUserById(
+  async findUserById(
     @Param('id', UserByIdPipe)
     user: User,
-  ): SuccessResponse {
+  ): Promise<SuccessResponse> {
     return new SuccessResponseDto({
       message: 'User retrieved',
       data: user,
@@ -86,13 +89,26 @@ export class UsersController {
   /**
    * Update a user by a given id endpoint.
    *
-   * @param id The user id to find
+   * @param params The user id request parameter
+   * @param updateUserRequest The DTO that carries data to update a user
    *
-   * @returns The action string.
+   * @returns The success response with `'User updated'` message.
    */
   @Put(':id')
-  updateUser(@Param('id', ParseIntPipe) id: number): string {
-    return `This action updates a #${id} user.`;
+  async updateUser(
+    @Param('id', UserByIdPipe) { id }: User,
+    @Body() updateUserRequest: UpdateUserRequest,
+  ): Promise<SuccessResponse> {
+    if (id !== updateUserRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
+
+    const userToUpdate = plainToInstance(User, updateUserRequest);
+    await this.usersService.update(id, userToUpdate);
+
+    return new SuccessResponseDto({
+      message: 'User updated',
+    });
   }
 
   /**
@@ -104,7 +120,11 @@ export class UsersController {
    */
   @Delete(':id')
   @Auth(UserRole.SuperAdmin)
-  removeUser(@Param('id', ParseIntPipe) id: number) {
-    return `This action removes a #${id} user.`;
+  async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
+    await this.usersService.delete(id);
+
+    return new SuccessResponseDto({
+      message: 'User deleted',
+    });
   }
 }

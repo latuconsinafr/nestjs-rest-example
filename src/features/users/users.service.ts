@@ -19,7 +19,7 @@ export class UsersService {
   ) {}
 
   /**
-   * Create a user.
+   * Creates a user.
    *
    * @param user A user to create
    *
@@ -36,7 +36,7 @@ export class UsersService {
   }
 
   /**
-   * Get all users.
+   * Gets all users.
    *
    * @returns The users array.
    */
@@ -45,7 +45,7 @@ export class UsersService {
   }
 
   /**
-   * Get a user by a given id.
+   * Gets a user by a given id.
    *
    * @param id The id to find
    *
@@ -53,5 +53,34 @@ export class UsersService {
    */
   async findById(id: number): Promise<User | null> {
     return await this.usersRepository.findOneBy({ id });
+  }
+
+  /**
+   * Updates a user by a given id.
+   *
+   * @param id The id to find
+   * @param user The user to update
+   *
+   * @returns The flag indicates whether the update process is success or not.
+   * Return `true` if the update process is success, otherwise `false`.
+   */
+  async update(id: number, user: User): Promise<boolean> {
+    await this.usersRepository.update(id, { ...user });
+
+    return true;
+  }
+
+  /**
+   * Deletes a user by a given id.
+   *
+   * @param id The id to find
+   *
+   * @returns The flag indicates whether the delete process is success or not.
+   * Return `true` if the delete process is success, otherwise `false`.
+   */
+  async delete(id: number): Promise<boolean> {
+    await this.usersRepository.delete(id);
+
+    return true;
   }
 }

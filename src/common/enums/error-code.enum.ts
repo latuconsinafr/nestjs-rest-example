@@ -17,6 +17,13 @@ export enum ErrorCode {
   ErrorRequestTimeout = 'error-request-timeout',
 
   /**
+   * Defines code for the conflict error exception.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409 documentation}
+   */
+  ErrorConflict = 'error-conflict',
+
+  /**
    * Defines code for the unprocessable entity error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422 documentation}

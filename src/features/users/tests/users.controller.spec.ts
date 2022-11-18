@@ -1,9 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { SuccessResponseDto } from '../../../common/dto/responses/success-response.dto';
+import { ConflictException } from '../../../common/exceptions/conflict.exception';
 import { mockedRepository } from '../../../common/module-utils/utils/mocks/repository.mock';
 import { usersData } from '../../../database/data/users.data';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserRequest } from '../dto/requests/create-user-request.dto';
+import { UpdateUserRequest } from '../dto/requests/update-user-request.dto';
 import { User } from '../entities/user.entity';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
@@ -34,7 +36,7 @@ describe('UsersController', () => {
 
   describe('when createUser is called', () => {
     let usersServiceCreateSpy: jest.SpyInstance<Promise<User>, [user: User]>;
-    let userToCreate: CreateUserDto;
+    let userToCreate: CreateUserRequest;
 
     beforeEach(() => {
       usersServiceCreateSpy = jest.spyOn(usersService, 'create');
@@ -87,8 +89,8 @@ describe('UsersController', () => {
   });
 
   describe('when findUserById is called', () => {
-    it(`should return a ${SuccessResponseDto.name} with message and data contains user`, () => {
-      expect(usersController.findUserById(users[0])).toStrictEqual(
+    it(`should return a ${SuccessResponseDto.name} with message and data contains user`, async () => {
+      expect(await usersController.findUserById(users[0])).toStrictEqual(
         new SuccessResponseDto({
           message: 'User retrieved',
           data: users[0],
@@ -98,21 +100,60 @@ describe('UsersController', () => {
   });
 
   describe('when updateUser is called', () => {
-    it(`should return a string message`, () => {
-      const id = 1;
+    let usersServiceUpdateSpy: jest.SpyInstance<
+      Promise<boolean>,
+      [id: number, user: User]
+    >;
+    let userToUpdate: UpdateUserRequest;
 
-      expect(usersController.updateUser(id)).toBe(
-        `This action updates a #${id} user.`,
-      );
+    beforeEach(() => {
+      usersServiceUpdateSpy = jest.spyOn(usersService, 'update');
+      usersServiceUpdateSpy.mockResolvedValue(true);
+      userToUpdate = {
+        id: users[0].id,
+        username: users[0].username,
+        password: users[0].password,
+        roles: users[0].roles,
+      };
+    });
+
+    describe('and the given user id between param and body are different', () => {
+      it(`should throw ${ConflictException.name}`, async () => {
+        await expect(
+          usersController.updateUser(
+            { ...users[0], id: users[0].id + 1 },
+            userToUpdate,
+          ),
+        ).rejects.toThrow(ConflictException);
+      });
+    });
+
+    describe('and the given user id between param and body are match', () => {
+      it(`should return a ${SuccessResponseDto.name} with message`, async () => {
+        expect(
+          await usersController.updateUser(users[0], userToUpdate),
+        ).toStrictEqual(
+          new SuccessResponseDto({
+            message: 'User updated',
+          }),
+        );
+      });
     });
   });
 
-  describe('when removeUser is called', () => {
-    it(`should return a string message`, () => {
-      const id = 1;
+  describe('when deleteUser is called', () => {
+    let usersServiceDeleteSpy: jest.SpyInstance<Promise<boolean>, [id: number]>;
 
-      expect(usersController.removeUser(id)).toBe(
-        `This action removes a #${id} user.`,
+    beforeEach(() => {
+      usersServiceDeleteSpy = jest.spyOn(usersService, 'delete');
+      usersServiceDeleteSpy.mockResolvedValue(true);
+    });
+
+    it(`should return a ${SuccessResponseDto.name} with message`, async () => {
+      expect(await usersController.deleteUser(users[0])).toStrictEqual(
+        new SuccessResponseDto({
+          message: 'User deleted',
+        }),
       );
     });
   });

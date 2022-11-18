@@ -71,6 +71,13 @@ export const DEFAULT_NOT_FOUND_MESSAGE = 'Resource not found';
 export const DEFAULT_REQUEST_TIMEOUT_MESSAGE = 'Request timeout';
 
 /**
+ * Defines default message for the conflict error exception.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409 documentation}
+ */
+export const DEFAULT_CONFLICT_MESSAGE = 'Conflict';
+
+/**
  * Defines default message for the unprocessable entity error exception.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422 documentation}

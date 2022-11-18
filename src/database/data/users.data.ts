@@ -12,5 +12,5 @@ export const usersData: User[] = [
     password: 'password',
     roles: [UserRole.SuperAdmin],
     description: 'This is admin user',
-  } as User),
+  }),
 ];

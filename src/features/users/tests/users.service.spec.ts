@@ -31,7 +31,7 @@ describe('UsersService', () => {
       mockedRepository.create.mockReturnValue(users[0]);
     });
 
-    it('should return undefined', async () => {
+    it('should return the created user', async () => {
       expect(await usersService.create(users[0])).toBe(users[0]);
     });
   });
@@ -48,11 +48,31 @@ describe('UsersService', () => {
 
   describe('when findById is called', () => {
     beforeEach(() => {
-      mockedRepository.findOneBy.mockReturnValue(users[0]);
+      mockedRepository.findOneBy.mockResolvedValue(users[0]);
     });
 
     it('should return a user', async () => {
       expect(await usersService.findById(users[0].id)).toStrictEqual(users[0]);
+    });
+  });
+
+  describe('when update is called', () => {
+    beforeEach(() => {
+      mockedRepository.update.mockResolvedValue(true);
+    });
+
+    it('should return true', async () => {
+      expect(await usersService.update(users[0].id, users[0])).toBeTruthy();
+    });
+  });
+
+  describe('when delete is called', () => {
+    beforeEach(() => {
+      mockedRepository.delete.mockResolvedValue(true);
+    });
+
+    it('should return true', async () => {
+      expect(await usersService.delete(users[0].id)).toBeTruthy();
     });
   });
 });
