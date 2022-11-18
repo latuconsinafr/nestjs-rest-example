@@ -12,7 +12,6 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
-import { CacheInterceptor } from './common/interceptors/cache.interceptor';
 import { ConfigService } from '@nestjs/config';
 import { AppConfigOptions, Environment } from './config/app/app.config';
 import { UnprocessableEntityException } from './common/exceptions/unprocessable-entity.exception';
@@ -88,7 +87,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(
     new LoggingInterceptor(),
     new TimeoutInterceptor(),
-    new CacheInterceptor(),
     new TransformInterceptor(),
   );
 
