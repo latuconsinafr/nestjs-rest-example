@@ -14,9 +14,17 @@ import { databaseConfig } from './database/database.config';
 import { appConfig } from './app/app.config';
 import { cacheConfig } from './cache/cache.config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 
 /**
  * Defines the application configuration module.
+ *
+ * @usageNotes
+ * This config module contains configuration as follow:
+ * - {@link ConfigModule}: The nestjs ConfigModule, load configuration based on environments
+ * - {@link LoggerModule}: The nestjs-pino LoggerModule, load logger configuration
+ * - {@link CacheModule}: The nestjs CacheModule, load cache configuration
+ * - {@link ScheduleModule}: The nestjs ScheduleModule, load task scheduling configuration
  */
 @Module({
   imports: [
@@ -44,6 +52,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
         ...configService.get<CacheManagerOptions>('cache'),
       }),
     }),
+    ScheduleModule.forRoot(),
   ],
   providers: [
     {
