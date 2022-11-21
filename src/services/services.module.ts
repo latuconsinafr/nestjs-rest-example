@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 
 /**
- * Defines the application features module.
+ * Defines the application services module.
  */
 @Module({
   imports: [UsersModule],
 })
-export class FeaturesModule {}
+export class Services {}

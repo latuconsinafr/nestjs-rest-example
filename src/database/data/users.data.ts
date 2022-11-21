@@ -1,5 +1,5 @@
 import { UserRole } from '../../common/enums/user-role.enum';
-import { User } from '../../features/users/entities/user.entity';
+import { User } from '../../services/users/entities/user.entity';
 
 /**
  * Dummy data for {@link User} entity.

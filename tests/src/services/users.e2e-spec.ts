@@ -6,8 +6,8 @@ import { DeepPartial } from 'typeorm';
 import { UserRole } from '../../../src/common/enums/user-role.enum';
 import { mockedRepository } from '../../../src/common/module-utils/utils/mocks/repository.mock';
 import { usersData } from '../../../src/database/data/users.data';
-import { User } from '../../../src/features/users/entities/user.entity';
-import { UsersModule } from '../../../src/features/users/users.module';
+import { User } from '../../../src/services/users/entities/user.entity';
+import { UsersModule } from '../../../src/services/users/users.module';
 
 const users = [...usersData];
 

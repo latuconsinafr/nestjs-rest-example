@@ -21,7 +21,10 @@ import { ConflictException } from '../../common/exceptions/conflict.exception';
 /**
  * Defines the users controller.
  */
-@Controller('users')
+@Controller({
+  version: '1',
+  path: 'users',
+})
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

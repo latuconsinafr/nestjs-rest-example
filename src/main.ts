@@ -1,4 +1,8 @@
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from 'nestjs-pino';
@@ -15,17 +19,28 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 import { ConfigService } from '@nestjs/config';
 import { AppConfigOptions, Environment } from './config/app/app.config';
 import { UnprocessableEntityException } from './common/exceptions/unprocessable-entity.exception';
+import { APP_GLOBAL_PREFIX } from './common/constants';
 
 /**
  * Defines the application bootstrapping function.
  */
 async function bootstrap() {
+  // * App module section
   const app = await NestFactory.create(AppModule, {
     // * Make it throw an error instead exit with the code 1
     // * @see {@link https://docs.nestjs.com/first-steps) documentation}
     abortOnError: false,
     // * This will force NestJS to wait for logger to be ready instead of using built-in logger on start
     bufferLogs: true,
+  });
+
+  // * Global prefix & versioning section
+  app.setGlobalPrefix(APP_GLOBAL_PREFIX);
+  app.enableVersioning({
+    // * This versioning uses the version passed within the URL `https://example.com/v1/{route}`
+    // * @see {@link https://docs.nestjs.com/techniques/versioning#uri-versioning-type}
+    type: VersioningType.URI,
+    defaultVersion: '1',
   });
 
   // * Config section
