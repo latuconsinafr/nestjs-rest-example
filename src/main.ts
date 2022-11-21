@@ -1,5 +1,5 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from 'nestjs-pino';
 import helmet from 'helmet';
@@ -88,6 +88,7 @@ async function bootstrap() {
     new LoggingInterceptor(),
     new TimeoutInterceptor(),
     new TransformInterceptor(),
+    new ClassSerializerInterceptor(app.get(Reflector)),
   );
 
   await app.listen(appConfig.port, appConfig.host);

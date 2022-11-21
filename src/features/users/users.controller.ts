@@ -7,7 +7,6 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { UserRole } from '../../common/enums/user-role.enum';
 import { Auth } from '../../common/decorators/auth.decorator';
@@ -37,11 +36,11 @@ export class UsersController {
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
   ): Promise<SuccessResponse> {
-    const userToCreate = plainToInstance(User, createUserRequest);
-
     return new SuccessResponseDto({
       message: 'User created',
-      data: await this.usersService.create(userToCreate),
+      data: await this.usersService.create(
+        CreateUserRequest.toEntity(createUserRequest),
+      ),
     });
   }
 
@@ -103,8 +102,10 @@ export class UsersController {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
-    const userToUpdate = plainToInstance(User, updateUserRequest);
-    await this.usersService.update(id, userToUpdate);
+    await this.usersService.update(
+      id,
+      UpdateUserRequest.toEntity(updateUserRequest),
+    );
 
     return new SuccessResponseDto({
       message: 'User updated',

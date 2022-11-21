@@ -1,7 +1,6 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { instanceToPlain } from 'class-transformer';
 import * as request from 'supertest';
 import { DeepPartial } from 'typeorm';
 import { UserRole } from '../../../src/common/enums/user-role.enum';
@@ -33,6 +32,8 @@ describe('Users', () => {
 
   it(`/users (POST)`, () => {
     const userToCreate: DeepPartial<User> = {
+      firstName: 'first',
+      lastName: 'last',
       username: 'username',
       password: 'password',
       roles: [UserRole.SuperAdmin],
@@ -58,7 +59,11 @@ describe('Users', () => {
       .expect(HttpStatus.OK)
       .expect({
         message: 'Users retrieved',
-        data: instanceToPlain(users),
+        // * Replacement of instance to plain,
+        // * since `instanceToPlain()` is also transforming the value with @Exclude() and @Expose() decorator
+        data: users.map((user) => {
+          return { ...user };
+        }),
       });
   });
 
@@ -72,14 +77,29 @@ describe('Users', () => {
       .expect(HttpStatus.OK)
       .expect({
         message: 'User retrieved',
-        data: instanceToPlain(users.find((user) => user.id === 1)),
+        data: { ...users.find((user) => user.id === 1) },
       });
   });
 
   it(`/users/${1} (PUT)`, () => {
+    const userToUpdate: DeepPartial<User> = {
+      id: 1,
+      firstName: 'first',
+      lastName: 'last',
+      username: 'username',
+      password: 'password',
+      roles: [UserRole.SuperAdmin],
+    };
+
+    mockedRepository.update.mockReturnValue(userToUpdate);
+
     return request(app.getHttpServer())
       .put(`/users/${1}`)
-      .expect(HttpStatus.OK);
+      .send(userToUpdate)
+      .expect(HttpStatus.OK)
+      .expect({
+        message: 'User updated',
+      });
   });
 
   it(`/users/${1} (DELETE)`, () => {

@@ -42,6 +42,8 @@ describe('UsersController', () => {
       usersServiceCreateSpy = jest.spyOn(usersService, 'create');
       usersServiceCreateSpy.mockResolvedValue(users[0]);
       userToCreate = {
+        firstName: users[0].firstName,
+        lastName: users[0].lastName,
         username: users[0].username,
         password: users[0].password,
         roles: users[0].roles,
@@ -111,6 +113,8 @@ describe('UsersController', () => {
       usersServiceUpdateSpy.mockResolvedValue(true);
       userToUpdate = {
         id: users[0].id,
+        firstName: users[0].firstName,
+        lastName: users[0].lastName,
         username: users[0].username,
         password: users[0].password,
         roles: users[0].roles,
@@ -121,7 +125,11 @@ describe('UsersController', () => {
       it(`should throw ${ConflictException.name}`, async () => {
         await expect(
           usersController.updateUser(
-            { ...users[0], id: users[0].id + 1 },
+            {
+              ...users[0],
+              fullName: users[0].fullName,
+              id: users[0].id + 1,
+            },
             userToUpdate,
           ),
         ).rejects.toThrow(ConflictException);
