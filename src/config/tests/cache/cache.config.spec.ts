@@ -12,6 +12,10 @@ describe('when cacheConfig is registered', () => {
     process.env = env;
   });
 
+  it('should return true', () => {
+    expect(true).toBeTruthy();
+  });
+
   it('should throw error when the env is not valid', () => {
     expect(() => cacheConfig()).toThrow(Error);
   });
@@ -22,13 +26,13 @@ describe('when cacheConfig is registered', () => {
       CACHE_MAX: '10',
     };
 
+    process.env.CACHE_TTL = env.CACHE_TTL;
+    process.env.CACHE_MAX = env.CACHE_MAX;
+
     const parsedEnv = {
       ttl: parseInt(env.CACHE_TTL, 10),
       max: parseInt(env.CACHE_MAX, 10),
     };
-
-    process.env.CACHE_TTL = env.CACHE_TTL;
-    process.env.CACHE_MAX = env.CACHE_MAX;
 
     expect(cacheConfig()).toStrictEqual(parsedEnv);
   });
