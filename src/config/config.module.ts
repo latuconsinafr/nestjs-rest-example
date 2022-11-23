@@ -62,6 +62,7 @@ import { RedisClientOptions } from 'redis';
       useFactory: async (configService: ConfigService) => ({
         store: (await redisStore({
           ...configService.get<RedisClientOptions>('redis-store'),
+          ...configService.get<CacheManagerOptions>('cache'),
         })) as unknown as CacheStore,
         ...configService.get<CacheManagerOptions>('cache'),
       }),
