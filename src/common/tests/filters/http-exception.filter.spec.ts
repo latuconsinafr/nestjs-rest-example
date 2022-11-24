@@ -11,6 +11,7 @@ import {
   mockedStatus,
 } from '../../module-utils/utils/mocks/arguments-host.mock';
 import { HttpExceptionFilter } from '../../filters/http-exception.filter';
+import { InternalServerErrorException } from '../../exceptions/internal-server-error.exception';
 
 describe('HttpExceptionFilter', () => {
   const argumentsHost = mockedArgumentsHost as any;
@@ -27,8 +28,8 @@ describe('HttpExceptionFilter', () => {
   });
 
   describe('when catch is called', () => {
+    const loggerWarnSpy = jest.spyOn(Logger.prototype, 'warn');
     const loggerErrorSpy = jest.spyOn(Logger.prototype, 'error');
-    loggerErrorSpy.mockImplementation(() => undefined); // * to prevent logging in unit test
 
     const date = new Date(2020, 3, 1);
     const url = '/test';
@@ -63,7 +64,7 @@ describe('HttpExceptionFilter', () => {
         },
       },
     ];
-    const exception = new UnprocessableEntityException({}, validationErrors);
+    let exception: any;
 
     beforeEach(() => {
       jest.useFakeTimers();
@@ -77,36 +78,55 @@ describe('HttpExceptionFilter', () => {
         success: false,
         message: DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE,
       });
+
+      loggerWarnSpy.mockImplementation(() => undefined); // * to prevent logging in unit test
+      loggerErrorSpy.mockImplementation(() => undefined); // * to prevent logging in unit test
+
+      exception = new UnprocessableEntityException({}, validationErrors);
     });
 
-    it('should log the exception', () => {
-      httpExceptionFilter.catch(exception, argumentsHost);
+    describe('when the exception http status is other than >= 400 && <= 499', () => {
+      beforeEach(() => {
+        exception = new InternalServerErrorException();
+      });
 
-      expect(loggerErrorSpy).toBeCalledWith(exception);
+      it('should log the error exception', () => {
+        httpExceptionFilter.catch(exception, argumentsHost);
+
+        expect(loggerErrorSpy).toBeCalledWith(exception);
+      });
     });
 
-    it('should call response status with the correct http status', () => {
-      httpExceptionFilter.catch(exception, argumentsHost);
+    describe('when the exception http status is >= 400 && <= 499', () => {
+      it('should log the warn exception', () => {
+        httpExceptionFilter.catch(exception, argumentsHost);
 
-      expect(mockedStatus).toBeCalledWith(HttpStatus.UNPROCESSABLE_ENTITY);
-    });
+        expect(loggerWarnSpy).toBeCalledWith(exception);
+      });
 
-    it('should call response json with the correct response body', () => {
-      httpExceptionFilter.catch(exception, argumentsHost);
+      it('should call response status with the correct http status', () => {
+        httpExceptionFilter.catch(exception, argumentsHost);
 
-      expect(mockedJson).toBeCalledWith({
-        statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-        timestamp: date.toISOString(),
-        path: url,
-        success: false,
-        error: ErrorCode.ErrorUnprocessableEntity,
-        help: 'Help is not available',
-        message: validationErrors.map((error) => ({
-          property: error.property,
-          constraints: error.constraints
-            ? Object.values(error.constraints)
-            : [],
-        })),
+        expect(mockedStatus).toBeCalledWith(HttpStatus.UNPROCESSABLE_ENTITY);
+      });
+
+      it('should call response json with the correct response body', () => {
+        httpExceptionFilter.catch(exception, argumentsHost);
+
+        expect(mockedJson).toBeCalledWith({
+          statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+          timestamp: date.toISOString(),
+          path: url,
+          success: false,
+          error: ErrorCode.ErrorUnprocessableEntity,
+          help: 'Help is not available',
+          message: validationErrors.map((error) => ({
+            property: error.property,
+            constraints: error.constraints
+              ? Object.values(error.constraints)
+              : [],
+          })),
+        });
       });
     });
   });

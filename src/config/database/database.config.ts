@@ -53,7 +53,7 @@ export class DatabaseEnvironmentVariables {
  * @see [Configuration Namespace](https://docs.nestjs.com/techniques/configuration#configuration-namespaces)
  */
 export const databaseConfig = registerAs('database', (): DataSourceOptions => {
-  const databaseEnv: DatabaseEnvironmentVariables = isEnvValid(
+  const env: DatabaseEnvironmentVariables = isEnvValid(
     process.env,
     DatabaseEnvironmentVariables,
   );
@@ -62,12 +62,12 @@ export const databaseConfig = registerAs('database', (): DataSourceOptions => {
 
   return {
     type: 'mysql',
-    host: databaseEnv.DATABASE_HOST,
-    port: databaseEnv.DATABASE_PORT,
-    username: databaseEnv.DATABASE_USERNAME,
-    password: databaseEnv.DATABASE_PASSWORD,
-    database: databaseEnv.DATABASE_NAME,
-    ...(databaseEnv.DATABASE_SSL
+    host: env.DATABASE_HOST,
+    port: env.DATABASE_PORT,
+    username: env.DATABASE_USERNAME,
+    password: env.DATABASE_PASSWORD,
+    database: env.DATABASE_NAME,
+    ...(env.DATABASE_SSL
       ? {
           ssl: {
             rejectUnauthorized: false,

@@ -26,8 +26,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
    * {@inheritDoc ExceptionFilter.catch}
    */
   catch(exception: HttpException, host: ArgumentsHost): void {
-    this.logger.error(exception);
-
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
@@ -53,6 +51,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? { error: ErrorCode.ErrorNotFound, help: DEFAULT_HELP_MESSAGE }
         : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
     };
+
+    if (httpStatus >= 400 && httpStatus <= 499) {
+      this.logger.warn(exception);
+    } else {
+      this.logger.error(exception);
+    }
 
     response.status(httpStatus).json(responseBody);
   }

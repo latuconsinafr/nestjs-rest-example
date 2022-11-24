@@ -20,6 +20,7 @@ import { ConfigService } from '@nestjs/config';
 import { AppConfigOptions, Environment } from './config/app/app.config';
 import { UnprocessableEntityException } from './common/exceptions/unprocessable-entity.exception';
 import { APP_GLOBAL_PREFIX } from './common/constants';
+import { loggerMiddleware } from './common/middlewares/logger.middleware';
 
 /**
  * Defines the application bootstrapping function.
@@ -69,6 +70,7 @@ async function bootstrap() {
     app.use(csurf({ cookie: { sameSite: true } }));
     app.use(csurfMiddleware);
   }
+  app.use(loggerMiddleware);
 
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
   app.use(compression());

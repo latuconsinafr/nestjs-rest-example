@@ -1,5 +1,6 @@
 import { loggerConfig } from '../../logger/logger.config';
 import { APP_NAME } from '../../../common/constants';
+import pino from 'pino';
 
 describe('when loggerConfig is registered', () => {
   const env = process.env;
@@ -23,6 +24,10 @@ describe('when loggerConfig is registered', () => {
       HOST: 'localhost',
       PORT: '8080',
       DEBUG: 'false',
+
+      LOGGER_STREAM_DESTINATION: 'app.log',
+      LOGGER_STREAM_BUFFER: '4096',
+      LOGGER_STREAM_SYNC: 'false',
     };
 
     const parsedEnv = {
@@ -30,6 +35,11 @@ describe('when loggerConfig is registered', () => {
         name: APP_NAME,
         level: 'info',
         transport: { target: 'pino-pretty', options: { singleLine: true } },
+        stream: pino.destination({
+          dest: 'app.log',
+          minLength: parseInt('4096', 10),
+          sync: false,
+        }),
       },
     };
 
@@ -37,6 +47,10 @@ describe('when loggerConfig is registered', () => {
     process.env.HOST = env.HOST;
     process.env.PORT = env.PORT;
     process.env.DEBUG = env.DEBUG;
+
+    process.env.LOGGER_STREAM_DESTINATION = env.LOGGER_STREAM_DESTINATION;
+    process.env.LOGGER_STREAM_BUFFER = env.LOGGER_STREAM_BUFFER;
+    process.env.LOGGER_STREAM_SYNC = env.LOGGER_STREAM_SYNC;
 
     // ? Finally it has to be stringified.
     // ? Since, even thou they have an equal value, the Jest keeps on telling me something like 'serializes to the same string'?
