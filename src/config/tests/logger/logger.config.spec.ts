@@ -1,5 +1,4 @@
 import { loggerConfig } from '../../logger/logger.config';
-import pino from 'pino';
 import { APP_NAME } from '../../../common/constants';
 
 describe('when loggerConfig is registered', () => {
@@ -20,28 +19,24 @@ describe('when loggerConfig is registered', () => {
 
   it('should return the config when the env is valid', () => {
     const env = {
-      LOGGER_LEVEL: 'info',
-      LOGGER_TRANSPORT: 'true',
-      LOGGER_DESTINATION: './app.log',
-      LOGGER_BUFFER: '4096',
+      NODE_ENV: 'development',
+      HOST: 'localhost',
+      PORT: '8080',
+      DEBUG: 'false',
     };
 
     const parsedEnv = {
       pinoHttp: {
         name: APP_NAME,
-        level: env.LOGGER_LEVEL,
-        transport: { target: 'pino-pretty' },
-        stream: pino.destination({
-          dest: env.LOGGER_DESTINATION,
-          minLength: parseInt(env.LOGGER_BUFFER, 10),
-        }),
+        level: 'info',
+        transport: { target: 'pino-pretty', options: { singleLine: true } },
       },
     };
 
-    process.env.LOGGER_LEVEL = env.LOGGER_LEVEL;
-    process.env.LOGGER_TRANSPORT = env.LOGGER_TRANSPORT;
-    process.env.LOGGER_DESTINATION = env.LOGGER_DESTINATION;
-    process.env.LOGGER_BUFFER = env.LOGGER_BUFFER;
+    process.env.NODE_ENV = env.NODE_ENV;
+    process.env.HOST = env.HOST;
+    process.env.PORT = env.PORT;
+    process.env.DEBUG = env.DEBUG;
 
     // ? Finally it has to be stringified.
     // ? Since, even thou they have an equal value, the Jest keeps on telling me something like 'serializes to the same string'?

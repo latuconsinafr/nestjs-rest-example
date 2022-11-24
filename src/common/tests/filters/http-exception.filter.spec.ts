@@ -28,6 +28,8 @@ describe('HttpExceptionFilter', () => {
 
   describe('when catch is called', () => {
     const loggerErrorSpy = jest.spyOn(Logger.prototype, 'error');
+    loggerErrorSpy.mockImplementation(() => undefined); // * to prevent logging in unit test
+
     const date = new Date(2020, 3, 1);
     const url = '/test';
     const validationErrors: ValidationError[] = [

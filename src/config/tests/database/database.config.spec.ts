@@ -18,13 +18,17 @@ describe('when databaseConfig is registered', () => {
 
   it('should return the config when the env is valid', () => {
     const env = {
+      NODE_ENV: 'development',
+      HOST: 'localhost',
+      PORT: '8080',
+      DEBUG: 'true',
+
       DATABASE_HOST: 'localhost',
       DATABASE_PORT: '3306',
       DATABASE_USERNAME: 'root',
       DATABASE_PASSWORD: '',
       DATABASE_NAME: 'db',
       DATABASE_SSL: 'false',
-      DATABASE_LOGGING: 'true',
     };
 
     const parsedEnv = {
@@ -42,7 +46,11 @@ describe('when databaseConfig is registered', () => {
     process.env.DATABASE_PASSWORD = env.DATABASE_PASSWORD;
     process.env.DATABASE_NAME = env.DATABASE_NAME;
     process.env.DATABASE_SSL = env.DATABASE_SSL;
-    process.env.DATABASE_LOGGING = env.DATABASE_LOGGING;
+
+    process.env.NODE_ENV = env.NODE_ENV;
+    process.env.HOST = env.HOST;
+    process.env.PORT = env.PORT;
+    process.env.DEBUG = env.DEBUG;
 
     expect(databaseConfig()).toMatchObject(parsedEnv);
   });

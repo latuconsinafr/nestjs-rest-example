@@ -11,6 +11,7 @@ import { DataSourceOptions } from 'typeorm';
 import { toBoolean } from '../../common/module-utils/utils/transformers/to-boolean.transformer.util';
 import { toNumber } from '../../common/module-utils/utils/transformers/to-number.transformer.util';
 import { isEnvValid } from '../../common/module-utils/utils/validators/is-env-valid.validator.util';
+import { appConfig, Environment } from '../app/app.config';
 
 /**
  * Defines class to hold database-related environment variables.
@@ -43,11 +44,6 @@ export class DatabaseEnvironmentVariables {
   @IsBoolean()
   @Transform(({ value }) => toBoolean(value))
   DATABASE_SSL: boolean;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  @Transform(({ value }) => toBoolean(value))
-  DATABASE_LOGGING: boolean;
 }
 
 /**
@@ -57,26 +53,32 @@ export class DatabaseEnvironmentVariables {
  * @see [Configuration Namespace](https://docs.nestjs.com/techniques/configuration#configuration-namespaces)
  */
 export const databaseConfig = registerAs('database', (): DataSourceOptions => {
-  const env: DatabaseEnvironmentVariables = isEnvValid(
+  const databaseEnv: DatabaseEnvironmentVariables = isEnvValid(
     process.env,
     DatabaseEnvironmentVariables,
   );
 
+  const appConfigOptions = appConfig();
+
   return {
     type: 'mysql',
-    host: env.DATABASE_HOST,
-    port: env.DATABASE_PORT,
-    username: env.DATABASE_USERNAME,
-    password: env.DATABASE_PASSWORD,
-    database: env.DATABASE_NAME,
-    ...(env.DATABASE_SSL
+    host: databaseEnv.DATABASE_HOST,
+    port: databaseEnv.DATABASE_PORT,
+    username: databaseEnv.DATABASE_USERNAME,
+    password: databaseEnv.DATABASE_PASSWORD,
+    database: databaseEnv.DATABASE_NAME,
+    ...(databaseEnv.DATABASE_SSL
       ? {
           ssl: {
             rejectUnauthorized: false,
           },
         }
       : undefined),
-    logging: env.DATABASE_LOGGING ? 'all' : ['warn', 'error'],
+    logging: appConfigOptions.debug
+      ? 'all'
+      : appConfigOptions.environment !== Environment.Production
+      ? ['migration', 'query', 'warn', 'error']
+      : ['warn', 'error'],
     entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
   };
 });
