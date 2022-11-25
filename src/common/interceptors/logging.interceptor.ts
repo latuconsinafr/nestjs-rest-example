@@ -3,8 +3,8 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  Logger,
 } from '@nestjs/common';
+import { InjectPinoLogger, Logger } from 'nestjs-pino';
 import { Observable, tap } from 'rxjs';
 
 /**
@@ -16,9 +16,14 @@ import { Observable, tap } from 'rxjs';
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   /**
-   * The logger to logging the time takes between a specified incoming request and outgoing response.
+   * The constructor.
+   *
+   * @param logger The injected pino logger
    */
-  private readonly logger = new Logger(LoggingInterceptor.name);
+  constructor(
+    @InjectPinoLogger(LoggingInterceptor.name)
+    private readonly logger: Logger,
+  ) {}
 
   /**
    * {@inheritDoc NestInterceptor.intercept}
@@ -29,8 +34,13 @@ export class LoggingInterceptor implements NestInterceptor {
     this.logger.log(`Start hitting ${url}...`);
 
     const now = Date.now();
+
     return next
       .handle()
-      .pipe(tap(() => this.logger.log(`After... ${Date.now() - now}ms`)));
+      .pipe(
+        tap((res) =>
+          this.logger.log(`After... ${Date.now() - now}ms`, { res: res }),
+        ),
+      );
   }
 }

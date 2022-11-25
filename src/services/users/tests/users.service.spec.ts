@@ -1,6 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { mockedRepository } from '../../../common/module-utils/utils/mocks/repository.mock';
+import { PinoLogger } from 'nestjs-pino';
+import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
+import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
 import { usersData } from '../../../database/data/users.data';
 import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
@@ -13,6 +15,10 @@ describe('UsersService', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         UsersService,
+        {
+          provide: PinoLogger,
+          useValue: mockedLogger,
+        },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
       ],
     }).compile();

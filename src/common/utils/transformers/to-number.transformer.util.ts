@@ -1,4 +1,4 @@
-import { UnprocessableEntityException } from '../../../exceptions/unprocessable-entity.exception';
+import { UnprocessableEntityException } from '../../exceptions/unprocessable-entity.exception';
 
 /**
  * Defines transformer to transform incoming value (most of the incoming value is string),

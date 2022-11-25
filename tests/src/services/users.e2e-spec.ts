@@ -3,11 +3,11 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
 import { DeepPartial } from 'typeorm';
+import { AppModule } from '../../../src/app.module';
 import { UserRole } from '../../../src/common/enums/user-role.enum';
-import { mockedRepository } from '../../../src/common/module-utils/utils/mocks/repository.mock';
+import { mockedRepository } from '../../../src/common/utils/mocks/repository.mock';
 import { usersData } from '../../../src/database/data/users.data';
 import { User } from '../../../src/services/users/entities/user.entity';
-import { UsersModule } from '../../../src/services/users/users.module';
 
 const users = [...usersData];
 
@@ -16,7 +16,7 @@ describe('Users', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [UsersModule],
+      imports: [AppModule],
     })
       .overrideProvider(getRepositoryToken(User))
       .useValue(mockedRepository)

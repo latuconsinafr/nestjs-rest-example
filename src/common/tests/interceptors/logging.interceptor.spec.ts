@@ -1,10 +1,11 @@
-import { Logger } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { mockedCallHandler } from '../../module-utils/utils/mocks/call-handler.mock';
-import { mockedExecutionContext } from '../../module-utils/utils/mocks/execution-context.mock';
-import { mockedGetRequest } from '../../module-utils/utils/mocks/arguments-host.mock';
+import { mockedCallHandler } from '../../utils/mocks/call-handler.mock';
+import { mockedExecutionContext } from '../../utils/mocks/execution-context.mock';
+import { mockedGetRequest } from '../../utils/mocks/arguments-host.mock';
 import { LoggingInterceptor } from '../../interceptors/logging.interceptor';
+import { getLoggerToken } from 'nestjs-pino';
+import { mockedLogger } from '../../utils/mocks/logger.mock';
 
 describe('LoggingInterceptor', () => {
   const executionContext = mockedExecutionContext as any;
@@ -14,7 +15,13 @@ describe('LoggingInterceptor', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [LoggingInterceptor],
+      providers: [
+        LoggingInterceptor,
+        {
+          provide: getLoggerToken(LoggingInterceptor.name),
+          useValue: mockedLogger,
+        },
+      ],
     }).compile();
 
     loggingInterceptor = moduleRef.get<LoggingInterceptor>(LoggingInterceptor);
@@ -25,7 +32,6 @@ describe('LoggingInterceptor', () => {
   });
 
   describe('when intercept is called', () => {
-    const loggerLogSpy = jest.spyOn(Logger.prototype, 'log');
     const url = '/test';
 
     beforeEach(() => {
@@ -40,7 +46,7 @@ describe('LoggingInterceptor', () => {
         },
       });
 
-      expect(loggerLogSpy).toBeCalledWith(`Start hitting ${url}...`);
+      expect(mockedLogger.log).toBeCalledWith(`Start hitting ${url}...`);
     });
 
     it(`should logging 3 times: Initialized, Start hitting and After`, (done: any) => {
@@ -48,12 +54,7 @@ describe('LoggingInterceptor', () => {
         complete() {
           done();
 
-          expect(loggerLogSpy).toBeCalledWith(
-            'RootTestModule dependencies initialized',
-          );
-          expect(loggerLogSpy).toBeCalledWith(`Start hitting ${url}...`);
-          expect(loggerLogSpy).toBeCalledWith(`After... ${0}ms`);
-          expect(loggerLogSpy).toBeCalledTimes(3);
+          expect(mockedLogger.log).toBeCalledTimes(2);
         },
       });
     });

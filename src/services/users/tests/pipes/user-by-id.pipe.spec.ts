@@ -1,9 +1,11 @@
 import { ArgumentMetadata } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { PinoLogger } from 'nestjs-pino';
 import { NotFoundException } from '../../../../common/exceptions/not-found.exception';
 import { UnprocessableEntityException } from '../../../../common/exceptions/unprocessable-entity.exception';
-import { mockedRepository } from '../../../../common/module-utils/utils/mocks/repository.mock';
+import { mockedLogger } from '../../../../common/utils/mocks/logger.mock';
+import { mockedRepository } from '../../../../common/utils/mocks/repository.mock';
 import { usersData } from '../../../../database/data/users.data';
 import { User } from '../../entities/user.entity';
 import { UserByIdPipe } from '../../pipes/user-by-id.pipe';
@@ -20,6 +22,7 @@ describe('UserByIdPipe', () => {
       providers: [
         UserByIdPipe,
         UsersService,
+        { provide: PinoLogger, useValue: mockedLogger },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
       ],
     }).compile();

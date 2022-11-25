@@ -13,14 +13,12 @@ import { csurfMiddleware } from './common/middlewares/csurf.middleware';
 import * as compression from 'compression';
 import { ValidationError } from 'class-validator';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { ConfigService } from '@nestjs/config';
 import { AppConfigOptions, Environment } from './config/app/app.config';
 import { UnprocessableEntityException } from './common/exceptions/unprocessable-entity.exception';
 import { APP_GLOBAL_PREFIX } from './common/constants';
-import { loggerMiddleware } from './common/middlewares/logger.middleware';
 
 /**
  * Defines the application bootstrapping function.
@@ -34,6 +32,11 @@ async function bootstrap() {
     // * This will force NestJS to wait for logger to be ready instead of using built-in logger on start
     bufferLogs: true,
   });
+
+  // * Logger section
+  // ! The global has to use the `Logger` class, other than that has to use the `PinoLogger` class
+  const logger = app.get(Logger);
+  app.useLogger(logger);
 
   // * Global prefix & versioning section
   app.setGlobalPrefix(APP_GLOBAL_PREFIX);
@@ -52,9 +55,6 @@ async function bootstrap() {
     port: 3000,
   };
 
-  // * Logger section
-  app.useLogger(app.get(Logger));
-
   // * CORS section
   app.enableCors();
 
@@ -70,14 +70,14 @@ async function bootstrap() {
     app.use(csurf({ cookie: { sameSite: true } }));
     app.use(csurfMiddleware);
   }
-  app.use(loggerMiddleware);
+  // app.use(loggerMiddleware); // * Disabled, since the app using automatic logging from pino
 
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
   app.use(compression());
 
   // * Global filter section
   // app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
-  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new HttpExceptionFilter(logger));
 
   // * Global pipe section
   app.useGlobalPipes(
@@ -102,7 +102,7 @@ async function bootstrap() {
 
   // * Global interceptor section
   app.useGlobalInterceptors(
-    new LoggingInterceptor(),
+    // new LoggingInterceptor(logger), // * Disabled, since the logger itself has calculated the request time
     new TimeoutInterceptor(),
     new TransformInterceptor(),
     new ClassSerializerInterceptor(app.get(Reflector)),

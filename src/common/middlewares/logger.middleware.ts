@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 
 /**
  * Logging every http response on finish.
- * This middleware created to logging cached response as well.
  *
  * @usageNotes
  * Consider using the simpler functional middleware alternative any time the middleware doesn't need any dependencies.

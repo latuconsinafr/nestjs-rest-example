@@ -1,6 +1,6 @@
 import { plainToClass } from 'class-transformer';
 import { AppEnvironmentVariables } from '../../../../../config/app/app.config';
-import { isEnvValid } from '../../../../module-utils/utils/validators/is-env-valid.validator.util';
+import { isEnvValid } from '../../../../utils/validators/is-env-valid.validator.util';
 
 describe('when isEnvValid called', () => {
   describe('and applied on AppEnvironmentVariables', () => {

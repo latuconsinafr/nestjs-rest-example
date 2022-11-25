@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
-import { mockedExecutionContext } from '../../module-utils/utils/mocks/execution-context.mock';
-import { mockedCallHandler } from '../../module-utils/utils/mocks/call-handler.mock';
+import { mockedExecutionContext } from '../../utils/mocks/execution-context.mock';
+import { mockedCallHandler } from '../../utils/mocks/call-handler.mock';
 import { delay, EmptyError, of, throwError } from 'rxjs';
 import { APP_MAX_TIMEOUT } from '../../constants';
 import { RequestTimeoutException } from '../../exceptions/request-timeout.exception';

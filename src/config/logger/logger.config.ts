@@ -5,9 +5,9 @@ import { appConfig, Environment } from '../app/app.config';
 import pino from 'pino';
 import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, IsNumber, IsBoolean } from 'class-validator';
-import { toBoolean } from '../../common/module-utils/utils/transformers/to-boolean.transformer.util';
-import { toNumber } from '../../common/module-utils/utils/transformers/to-number.transformer.util';
-import { isEnvValid } from '../../common/module-utils/utils/validators/is-env-valid.validator.util';
+import { toBoolean } from '../../common/utils/transformers/to-boolean.transformer.util';
+import { toNumber } from '../../common/utils/transformers/to-number.transformer.util';
+import { isEnvValid } from '../../common/utils/validators/is-env-valid.validator.util';
 import { join } from 'path';
 
 /**
@@ -51,12 +51,20 @@ export const loggerConfig = registerAs('logger', (): Params => {
       level: appConfigOptions.debug ? 'debug' : 'info',
       transport:
         appConfigOptions.environment !== Environment.Production
-          ? { target: 'pino-pretty', options: { singleLine: true } }
+          ? {
+              target: 'pino-pretty',
+              options: {
+                singleLine: true,
+              },
+            }
           : undefined,
       stream: pino.destination({
         dest: join(process.cwd(), env.LOGGER_STREAM_DESTINATION),
         minLength: env.LOGGER_STREAM_BUFFER,
         sync: env.LOGGER_STREAM_SYNC,
+      }),
+      customProps: () => ({
+        context: 'Http',
       }),
     },
   };

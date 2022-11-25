@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
+import { PinoLogger } from 'nestjs-pino';
+import { mockedLogger } from '../../src/common/utils/mocks/logger.mock';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -9,7 +11,10 @@ describe('AppController (e2e)', () => {
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(PinoLogger)
+      .useValue(mockedLogger)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();

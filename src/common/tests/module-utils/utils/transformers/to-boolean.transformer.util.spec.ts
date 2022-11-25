@@ -1,5 +1,5 @@
 import { UnprocessableEntityException } from '../../../../exceptions/unprocessable-entity.exception';
-import { toBoolean } from '../../../../module-utils/utils/transformers/to-boolean.transformer.util';
+import { toBoolean } from '../../../../utils/transformers/to-boolean.transformer.util';
 
 describe('when toBoolean is called', () => {
   describe('and the incoming value could be parsed into boolean', () => {

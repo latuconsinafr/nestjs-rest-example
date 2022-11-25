@@ -1,8 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { PinoLogger } from 'nestjs-pino';
 import { SuccessResponseDto } from '../../../common/dto/responses/success-response.dto';
 import { ConflictException } from '../../../common/exceptions/conflict.exception';
-import { mockedRepository } from '../../../common/module-utils/utils/mocks/repository.mock';
+import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
+import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
+import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
 import { usersData } from '../../../database/data/users.data';
 import { CreateUserRequest } from '../dto/requests/create-user-request.dto';
 import { UpdateUserRequest } from '../dto/requests/update-user-request.dto';
@@ -20,6 +23,10 @@ describe('UsersController', () => {
       controllers: [UsersController],
       providers: [
         UsersService,
+        {
+          provide: PinoLogger,
+          useValue: mockedLogger,
+        },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
       ],
     }).compile();
@@ -50,6 +57,18 @@ describe('UsersController', () => {
       };
     });
 
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest.spyOn(usersService, 'create').mockImplementation(async () => {
+          throw new Error();
+        });
+
+        await expect(usersController.createUser(userToCreate)).rejects.toThrow(
+          InternalServerErrorException,
+        );
+      });
+    });
+
     it(`should call ${UsersService.name} create method`, async () => {
       await usersController.createUser(userToCreate);
 
@@ -72,6 +91,18 @@ describe('UsersController', () => {
     beforeEach(() => {
       usersServiceFindAllSpy = jest.spyOn(usersService, 'findAll');
       usersServiceFindAllSpy.mockResolvedValue(users);
+    });
+
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest.spyOn(usersService, 'findAll').mockImplementation(async () => {
+          throw new Error();
+        });
+
+        await expect(usersController.findAllUsers()).rejects.toThrow(
+          InternalServerErrorException,
+        );
+      });
     });
 
     it(`should call ${UsersService.name} findAll method`, async () => {
@@ -136,6 +167,18 @@ describe('UsersController', () => {
       });
     });
 
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest.spyOn(usersService, 'update').mockImplementation(async () => {
+          throw new Error();
+        });
+
+        await expect(
+          usersController.updateUser(users[0], userToUpdate),
+        ).rejects.toThrow(InternalServerErrorException);
+      });
+    });
+
     describe('and the given user id between param and body are match', () => {
       it(`should return a ${SuccessResponseDto.name} with message`, async () => {
         expect(
@@ -155,6 +198,18 @@ describe('UsersController', () => {
     beforeEach(() => {
       usersServiceDeleteSpy = jest.spyOn(usersService, 'delete');
       usersServiceDeleteSpy.mockResolvedValue(true);
+    });
+
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest.spyOn(usersService, 'delete').mockImplementation(async () => {
+          throw new Error();
+        });
+
+        await expect(usersController.deleteUser(users[0])).rejects.toThrow(
+          InternalServerErrorException,
+        );
+      });
     });
 
     it(`should return a ${SuccessResponseDto.name} with message`, async () => {

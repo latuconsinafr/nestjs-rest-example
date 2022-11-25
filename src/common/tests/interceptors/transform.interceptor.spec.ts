@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { mockedCallHandler } from '../../module-utils/utils/mocks/call-handler.mock';
-import { mockedExecutionContext } from '../../module-utils/utils/mocks/execution-context.mock';
+import { mockedCallHandler } from '../../utils/mocks/call-handler.mock';
+import { mockedExecutionContext } from '../../utils/mocks/execution-context.mock';
 import {
   mockedGetRequest,
   mockedGetResponse,
-} from '../../module-utils/utils/mocks/arguments-host.mock';
+} from '../../utils/mocks/arguments-host.mock';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 
 describe('TransformInterceptor', () => {

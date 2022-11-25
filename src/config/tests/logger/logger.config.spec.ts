@@ -40,6 +40,9 @@ describe('when loggerConfig is registered', () => {
           minLength: parseInt('4096', 10),
           sync: false,
         }),
+        customProps: () => ({
+          context: 'Http',
+        }),
       },
     };
 

@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
-import { mockedExecutionContext } from '../../module-utils/utils/mocks/execution-context.mock';
+import { mockedExecutionContext } from '../../utils/mocks/execution-context.mock';
 import { HttpCacheInterceptor } from '../../interceptors/http-cache.interceptor';
 import { CACHE_MANAGER } from '@nestjs/common';
-import { mockedGetRequest } from '../../module-utils/utils/mocks/arguments-host.mock';
-import { mockedReflector } from '../../module-utils/utils/mocks/reflector.mock';
+import { mockedGetRequest } from '../../utils/mocks/arguments-host.mock';
+import { mockedReflector } from '../../utils/mocks/reflector.mock';
 import { Reflector } from '@nestjs/core';
-import { mockedCacheManager } from '../../module-utils/utils/mocks/cache-manager.mock';
+import { mockedCacheManager } from '../../utils/mocks/cache-manager.mock';
 
 describe('HttpCacheInterceptor', () => {
   const executionContext = mockedExecutionContext as any;

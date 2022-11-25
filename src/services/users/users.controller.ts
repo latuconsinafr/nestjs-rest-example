@@ -17,6 +17,8 @@ import { UsersService } from './users.service';
 import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
 import { UpdateUserRequest } from './dto/requests/update-user-request.dto';
 import { ConflictException } from '../../common/exceptions/conflict.exception';
+import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
+import { PinoLogger } from 'nestjs-pino';
 
 /**
  * Defines the users controller.
@@ -26,7 +28,18 @@ import { ConflictException } from '../../common/exceptions/conflict.exception';
   path: 'users',
 })
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  /**
+   * The constructor.
+   *
+   * @param logger The pino logger
+   * @param usersService The users service
+   */
+  constructor(
+    private readonly logger: PinoLogger,
+    private readonly usersService: UsersService,
+  ) {
+    this.logger.setContext(UsersController.name);
+  }
 
   /**
    * Create a user endpoint.
@@ -39,12 +52,22 @@ export class UsersController {
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
   ): Promise<SuccessResponse> {
-    return new SuccessResponseDto({
-      message: 'User created',
-      data: await this.usersService.create(
-        CreateUserRequest.toEntity(createUserRequest),
-      ),
-    });
+    try {
+      this.logger.info(
+        `Try to call ${UsersController.prototype.createUser.name}`,
+      );
+
+      return new SuccessResponseDto({
+        message: 'User created',
+        data: await this.usersService.create(
+          CreateUserRequest.toEntity(createUserRequest),
+        ),
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
   }
 
   // * Asynchronous example
@@ -58,10 +81,20 @@ export class UsersController {
   @Get()
   // @UseFilters(AllExceptionsFilter)
   async findAllUsers(): Promise<SuccessResponse> {
-    return new SuccessResponseDto({
-      message: 'Users retrieved',
-      data: await this.usersService.findAll(),
-    });
+    try {
+      this.logger.info(
+        `Try to call ${UsersController.prototype.findAllUsers.name}`,
+      );
+
+      return new SuccessResponseDto({
+        message: 'Users retrieved',
+        data: await this.usersService.findAll(),
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
   }
 
   // * Observable streams example
@@ -82,6 +115,10 @@ export class UsersController {
     @Param('id', UserByIdPipe)
     user: User,
   ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.findUserById.name}`,
+    );
+
     return new SuccessResponseDto({
       message: 'User retrieved',
       data: user,
@@ -105,14 +142,24 @@ export class UsersController {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
-    await this.usersService.update(
-      id,
-      UpdateUserRequest.toEntity(updateUserRequest),
-    );
+    try {
+      this.logger.info(
+        `Try to call ${UsersController.prototype.updateUser.name}`,
+      );
 
-    return new SuccessResponseDto({
-      message: 'User updated',
-    });
+      await this.usersService.update(
+        id,
+        UpdateUserRequest.toEntity(updateUserRequest),
+      );
+
+      return new SuccessResponseDto({
+        message: 'User updated',
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
   }
 
   /**
@@ -125,10 +172,20 @@ export class UsersController {
   @Delete(':id')
   @Auth(UserRole.SuperAdmin)
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
-    await this.usersService.delete(id);
+    try {
+      this.logger.info(
+        `Try to call ${UsersController.prototype.deleteUser.name}`,
+      );
 
-    return new SuccessResponseDto({
-      message: 'User deleted',
-    });
+      await this.usersService.delete(id);
+
+      return new SuccessResponseDto({
+        message: 'User deleted',
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
   }
 }

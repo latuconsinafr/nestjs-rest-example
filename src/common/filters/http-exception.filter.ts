@@ -3,9 +3,9 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { InjectPinoLogger, Logger } from 'nestjs-pino';
 import { DEFAULT_HELP_MESSAGE } from '../constants';
 import { ErrorCode } from '../enums/error-code.enum';
 import { BaseResponse } from '../interfaces/http/base-response.interface';
@@ -18,9 +18,14 @@ import { BaseResponse } from '../interfaces/http/base-response.interface';
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   /**
-   * The logger to logging any exception filter catches.
+   * The constructor.
+   *
+   * @param logger The injected pino logger
    */
-  private readonly logger = new Logger(HttpExceptionFilter.name);
+  constructor(
+    @InjectPinoLogger(HttpExceptionFilter.name)
+    private readonly logger: Logger,
+  ) {}
 
   /**
    * {@inheritDoc ExceptionFilter.catch}
@@ -30,6 +35,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
     const httpStatus = exception.getStatus();
+
+    if (httpStatus >= 400 && httpStatus <= 499) {
+      this.logger.warn(exception);
+    } else {
+      this.logger.error(exception);
+    }
 
     const exceptionResponse =
       typeof exception.getResponse() === 'object'
@@ -51,12 +62,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? { error: ErrorCode.ErrorNotFound, help: DEFAULT_HELP_MESSAGE }
         : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
     };
-
-    if (httpStatus >= 400 && httpStatus <= 499) {
-      this.logger.warn(exception);
-    } else {
-      this.logger.error(exception);
-    }
 
     response.status(httpStatus).json(responseBody);
   }

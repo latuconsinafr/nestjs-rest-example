@@ -1,7 +1,7 @@
 import { redisStoreConfig } from '../../cache/redis-store.config';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { redisStore } from 'cache-manager-redis-store';
-import { mockedCacheManagerRedisStore } from '../../../common/module-utils/utils/mocks/cache-manager-redis-store.mock';
+import { mockedCacheManagerRedisStore } from '../../../common/utils/mocks/cache-manager-redis-store.mock';
 
 describe('when redisStoreConfig is registered', () => {
   const env = process.env;

@@ -7,9 +7,9 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { toBoolean } from '../../common/module-utils/utils/transformers/to-boolean.transformer.util';
-import { toNumber } from '../../common/module-utils/utils/transformers/to-number.transformer.util';
-import { isEnvValid } from '../../common/module-utils/utils/validators/is-env-valid.validator.util';
+import { toBoolean } from '../../common/utils/transformers/to-boolean.transformer.util';
+import { toNumber } from '../../common/utils/transformers/to-number.transformer.util';
+import { isEnvValid } from '../../common/utils/validators/is-env-valid.validator.util';
 
 /**
  * Defines enum for application environment.

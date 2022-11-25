@@ -1,4 +1,4 @@
-import { HttpStatus, Logger } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { ValidationError } from 'class-validator';
 import { DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE } from '../../constants';
@@ -9,18 +9,26 @@ import {
   mockedGetRequest,
   mockedJson,
   mockedStatus,
-} from '../../module-utils/utils/mocks/arguments-host.mock';
+} from '../../utils/mocks/arguments-host.mock';
 import { HttpExceptionFilter } from '../../filters/http-exception.filter';
 import { InternalServerErrorException } from '../../exceptions/internal-server-error.exception';
+import { getLoggerToken } from 'nestjs-pino';
+import { mockedLogger } from '../../utils/mocks/logger.mock';
+
+const argumentsHost = mockedArgumentsHost as any;
 
 describe('HttpExceptionFilter', () => {
-  const argumentsHost = mockedArgumentsHost as any;
-
   let httpExceptionFilter: HttpExceptionFilter;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [HttpExceptionFilter],
+      providers: [
+        HttpExceptionFilter,
+        {
+          provide: getLoggerToken(HttpExceptionFilter.name),
+          useValue: mockedLogger,
+        },
+      ],
     }).compile();
 
     httpExceptionFilter =
@@ -28,9 +36,6 @@ describe('HttpExceptionFilter', () => {
   });
 
   describe('when catch is called', () => {
-    const loggerWarnSpy = jest.spyOn(Logger.prototype, 'warn');
-    const loggerErrorSpy = jest.spyOn(Logger.prototype, 'error');
-
     const date = new Date(2020, 3, 1);
     const url = '/test';
     const validationErrors: ValidationError[] = [
@@ -64,6 +69,7 @@ describe('HttpExceptionFilter', () => {
         },
       },
     ];
+
     let exception: any;
 
     beforeEach(() => {
@@ -79,9 +85,6 @@ describe('HttpExceptionFilter', () => {
         message: DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE,
       });
 
-      loggerWarnSpy.mockImplementation(() => undefined); // * to prevent logging in unit test
-      loggerErrorSpy.mockImplementation(() => undefined); // * to prevent logging in unit test
-
       exception = new UnprocessableEntityException({}, validationErrors);
     });
 
@@ -93,7 +96,7 @@ describe('HttpExceptionFilter', () => {
       it('should log the error exception', () => {
         httpExceptionFilter.catch(exception, argumentsHost);
 
-        expect(loggerErrorSpy).toBeCalledWith(exception);
+        expect(mockedLogger.error).toBeCalledWith(exception);
       });
     });
 
@@ -101,32 +104,32 @@ describe('HttpExceptionFilter', () => {
       it('should log the warn exception', () => {
         httpExceptionFilter.catch(exception, argumentsHost);
 
-        expect(loggerWarnSpy).toBeCalledWith(exception);
+        expect(mockedLogger.warn).toBeCalledWith(exception);
       });
+    });
 
-      it('should call response status with the correct http status', () => {
-        httpExceptionFilter.catch(exception, argumentsHost);
+    it('should call response status with the correct http status', () => {
+      httpExceptionFilter.catch(exception, argumentsHost);
 
-        expect(mockedStatus).toBeCalledWith(HttpStatus.UNPROCESSABLE_ENTITY);
-      });
+      expect(mockedStatus).toBeCalledWith(HttpStatus.UNPROCESSABLE_ENTITY);
+    });
 
-      it('should call response json with the correct response body', () => {
-        httpExceptionFilter.catch(exception, argumentsHost);
+    it('should call response json with the correct response body', () => {
+      httpExceptionFilter.catch(exception, argumentsHost);
 
-        expect(mockedJson).toBeCalledWith({
-          statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-          timestamp: date.toISOString(),
-          path: url,
-          success: false,
-          error: ErrorCode.ErrorUnprocessableEntity,
-          help: 'Help is not available',
-          message: validationErrors.map((error) => ({
-            property: error.property,
-            constraints: error.constraints
-              ? Object.values(error.constraints)
-              : [],
-          })),
-        });
+      expect(mockedJson).toBeCalledWith({
+        statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        timestamp: date.toISOString(),
+        path: url,
+        success: false,
+        error: ErrorCode.ErrorUnprocessableEntity,
+        help: 'Help is not available',
+        message: validationErrors.map((error) => ({
+          property: error.property,
+          constraints: error.constraints
+            ? Object.values(error.constraints)
+            : [],
+        })),
       });
     });
   });

@@ -2,8 +2,8 @@ import { CacheManagerOptions } from '@nestjs/common';
 import { registerAs } from '@nestjs/config';
 import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { toNumber } from '../../common/module-utils/utils/transformers/to-number.transformer.util';
-import { isEnvValid } from '../../common/module-utils/utils/validators/is-env-valid.validator.util';
+import { toNumber } from '../../common/utils/transformers/to-number.transformer.util';
+import { isEnvValid } from '../../common/utils/validators/is-env-valid.validator.util';
 
 /**
  * Defines class to hold general cache-related environment variables.

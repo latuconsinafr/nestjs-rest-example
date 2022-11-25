@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PinoLogger } from 'nestjs-pino';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
@@ -15,8 +16,11 @@ export class UsersService {
    * @param usersRepository The repository of user entity
    */
   constructor(
+    private readonly logger: PinoLogger,
     @InjectRepository(User) private usersRepository: Repository<User>,
-  ) {}
+  ) {
+    this.logger.setContext(UsersService.name);
+  }
 
   /**
    * Creates a user.
@@ -26,6 +30,8 @@ export class UsersService {
    * @returns The created user.
    */
   async create(user: User): Promise<User> {
+    this.logger.info(`Try to call ${UsersService.prototype.create.name}`);
+
     const createdUser: User = this.usersRepository.create({
       ...user,
     });
@@ -41,6 +47,8 @@ export class UsersService {
    * @returns The users array.
    */
   async findAll(): Promise<User[]> {
+    this.logger.info(`Try to call ${UsersService.prototype.findAll.name}`);
+
     return await this.usersRepository.find();
   }
 
@@ -52,6 +60,8 @@ export class UsersService {
    * @returns The user if it exists, otherwise null.
    */
   async findById(id: number): Promise<User | null> {
+    this.logger.info(`Try to call ${UsersService.prototype.findById.name}`);
+
     return await this.usersRepository.findOneBy({ id });
   }
 
@@ -65,6 +75,8 @@ export class UsersService {
    * Return `true` if the update process is success, otherwise `false`.
    */
   async update(id: number, user: User): Promise<boolean> {
+    this.logger.info(`Try to call ${UsersService.prototype.update.name}`);
+
     await this.usersRepository.update(id, { ...user });
 
     return true;
@@ -79,6 +91,8 @@ export class UsersService {
    * Return `true` if the delete process is success, otherwise `false`.
    */
   async delete(id: number): Promise<boolean> {
+    this.logger.info(`Try to call ${UsersService.prototype.delete.name}`);
+
     await this.usersRepository.delete(id);
 
     return true;
