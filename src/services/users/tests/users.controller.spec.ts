@@ -6,9 +6,12 @@ import { ConflictException } from '../../../common/exceptions/conflict.exception
 import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
 import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
 import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { userProfilesData } from '../../../database/data/user-profiles.data';
 import { usersData } from '../../../database/data/users.data';
-import { CreateUserRequest } from '../dto/requests/create-user-request.dto';
-import { UpdateUserRequest } from '../dto/requests/update-user-request.dto';
+import { UpdateUserProfileRequest } from '../dto/requests/user-profiles/update-user-profile-request.dto';
+import { CreateUserRequest } from '../dto/requests/users/create-user-request.dto';
+import { UpdateUserRequest } from '../dto/requests/users/update-user-request.dto';
+import { UserProfile } from '../entities/user-profile.entity';
 import { User } from '../entities/user.entity';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
@@ -17,6 +20,7 @@ describe('UsersController', () => {
   let usersController: UsersController;
   let usersService: UsersService;
   let users: User[];
+  let userProfiles: UserProfile[];
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -28,6 +32,10 @@ describe('UsersController', () => {
           useValue: mockedLogger,
         },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
+        {
+          provide: getRepositoryToken(UserProfile),
+          useValue: mockedRepository,
+        },
       ],
     }).compile();
 
@@ -35,6 +43,7 @@ describe('UsersController', () => {
     usersController = moduleRef.get<UsersController>(UsersController);
 
     users = [...usersData];
+    userProfiles = [...userProfilesData];
   });
 
   afterEach(() => {
@@ -48,13 +57,7 @@ describe('UsersController', () => {
     beforeEach(() => {
       usersServiceCreateSpy = jest.spyOn(usersService, 'create');
       usersServiceCreateSpy.mockResolvedValue(users[0]);
-      userToCreate = {
-        firstName: users[0].firstName,
-        lastName: users[0].lastName,
-        username: users[0].username,
-        password: users[0].password,
-        roles: users[0].roles,
-      };
+      userToCreate = { ...users[0] };
     });
 
     describe('and when error occurred', () => {
@@ -142,14 +145,7 @@ describe('UsersController', () => {
     beforeEach(() => {
       usersServiceUpdateSpy = jest.spyOn(usersService, 'update');
       usersServiceUpdateSpy.mockResolvedValue(true);
-      userToUpdate = {
-        id: users[0].id,
-        firstName: users[0].firstName,
-        lastName: users[0].lastName,
-        username: users[0].username,
-        password: users[0].password,
-        roles: users[0].roles,
-      };
+      userToUpdate = { ...users[0] };
     });
 
     describe('and the given user id between param and body are different', () => {
@@ -158,8 +154,11 @@ describe('UsersController', () => {
           usersController.updateUser(
             {
               ...users[0],
-              fullName: users[0].fullName,
               id: users[0].id + 1,
+              profile: {
+                ...userProfiles[0],
+                fullName: userProfiles[0].fullName,
+              },
             },
             userToUpdate,
           ),
@@ -218,6 +217,67 @@ describe('UsersController', () => {
           message: 'User deleted',
         }),
       );
+    });
+  });
+
+  describe('when updateUserProfile is called', () => {
+    let usersServiceUpdateSpy: jest.SpyInstance<
+      Promise<boolean>,
+      [id: number, userProfile: UserProfile]
+    >;
+    let userProfileToUpdate: UpdateUserProfileRequest;
+
+    beforeEach(() => {
+      usersServiceUpdateSpy = jest.spyOn(usersService, 'updateProfile');
+      usersServiceUpdateSpy.mockResolvedValue(true);
+      userProfileToUpdate = { ...userProfiles[0] };
+    });
+
+    describe('and the given user id between param and body are different', () => {
+      it(`should throw ${ConflictException.name}`, async () => {
+        await expect(
+          usersController.updateUserProfile(
+            {
+              ...users[0],
+              id: users[0].id + 1,
+              profile: {
+                ...userProfiles[0],
+                fullName: userProfiles[0].fullName,
+              },
+            },
+            userProfileToUpdate,
+          ),
+        ).rejects.toThrow(ConflictException);
+      });
+    });
+
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest
+          .spyOn(usersService, 'updateProfile')
+          .mockImplementation(async () => {
+            throw new Error();
+          });
+
+        await expect(
+          usersController.updateUserProfile(users[0], userProfileToUpdate),
+        ).rejects.toThrow(InternalServerErrorException);
+      });
+    });
+
+    describe('and the given user id between param and body are match', () => {
+      it(`should return a ${SuccessResponseDto.name} with message`, async () => {
+        expect(
+          await usersController.updateUserProfile(
+            users[0],
+            userProfileToUpdate,
+          ),
+        ).toStrictEqual(
+          new SuccessResponseDto({
+            message: 'User profile updated',
+          }),
+        );
+      });
     });
   });
 });

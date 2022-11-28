@@ -3,13 +3,16 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
 import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
 import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { userProfilesData } from '../../../database/data/user-profiles.data';
 import { usersData } from '../../../database/data/users.data';
+import { UserProfile } from '../entities/user-profile.entity';
 import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
 
 describe('UsersService', () => {
   let usersService: UsersService;
   let users: User[];
+  let userProfiles: UserProfile[];
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -20,12 +23,17 @@ describe('UsersService', () => {
           useValue: mockedLogger,
         },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
+        {
+          provide: getRepositoryToken(UserProfile),
+          useValue: mockedRepository,
+        },
       ],
     }).compile();
 
     usersService = moduleRef.get<UsersService>(UsersService);
 
     users = [...usersData];
+    userProfiles = [...userProfilesData];
   });
 
   afterEach(() => {
@@ -54,7 +62,7 @@ describe('UsersService', () => {
 
   describe('when findById is called', () => {
     beforeEach(() => {
-      mockedRepository.findOneBy.mockResolvedValue(users[0]);
+      mockedRepository.findOne.mockResolvedValue(users[0]);
     });
 
     it('should return a user', async () => {
@@ -79,6 +87,18 @@ describe('UsersService', () => {
 
     it('should return true', async () => {
       expect(await usersService.delete(users[0].id)).toBeTruthy();
+    });
+  });
+
+  describe('when updateProfile is called', () => {
+    beforeEach(() => {
+      mockedRepository.update.mockResolvedValue(true);
+    });
+
+    it('should return true', async () => {
+      expect(
+        await usersService.updateProfile(users[0].id, userProfiles[0]),
+      ).toBeTruthy();
     });
   });
 });

@@ -29,5 +29,5 @@ export type ValidationErrorResponse = {
   property: string;
 
   // * The constraint which is fail to validate
-  constraints: string[];
+  constraints: string[] | ValidationErrorResponse[];
 };

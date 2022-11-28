@@ -5,7 +5,28 @@ import {
   DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE,
 } from '../constants';
 import { ErrorCode } from '../enums/error-code.enum';
+import { ValidationErrorResponse } from '../interfaces/http/base-response.interface';
 import { ErrorResponse } from '../interfaces/http/error-response.interface';
+
+/**
+ * Maps an array of validation error to array of validation error response.
+ * This function maps the nested `children` `constraints` value.
+ *
+ * @param errors The validation error to map
+ *
+ * @returns The array of validation error response.
+ */
+const mapChildrenToValidationErrorResponses = (
+  errors: ValidationError[],
+): ValidationErrorResponse[] => {
+  return errors.map((error) => ({
+    property: error.property,
+    constraints:
+      Array.isArray(error.children) && error.children.length > 0
+        ? mapChildrenToValidationErrorResponses(error.children)
+        : Object.values(error.constraints ?? []),
+  }));
+};
 
 /**
  * Defines an HTTP exception for *Unprocessable Entity* type errors.
@@ -37,16 +58,12 @@ export class UnprocessableEntityException extends HttpException {
    */
   constructor(errorResponse?: ErrorResponse, errors?: ValidationError[]) {
     const httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+
     const response: ErrorResponse = {
       message:
         errorResponse?.message ??
         (errors
-          ? errors.map((error) => ({
-              property: error.property,
-              constraints: error.constraints
-                ? Object.values(error.constraints)
-                : [],
-            }))
+          ? mapChildrenToValidationErrorResponses(errors)
           : DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE),
       error: errorResponse?.error ?? ErrorCode.ErrorUnprocessableEntity,
       help: errorResponse?.help ?? DEFAULT_HELP_MESSAGE,

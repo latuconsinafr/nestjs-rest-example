@@ -10,15 +10,16 @@ import {
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { UserRole } from '../../common/enums/user-role.enum';
 import { Auth } from '../../common/decorators/auth.decorator';
-import { CreateUserRequest } from './dto/requests/create-user-request.dto';
+import { CreateUserRequest } from './dto/requests/users/create-user-request.dto';
 import { User } from './entities/user.entity';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
 import { UsersService } from './users.service';
 import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
-import { UpdateUserRequest } from './dto/requests/update-user-request.dto';
+import { UpdateUserRequest } from './dto/requests/users/update-user-request.dto';
 import { ConflictException } from '../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import { PinoLogger } from 'nestjs-pino';
+import { UpdateUserProfileRequest } from './dto/requests/user-profiles/update-user-profile-request.dto';
 
 /**
  * Defines the users controller.
@@ -181,6 +182,43 @@ export class UsersController {
 
       return new SuccessResponseDto({
         message: 'User deleted',
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
+   * Update a user profile by a given id endpoint.
+   *
+   * @param params The user id request parameter
+   * @param updateUserProfileRequest The DTO that carries data to update a user profile
+   *
+   * @returns The success response with `'User profile updated'` message.
+   */
+  @Put('profile/:id')
+  async updateUserProfile(
+    @Param('id', UserByIdPipe) { id }: User,
+    @Body() updateUserProfileRequest: UpdateUserProfileRequest,
+  ): Promise<SuccessResponse> {
+    if (id !== updateUserProfileRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
+
+    try {
+      this.logger.info(
+        `Try to call ${UsersController.prototype.updateUserProfile.name}`,
+      );
+
+      await this.usersService.updateProfile(
+        id,
+        UpdateUserProfileRequest.toEntity(updateUserProfileRequest),
+      );
+
+      return new SuccessResponseDto({
+        message: 'User profile updated',
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

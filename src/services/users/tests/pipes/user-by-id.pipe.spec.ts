@@ -7,6 +7,7 @@ import { UnprocessableEntityException } from '../../../../common/exceptions/unpr
 import { mockedLogger } from '../../../../common/utils/mocks/logger.mock';
 import { mockedRepository } from '../../../../common/utils/mocks/repository.mock';
 import { usersData } from '../../../../database/data/users.data';
+import { UserProfile } from '../../entities/user-profile.entity';
 import { User } from '../../entities/user.entity';
 import { UserByIdPipe } from '../../pipes/user-by-id.pipe';
 import { UsersService } from '../../users.service';
@@ -24,6 +25,10 @@ describe('UserByIdPipe', () => {
         UsersService,
         { provide: PinoLogger, useValue: mockedLogger },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
+        {
+          provide: getRepositoryToken(UserProfile),
+          useValue: mockedRepository,
+        },
       ],
     }).compile();
 

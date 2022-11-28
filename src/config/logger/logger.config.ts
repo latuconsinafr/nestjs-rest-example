@@ -63,7 +63,7 @@ export const loggerConfig = registerAs('logger', (): Params => {
         minLength: env.LOGGER_STREAM_BUFFER,
         sync: env.LOGGER_STREAM_SYNC,
       }),
-      customProps: () => ({
+      customProps: /* istanbul ignore next */ () => ({
         context: 'Http',
       }),
     },

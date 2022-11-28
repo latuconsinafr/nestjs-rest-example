@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
 import { Repository } from 'typeorm';
+import { UserProfile } from './entities/user-profile.entity';
 import { User } from './entities/user.entity';
 
 // * Service will be responsible for data storage and retrieval
@@ -18,6 +19,8 @@ export class UsersService {
   constructor(
     private readonly logger: PinoLogger,
     @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(UserProfile)
+    private userProfilesRepository: Repository<UserProfile>,
   ) {
     this.logger.setContext(UsersService.name);
   }
@@ -49,7 +52,7 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     this.logger.info(`Try to call ${UsersService.prototype.findAll.name}`);
 
-    return await this.usersRepository.find();
+    return await this.usersRepository.find({ relations: ['profile'] });
   }
 
   /**
@@ -62,7 +65,10 @@ export class UsersService {
   async findById(id: number): Promise<User | null> {
     this.logger.info(`Try to call ${UsersService.prototype.findById.name}`);
 
-    return await this.usersRepository.findOneBy({ id });
+    return await this.usersRepository.findOne({
+      where: { id: id },
+      relations: ['profile'],
+    });
   }
 
   /**
@@ -94,6 +100,25 @@ export class UsersService {
     this.logger.info(`Try to call ${UsersService.prototype.delete.name}`);
 
     await this.usersRepository.delete(id);
+
+    return true;
+  }
+
+  /**
+   * Updates a user profile by a given id.
+   *
+   * @param id The id to find
+   * @param userProfile The user profile to update
+   *
+   * @returns The flag indicates whether the update process is success or not.
+   * Return `true` if the update process is success, otherwise `false`.
+   */
+  async updateProfile(id: number, userProfile: UserProfile): Promise<boolean> {
+    this.logger.info(
+      `Try to call ${UsersService.prototype.updateProfile.name}`,
+    );
+
+    await this.userProfilesRepository.update(id, { ...userProfile });
 
     return true;
   }

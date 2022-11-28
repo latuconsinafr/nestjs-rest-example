@@ -7,11 +7,10 @@ import { User } from '../../services/users/entities/user.entity';
 export const usersData: User[] = [
   new User({
     id: 1,
-    firstName: 'app',
-    lastName: 'admin',
-    username: 'admin',
+    username: 'user',
+    email: 'user@gmail.com',
+    phone: '+6282246924950',
     password: 'password',
-    roles: [UserRole.SuperAdmin],
-    description: 'This is admin user',
+    roles: [UserRole.User],
   }),
 ];

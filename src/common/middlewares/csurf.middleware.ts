@@ -12,7 +12,7 @@ import { Request, Response, NextFunction } from 'express';
  * @param res The response to serve
  * @param next The next function after this method in middleware order
  */
-export function csurfMiddleware(
+export function csurfMiddleware /* istanbul ignore next */(
   req: Request,
   res: Response,
   next: NextFunction,

@@ -7,9 +7,6 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from 'nestjs-pino';
 import helmet from 'helmet';
-import * as cookieParser from 'cookie-parser';
-import * as csurf from 'csurf';
-import { csurfMiddleware } from './common/middlewares/csurf.middleware';
 import * as compression from 'compression';
 import { ValidationError } from 'class-validator';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
@@ -33,6 +30,14 @@ async function bootstrap() {
     bufferLogs: true,
   });
 
+  // * Config section
+  const configService = app.get(ConfigService);
+  const appConfig = configService.get<AppConfigOptions>('app') ?? {
+    environment: Environment.Development,
+    host: 'localhost',
+    port: 3000,
+  };
+
   // * Logger section
   // ! The global has to use the `Logger` class, other than that has to use the `PinoLogger` class
   const logger = app.get(Logger);
@@ -47,14 +52,6 @@ async function bootstrap() {
     defaultVersion: '1',
   });
 
-  // * Config section
-  const configService = app.get(ConfigService);
-  const appConfig = configService.get<AppConfigOptions>('app') ?? {
-    environment: Environment.Development,
-    host: 'localhost',
-    port: 3000,
-  };
-
   // * CORS section
   app.enableCors();
 
@@ -65,11 +62,12 @@ async function bootstrap() {
 
   // * CSURF middleware requires either session middleware or cookie-parser to be initialized first.
   // * @see {@link https://github.com/expressjs/csurf#csurf)}
-  if (appConfig.environment === Environment.Production) {
-    app.use(cookieParser());
-    app.use(csurf({ cookie: { sameSite: true } }));
-    app.use(csurfMiddleware);
-  }
+  // * Disabled, except the application using session or cookies
+  // if (appConfig.environment === Environment.Production) {
+  //   app.use(cookieParser());
+  //   app.use(csurf({ cookie: { sameSite: true } }));
+  //   app.use(csurfMiddleware);
+  // }
   // app.use(loggerMiddleware); // * Disabled, since the app using automatic logging from pino
 
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).
