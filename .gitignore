@@ -391,3 +391,6 @@ Temporary Items
 # Local
 .env
 dist
+
+# Local File Uploads
+uploads/

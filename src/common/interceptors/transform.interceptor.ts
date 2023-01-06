@@ -16,6 +16,7 @@ export interface Response<T> {
 
 /**
  * Defines interceptor for intercepting the outgoing response.
+ *
  * This interceptor transform outgoing response to the shape of {@link BaseResponse} merged with SuccessResponse.
  *
  * @usageNotes

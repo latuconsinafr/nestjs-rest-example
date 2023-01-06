@@ -45,6 +45,11 @@ export class User {
   )
   profile: UserProfile;
 
+  /**
+   * The constructor.
+   *
+   * @param partial The partial object of User
+   */
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
   }

@@ -16,6 +16,7 @@ import { RequestTimeoutException } from '../exceptions/request-timeout.exception
 
 /**
  * Defines interceptor for intercepting any incoming request that exceed the maximum allowed request time.
+ *
  * The maximum allowed request time could be configured in app.constant.ts {@link APP_MAX_TIMEOUT}.
  *
  * @see [Interceptors](https://docs.nestjs.com/interceptors)

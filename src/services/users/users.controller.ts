@@ -6,6 +6,8 @@ import {
   Param,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { UserRole } from '../../common/enums/user-role.enum';
@@ -20,6 +22,11 @@ import { ConflictException } from '../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import { PinoLogger } from 'nestjs-pino';
 import { UpdateUserProfileRequest } from './dto/requests/user-profiles/update-user-profile-request.dto';
+import { StoragesService } from '../storages/storages.service';
+import { CreateLocalFileRequest } from '../storages/dto/requests/create-local-file-request.dto';
+import { FileGeneralAccess } from '../../common/enums/file-general-access.enum';
+import { LocalFileInterceptor } from '../storages/interceptors/local-file-interceptor';
+import { UserProfile } from './entities/user-profile.entity';
 
 /**
  * Defines the users controller.
@@ -34,10 +41,12 @@ export class UsersController {
    *
    * @param logger The pino logger
    * @param usersService The users service
+   * @param storagesService The storages service
    */
   constructor(
     private readonly logger: PinoLogger,
     private readonly usersService: UsersService,
+    private readonly storagesService: StoragesService,
   ) {
     this.logger.setContext(UsersController.name);
   }
@@ -53,11 +62,11 @@ export class UsersController {
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
   ): Promise<SuccessResponse> {
-    try {
-      this.logger.info(
-        `Try to call ${UsersController.prototype.createUser.name}`,
-      );
+    this.logger.info(
+      `Try to call ${UsersController.prototype.createUser.name}`,
+    );
 
+    try {
       return new SuccessResponseDto({
         message: 'User created',
         data: await this.usersService.create(
@@ -82,11 +91,11 @@ export class UsersController {
   @Get()
   // @UseFilters(AllExceptionsFilter)
   async findAllUsers(): Promise<SuccessResponse> {
-    try {
-      this.logger.info(
-        `Try to call ${UsersController.prototype.findAllUsers.name}`,
-      );
+    this.logger.info(
+      `Try to call ${UsersController.prototype.findAllUsers.name}`,
+    );
 
+    try {
       return new SuccessResponseDto({
         message: 'Users retrieved',
         data: await this.usersService.findAll(),
@@ -139,15 +148,15 @@ export class UsersController {
     @Param('id', UserByIdPipe) { id }: User,
     @Body() updateUserRequest: UpdateUserRequest,
   ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUser.name}`,
+    );
+
     if (id !== updateUserRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
-      this.logger.info(
-        `Try to call ${UsersController.prototype.updateUser.name}`,
-      );
-
       await this.usersService.update(
         id,
         UpdateUserRequest.toEntity(updateUserRequest),
@@ -173,11 +182,11 @@ export class UsersController {
   @Delete(':id')
   @Auth(UserRole.SuperAdmin)
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
-    try {
-      this.logger.info(
-        `Try to call ${UsersController.prototype.deleteUser.name}`,
-      );
+    this.logger.info(
+      `Try to call ${UsersController.prototype.deleteUser.name}`,
+    );
 
+    try {
       await this.usersService.delete(id);
 
       return new SuccessResponseDto({
@@ -203,15 +212,15 @@ export class UsersController {
     @Param('id', UserByIdPipe) { id }: User,
     @Body() updateUserProfileRequest: UpdateUserProfileRequest,
   ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUserProfile.name}`,
+    );
+
     if (id !== updateUserProfileRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
-      this.logger.info(
-        `Try to call ${UsersController.prototype.updateUserProfile.name}`,
-      );
-
       await this.usersService.updateProfile(
         id,
         UpdateUserProfileRequest.toEntity(updateUserProfileRequest),
@@ -219,6 +228,50 @@ export class UsersController {
 
       return new SuccessResponseDto({
         message: 'User profile updated',
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
+   * Upload a user profile avatar by a given id endpoint.
+   *
+   * @param avatar The user profile avatar
+   */
+  @Put('profile/:id/avatar/upload')
+  @UseInterceptors(
+    LocalFileInterceptor('avatar', { dest: '/users/profiles/avatars' }),
+  )
+  async updateUserProfileAvatar(
+    @Param('id', UserByIdPipe) user: User,
+    @UploadedFile() avatar: Express.Multer.File,
+  ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,
+    );
+
+    try {
+      const avatarFile = await this.storagesService.createLocalFile(
+        CreateLocalFileRequest.toEntity(avatar, {
+          generalAccess: FileGeneralAccess.Public,
+          // TODO : The owner id should be the authenticated user's id
+          ownerId: user.id,
+        }),
+      );
+
+      await this.usersService.updateProfile(
+        user.id,
+        new UserProfile({
+          ...user.profile,
+          avatarFile: avatarFile,
+        }),
+      );
+
+      return new SuccessResponseDto({
+        message: 'User profile avatar updated',
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

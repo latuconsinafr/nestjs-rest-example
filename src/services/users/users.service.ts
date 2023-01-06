@@ -14,7 +14,9 @@ export class UsersService {
   /**
    * The constructor.
    *
+   * @param logger The pino logger
    * @param usersRepository The repository of user entity
+   * @param userProfilesRepository The repository of user profile entity
    */
   constructor(
     private readonly logger: PinoLogger,

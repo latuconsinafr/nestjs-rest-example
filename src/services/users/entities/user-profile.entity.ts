@@ -1,5 +1,6 @@
 import { Expose } from 'class-transformer';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { LocalFile } from '../../storages/entities/local-file.entity';
 import { User } from './user.entity';
 
 /**
@@ -15,6 +16,7 @@ import { User } from './user.entity';
  * - `location`: The location of user profile
  * - `website`: The website of user profile
  * - `birthDate`: The birthDate of user profile
+ * - `avatarFileId`: The id of avatar file of user profile
  */
 @Entity()
 export class UserProfile {
@@ -44,6 +46,9 @@ export class UserProfile {
   @Column()
   birthDate: Date;
 
+  @Column({ nullable: true })
+  avatarFileId?: number | null | undefined;
+
   @OneToOne(
     /* istanbul ignore next */ () => User,
     /* istanbul ignore next */ (user: User) => user.profile,
@@ -54,6 +59,15 @@ export class UserProfile {
   @JoinColumn({ name: 'id' })
   user: User;
 
+  @OneToOne(/* istanbul ignore next */ () => LocalFile)
+  @JoinColumn()
+  avatarFile: LocalFile;
+
+  /**
+   * The constructor.
+   *
+   * @param partial The partial object of UserProfile
+   */
   constructor(partial: Partial<UserProfile>) {
     Object.assign(this, partial);
   }

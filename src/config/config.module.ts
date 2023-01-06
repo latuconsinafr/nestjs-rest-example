@@ -19,6 +19,9 @@ import { HttpCacheInterceptor } from '../common/interceptors/http-cache.intercep
 import { redisStore } from 'cache-manager-redis-store';
 import { redisStoreConfig } from './cache/redis-store.config';
 import { RedisClientOptions } from 'redis';
+import { localFileUploadConfig } from './file-upload/local-file-upload.config';
+import { MulterModule } from '@nestjs/platform-express';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 
 /**
  * Defines the application configuration module.
@@ -30,6 +33,7 @@ import { RedisClientOptions } from 'redis';
  * - {@link TypeOrmModule}: The nestjs-typeORM TypeORMModule, load database configuration
  * - {@link CacheModule}: The nestjs CacheModule, load cache configuration
  * - {@link ScheduleModule}: The nestjs ScheduleModule, load task scheduling configuration
+ * - {@link MulterModule}: The nestjs MulterModule, load local file upload configuration
  */
 @Module({
   imports: [
@@ -42,6 +46,7 @@ import { RedisClientOptions } from 'redis';
         databaseConfig,
         cacheConfig,
         redisStoreConfig,
+        localFileUploadConfig,
       ],
     }),
     LoggerModule.forRootAsync({
@@ -68,6 +73,12 @@ import { RedisClientOptions } from 'redis';
       }),
     }),
     ScheduleModule.forRoot(),
+    MulterModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.get<MulterOptions>('local-file-upload'),
+      }),
+    }),
   ],
   providers: [
     {

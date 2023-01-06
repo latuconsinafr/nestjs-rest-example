@@ -13,12 +13,12 @@ import { isEnvValid } from '../../common/utils/validators/is-env-valid.validator
 export class RedisStoreEnvironmentVariables {
   @IsNotEmpty()
   @IsString()
-  REDIS_HOST: string;
+  REDIS_STORE_HOST: string;
 
   @IsNotEmpty()
   @IsNumber()
   @Transform(({ value }) => toNumber(value))
-  REDIS_PORT: number;
+  REDIS_STORE_PORT: number;
 }
 
 /**
@@ -37,8 +37,8 @@ export const redisStoreConfig = registerAs(
 
     return {
       socket: {
-        host: env.REDIS_HOST,
-        port: env.REDIS_PORT,
+        host: env.REDIS_STORE_HOST,
+        port: env.REDIS_STORE_PORT,
       },
     };
   },
