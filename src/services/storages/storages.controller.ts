@@ -10,7 +10,6 @@ import { createReadStream } from 'fs';
 import { PinoLogger } from 'nestjs-pino';
 import { join } from 'path';
 import { LocalFile } from './entities/local-file.entity';
-import { StoragesService } from './storages.service';
 import { Response } from 'express';
 import { LocalFileByIdPipe } from './pipes/local-file-by-id.pipe';
 
@@ -26,12 +25,8 @@ export class StoragesController {
    * The constructor.
    *
    * @param logger The pino logger
-   * @param storagesService The storages service
    */
-  constructor(
-    private readonly logger: PinoLogger,
-    private readonly storagesService: StoragesService,
-  ) {
+  constructor(private readonly logger: PinoLogger) {
     this.logger.setContext(StoragesController.name);
   }
 
@@ -45,10 +40,8 @@ export class StoragesController {
    */
   @Get(':id')
   async findLocalFileById(
-    @Param('id', LocalFileByIdPipe)
-    @Res({ passthrough: true })
-    response: Response,
-    file: LocalFile,
+    @Param('id', LocalFileByIdPipe) file: LocalFile,
+    @Res({ passthrough: true }) response: Response,
   ): Promise<StreamableFile> {
     this.logger.info(
       `Try to call ${StoragesController.prototype.findLocalFileById.name}`,
@@ -62,6 +55,7 @@ export class StoragesController {
         'Content-Type': file.mimeType,
       });
 
+      // TODO: Has to be excluded from transform interceptor
       return new StreamableFile(stream);
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

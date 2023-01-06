@@ -122,8 +122,7 @@ export class UsersController {
    */
   @Get(':id')
   async findUserById(
-    @Param('id', UserByIdPipe)
-    user: User,
+    @Param('id', UserByIdPipe) user: User,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findUserById.name}`,

@@ -2,6 +2,7 @@ import { Injectable, mixin, NestInterceptor, Type } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { join } from 'path';
 
 /**
  * Defines file interceptor that extend the default {@link FileInterceptor} in a mixin pattern.
@@ -15,7 +16,7 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
  * @param fieldName The field name which contains the file
  * @param localOptions The multer options
  *
- * @returns NestInterceptor
+ * @returns {NestInterceptor} The local file interceptor
  */
 export function LocalFileInterceptor(
   fieldName: string,
@@ -29,12 +30,13 @@ export function LocalFileInterceptor(
       const defaultMulterOptions =
         configService.get<MulterOptions>('local-file-upload');
 
+      const rootDestination = defaultMulterOptions?.dest ?? '';
+      const destination = localOptions?.dest ?? '';
+
       this.fileInterceptor = new (FileInterceptor(fieldName, {
         ...defaultMulterOptions,
         ...localOptions,
-        dest:
-          defaultMulterOptions?.dest + `${localOptions?.dest}` ??
-          localOptions?.dest,
+        dest: join(rootDestination, destination),
       }))();
     }
 
