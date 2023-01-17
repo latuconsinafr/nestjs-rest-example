@@ -101,8 +101,8 @@ async function bootstrap() {
   // * Global interceptor section
   app.useGlobalInterceptors(
     // new LoggingInterceptor(logger), // * Disabled, since the logger itself has calculated the request time
-    new TimeoutInterceptor(),
-    new TransformInterceptor(),
+    new TimeoutInterceptor(app.get(Reflector)),
+    new TransformInterceptor(app.get(Reflector)),
     new ClassSerializerInterceptor(app.get(Reflector)),
   );
 

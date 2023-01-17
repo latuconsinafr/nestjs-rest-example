@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   Injectable,
 } from '@nestjs/common';
+import { NOT_TO_BE_CACHED_METADATA } from '../constants';
 
 /**
  * By default, Nest uses the request URL (in an HTTP app) or cache key (in websockets and microservices apps,
@@ -23,10 +24,21 @@ export class HttpCacheInterceptor extends CacheInterceptor {
       return undefined;
     }
 
+    // * Get the not to be cached status meta data by the NOT_TO_BE_CACHED_METADATA
+    const notToBeCachedMetaData = this.reflector.get(
+      NOT_TO_BE_CACHED_METADATA,
+      context.getHandler(),
+    );
+
+    // * If the route handler not to be cached, then return undefined
+    if (notToBeCachedMetaData) {
+      return undefined;
+    }
+
     const { httpAdapter } = this.httpAdapterHost;
     const isHttpApp = httpAdapter && !!httpAdapter.getRequestMethod;
 
-    // * Get the cache meta data by the CACHE_KEY_METADATA
+    // * Get the cache key meta data by the CACHE_KEY_METADATA
     const cacheMetaData = this.reflector.get(
       CACHE_KEY_METADATA,
       context.getHandler(),

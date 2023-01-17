@@ -4,7 +4,9 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { Observable, map } from 'rxjs';
+import { NOT_TO_BE_TRANSFORMED_METADATA } from '../constants';
 import { BaseResponse } from '../interfaces/http/base-response.interface';
 
 /**
@@ -31,12 +33,30 @@ export class TransformInterceptor<T>
   implements NestInterceptor<T, Response<T>>
 {
   /**
+   * The constructor.
+   *
+   * @param reflector The reflector to access the route's role(s) (custom metadata)
+   */
+  constructor(private readonly reflector: Reflector) {}
+
+  /**
    * {@inheritDoc NestInterceptor.intercept}
    */
   intercept(
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
+    // * Get the not to be transformed status meta data by the NOT_TO_BE_TRANSFORMED_METADATA
+    const notToBeTransformedMetadata = this.reflector.get(
+      NOT_TO_BE_TRANSFORMED_METADATA,
+      context.getHandler(),
+    );
+
+    // * If the route handler not to be transformed, then return to the next handle
+    if (notToBeTransformedMetadata) {
+      return next.handle();
+    }
+
     const ctx = context.switchToHttp();
     const request = ctx.getRequest();
     const response = ctx.getResponse();

@@ -90,3 +90,34 @@ export const DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE = 'Unprocessable entity';
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500 documentation}
  */
 export const DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE = 'Internal server error';
+
+// * Meta data section
+/**
+ * Defines the meta data for route handler to be guarded by specified roles.
+ *
+ * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
+ */
+export const ROLES_METADATA = 'roles_guard:roles';
+
+/**
+ * Defines the meta data for route handler not to be cached.
+ *
+ * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
+ */
+export const NOT_TO_BE_CACHED_METADATA = 'cache_interceptor:not_to_be_cached';
+
+/**
+ * Defines the meta data for route handler not to be transformed.
+ *
+ * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
+ */
+export const NOT_TO_BE_TRANSFORMED_METADATA =
+  'transform_interceptor:not_to_be_transformed';
+
+/**
+ * Defines the meta data for route handler not to be timeout-ed.
+ *
+ * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
+ */
+export const NOT_TO_BE_TIMEOUTED_METADATA =
+  'timeout_interceptor:not_to_be_timeouted';

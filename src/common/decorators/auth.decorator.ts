@@ -1,4 +1,5 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
+import { ROLES_METADATA } from '../constants';
 import { UserRole } from '../enums/user-role.enum';
 import { RolesGuard } from '../guards/roles.guard';
 
@@ -17,5 +18,8 @@ import { RolesGuard } from '../guards/roles.guard';
  * @param roles An array of user roles to bind
  */
 export function Auth(...roles: UserRole[]) {
-  return applyDecorators(SetMetadata('roles', roles), UseGuards(RolesGuard));
+  return applyDecorators(
+    SetMetadata(ROLES_METADATA, roles),
+    UseGuards(RolesGuard),
+  );
 }

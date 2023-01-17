@@ -38,9 +38,7 @@ export class LocalFileByIdPipe implements PipeTransform<string> {
     const file = await this.storagesService.findLocalFileById(val);
 
     if (file === null) {
-      throw new NotFoundException({
-        message: 'File not found',
-      });
+      throw new NotFoundException({ message: 'File not found' });
     }
 
     return file;

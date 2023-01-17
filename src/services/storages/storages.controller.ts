@@ -6,12 +6,15 @@ import {
   Res,
   StreamableFile,
 } from '@nestjs/common';
-import { createReadStream } from 'fs';
+import * as fs from 'fs';
 import { PinoLogger } from 'nestjs-pino';
 import { join } from 'path';
 import { LocalFile } from './entities/local-file.entity';
 import { Response } from 'express';
 import { LocalFileByIdPipe } from './pipes/local-file-by-id.pipe';
+import { NotToBeCached } from '../../common/decorators/cached.decorator';
+import { NotToBeTransformed } from '../../common/decorators/transformed.decorator';
+import { NotFoundException } from '../../common/exceptions/not-found.exception';
 
 /**
  * Defines the storages controller.
@@ -39,6 +42,8 @@ export class StoragesController {
    * @returns The Streamable of LocalFile
    */
   @Get(':id')
+  @NotToBeCached()
+  @NotToBeTransformed()
   async findLocalFileById(
     @Param('id', LocalFileByIdPipe) file: LocalFile,
     @Res({ passthrough: true }) response: Response,
@@ -47,15 +52,20 @@ export class StoragesController {
       `Try to call ${StoragesController.prototype.findLocalFileById.name}`,
     );
 
+    const path = join(process.cwd(), file.path);
+
+    if (!fs.existsSync(path)) {
+      throw new NotFoundException({ message: 'File not found' });
+    }
+
     try {
-      const stream = createReadStream(join(process.cwd(), file.path));
+      const stream = fs.createReadStream(path);
 
       response.set({
         'Content-Disposition': `inline; filename="${file.fileName}"`,
         'Content-Type': file.mimeType,
       });
 
-      // TODO: Has to be excluded from transform interceptor
       return new StreamableFile(stream);
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

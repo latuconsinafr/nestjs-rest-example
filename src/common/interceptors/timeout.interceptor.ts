@@ -4,6 +4,7 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import {
   Observable,
   timeout,
@@ -11,7 +12,7 @@ import {
   TimeoutError,
   throwError,
 } from 'rxjs';
-import { APP_MAX_TIMEOUT } from '../constants';
+import { APP_MAX_TIMEOUT, NOT_TO_BE_TIMEOUTED_METADATA } from '../constants';
 import { RequestTimeoutException } from '../exceptions/request-timeout.exception';
 
 /**
@@ -24,9 +25,27 @@ import { RequestTimeoutException } from '../exceptions/request-timeout.exception
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
   /**
+   * The constructor.
+   *
+   * @param reflector The reflector to access the route's role(s) (custom metadata)
+   */
+  constructor(private readonly reflector: Reflector) {}
+
+  /**
    * {@inheritDoc NestInterceptor.intercept}
    */
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    // * Get the not to be timeouted status meta data by the NOT_TO_BE_TIMEOUTED_METADATA
+    const notToBeTimeouted = this.reflector.get(
+      NOT_TO_BE_TIMEOUTED_METADATA,
+      context.getHandler(),
+    );
+
+    // * If the route handler not to be timeouted, then return to the next handle
+    if (notToBeTimeouted) {
+      return next.handle();
+    }
+
     return next.handle().pipe(
       timeout(APP_MAX_TIMEOUT),
       catchError((err) => {
