@@ -39,14 +39,16 @@ describe('TransformInterceptor', () => {
     const url = '/url';
     const httpStatusCode = 200;
     const date = new Date(2020, 3, 1);
+    let reflectorGetSpy: jest.SpyInstance<any>;
+
+    beforeEach(() => {
+      reflectorGetSpy = jest.spyOn(reflector, 'get');
+      callHandler.handle.mockReturnValue(of(toReturn));
+    });
 
     describe('and the metadata to not to be transformed is true', () => {
-      let reflectorGetSpy: jest.SpyInstance<any>;
-
       beforeEach(() => {
-        reflectorGetSpy = jest.spyOn(reflector, 'get');
         reflectorGetSpy.mockReturnValue(true);
-        callHandler.handle.mockReturnValue(of(toReturn));
       });
 
       it('should return to the next handle immediately', (done: any) => {
@@ -65,6 +67,7 @@ describe('TransformInterceptor', () => {
 
     describe('and the metadata to not to be transformed is other than true', () => {
       beforeEach(() => {
+        reflectorGetSpy.mockReturnValue(undefined);
         jest.useFakeTimers();
         jest.setSystemTime(date);
 

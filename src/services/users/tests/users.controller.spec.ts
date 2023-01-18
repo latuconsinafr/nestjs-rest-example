@@ -3,6 +3,7 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
 import { SuccessResponseDto } from '../../../common/dto/responses/success-response.dto';
+import { FileGeneralAccess } from '../../../common/enums/file-general-access.enum';
 import { ConflictException } from '../../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
 import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
@@ -25,6 +26,8 @@ describe('UsersController', () => {
   let storagesService: StoragesService;
   let users: User[];
   let userProfiles: UserProfile[];
+  let userProfileAvatar: Express.Multer.File;
+  let userProfileAvatarLocalFile: LocalFile;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -64,6 +67,21 @@ describe('UsersController', () => {
 
     users = [...usersData];
     userProfiles = [...userProfilesData];
+    userProfileAvatar = {
+      fieldname: 'avatar',
+      originalname: 'avatar.jpg',
+      encoding: 'base64',
+      mimetype: 'image/jpg',
+      buffer: Buffer.from('test'),
+      size: 51828,
+    } as Express.Multer.File;
+    userProfileAvatarLocalFile = {
+      id: 1,
+      fileName: userProfileAvatar.originalname,
+      path: '/users/profiles/avatars',
+      mimeType: userProfileAvatar.mimetype,
+      generalAccess: FileGeneralAccess.Public,
+    };
   });
 
   afterEach(() => {
@@ -295,6 +313,82 @@ describe('UsersController', () => {
         ).toStrictEqual(
           new SuccessResponseDto({
             message: 'User profile updated',
+          }),
+        );
+      });
+    });
+  });
+
+  describe('when updateUserProfileAvatar is called', () => {
+    let usersServiceUpdateSpy: jest.SpyInstance<
+      Promise<boolean>,
+      [id: number, userProfile: UserProfile]
+    >;
+    let userProfileToUpdate: UpdateUserProfileRequest;
+
+    beforeEach(() => {
+      usersServiceUpdateSpy = jest.spyOn(usersService, 'updateProfile');
+      usersServiceUpdateSpy.mockResolvedValue(true);
+      userProfileToUpdate = { ...userProfiles[0] };
+    });
+
+    describe('and the given user id between param and body are different', () => {
+      it(`should throw ${ConflictException.name}`, async () => {
+        await expect(
+          usersController.updateUserProfileAvatar(
+            {
+              ...users[0],
+              id: users[0].id + 1,
+              profile: {
+                ...userProfiles[0],
+                fullName: userProfiles[0].fullName,
+              },
+            },
+            userProfileToUpdate,
+            userProfileAvatar,
+          ),
+        ).rejects.toThrow(ConflictException);
+      });
+    });
+
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest
+          .spyOn(usersService, 'updateProfile')
+          .mockImplementation(async () => {
+            throw new Error();
+          });
+
+        await expect(
+          usersController.updateUserProfileAvatar(
+            users[0],
+            userProfileToUpdate,
+            userProfileAvatar,
+          ),
+        ).rejects.toThrow(InternalServerErrorException);
+      });
+    });
+
+    describe('and the given user id between param and body are match', () => {
+      it(`should return a ${SuccessResponseDto.name} with message`, async () => {
+        const storagesServiceCreateLocalFileSpy: jest.SpyInstance<
+          Promise<LocalFile>,
+          [file: LocalFile]
+        > = jest.spyOn(storagesService, 'createLocalFile');
+
+        storagesServiceCreateLocalFileSpy.mockResolvedValue(
+          userProfileAvatarLocalFile,
+        );
+
+        expect(
+          await usersController.updateUserProfileAvatar(
+            users[0],
+            userProfileToUpdate,
+            userProfileAvatar,
+          ),
+        ).toStrictEqual(
+          new SuccessResponseDto({
+            message: 'User profile avatar updated',
           }),
         );
       });

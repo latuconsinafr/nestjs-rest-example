@@ -27,6 +27,7 @@ import { CreateLocalFileRequest } from '../storages/dto/requests/create-local-fi
 import { FileGeneralAccess } from '../../common/enums/file-general-access.enum';
 import { LocalFileInterceptor } from '../storages/interceptors/local-file-interceptor';
 import { UserProfile } from './entities/user-profile.entity';
+import { UserIdParam } from './dto/params/users/user-id.param';
 
 /**
  * Defines the users controller.
@@ -246,11 +247,16 @@ export class UsersController {
   )
   async updateUserProfileAvatar(
     @Param('id', UserByIdPipe) user: User,
+    @Body() updateUserProfileAvatarRequest: UserIdParam,
     @UploadedFile() avatar: Express.Multer.File,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,
     );
+
+    if (user.id !== updateUserProfileAvatarRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
 
     try {
       const avatarFile = await this.storagesService.createLocalFile(

@@ -12,8 +12,8 @@ import { join } from 'path';
 import { LocalFile } from './entities/local-file.entity';
 import { Response } from 'express';
 import { LocalFileByIdPipe } from './pipes/local-file-by-id.pipe';
-import { NotToBeCached } from '../../common/decorators/cached.decorator';
-import { NotToBeTransformed } from '../../common/decorators/transformed.decorator';
+import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorator';
+import { NotToBeTransformed } from '../../common/decorators/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
 
 /**

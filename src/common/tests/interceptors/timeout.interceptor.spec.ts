@@ -33,12 +33,14 @@ describe('TimeoutInterceptor', () => {
 
   describe('when intercept is called', () => {
     const returnedValue: [] = [];
+    let reflectorGetSpy: jest.SpyInstance<any>;
+
+    beforeEach(() => {
+      reflectorGetSpy = jest.spyOn(reflector, 'get');
+    });
 
     describe('and the metadata to not to be timeouted is true', () => {
-      let reflectorGetSpy: jest.SpyInstance<any>;
-
       beforeEach(() => {
-        reflectorGetSpy = jest.spyOn(reflector, 'get');
         reflectorGetSpy.mockReturnValue(true);
       });
 
@@ -56,6 +58,10 @@ describe('TimeoutInterceptor', () => {
     });
 
     describe('and the metadata to not to be timeouted is other than true', () => {
+      beforeEach(() => {
+        reflectorGetSpy.mockReturnValue(undefined);
+      });
+
       describe('and there is no error thrown', () => {
         it(`should return the to be returned value`, (done: any) => {
           callHandler.handle.mockReturnValue(of(returnedValue));
