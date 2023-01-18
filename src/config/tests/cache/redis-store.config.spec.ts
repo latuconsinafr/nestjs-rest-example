@@ -21,17 +21,17 @@ describe('when redisStoreConfig is registered', () => {
 
   it('should return the config when the env is valid', () => {
     const env = {
-      REDIS_HOST: 'localhost',
-      REDIS_PORT: '3783',
+      REDIS_STORE_HOST: 'localhost',
+      REDIS_STORE_PORT: '3783',
     };
 
-    process.env.REDIS_HOST = env.REDIS_HOST;
-    process.env.REDIS_PORT = env.REDIS_PORT;
+    process.env.REDIS_STORE_HOST = env.REDIS_STORE_HOST;
+    process.env.REDIS_STORE_PORT = env.REDIS_STORE_PORT;
 
     const parsedEnv = {
       socket: {
-        host: env.REDIS_HOST,
-        port: parseInt(env.REDIS_PORT),
+        host: env.REDIS_STORE_HOST,
+        port: parseInt(env.REDIS_STORE_PORT),
       },
     };
 

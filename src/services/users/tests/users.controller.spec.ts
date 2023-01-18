@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
@@ -8,6 +9,8 @@ import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
 import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
 import { userProfilesData } from '../../../database/data/user-profiles.data';
 import { usersData } from '../../../database/data/users.data';
+import { LocalFile } from '../../storages/entities/local-file.entity';
+import { StoragesService } from '../../storages/storages.service';
 import { UpdateUserProfileRequest } from '../dto/requests/user-profiles/update-user-profile-request.dto';
 import { CreateUserRequest } from '../dto/requests/users/create-user-request.dto';
 import { UpdateUserRequest } from '../dto/requests/users/update-user-request.dto';
@@ -19,6 +22,7 @@ import { UsersService } from '../users.service';
 describe('UsersController', () => {
   let usersController: UsersController;
   let usersService: UsersService;
+  let storagesService: StoragesService;
   let users: User[];
   let userProfiles: UserProfile[];
 
@@ -26,20 +30,36 @@ describe('UsersController', () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [UsersController],
       providers: [
-        UsersService,
         {
           provide: PinoLogger,
           useValue: mockedLogger,
         },
+        UsersService,
         { provide: getRepositoryToken(User), useValue: mockedRepository },
         {
           provide: getRepositoryToken(UserProfile),
           useValue: mockedRepository,
         },
+        StoragesService,
+        {
+          provide: getRepositoryToken(LocalFile),
+          useValue: mockedRepository,
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn(() => {
+              return {
+                dest: './uploads',
+              };
+            }),
+          },
+        },
       ],
     }).compile();
 
     usersService = moduleRef.get<UsersService>(UsersService);
+    storagesService = moduleRef.get<StoragesService>(StoragesService);
     usersController = moduleRef.get<UsersController>(UsersController);
 
     users = [...usersData];
