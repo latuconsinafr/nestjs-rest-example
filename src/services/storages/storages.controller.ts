@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  InternalServerErrorException,
-  Param,
-  Res,
-  StreamableFile,
-} from '@nestjs/common';
+import { Controller, Get, Param, Res, StreamableFile } from '@nestjs/common';
 import * as fs from 'fs';
 import { PinoLogger } from 'nestjs-pino';
 import { join } from 'path';
@@ -15,6 +8,7 @@ import { LocalFileByIdPipe } from './pipes/local-file-by-id.pipe';
 import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorator';
 import { NotToBeTransformed } from '../../common/decorators/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
+import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 
 /**
  * Defines the storages controller.

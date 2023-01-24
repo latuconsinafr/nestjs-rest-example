@@ -40,6 +40,7 @@ export function LocalFileInterceptor(
       }))();
     }
 
+    /* istanbul ignore next */
     intercept(...args: Parameters<NestInterceptor['intercept']>) {
       return this.fileInterceptor.intercept(...args);
     }

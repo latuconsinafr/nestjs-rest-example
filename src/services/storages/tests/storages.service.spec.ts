@@ -1,9 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
-import { FileGeneralAccess } from '../../../common/enums/file-general-access.enum';
 import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
 import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { localFilesData } from '../../../database/data/local-files.data';
 import { LocalFile } from '../entities/local-file.entity';
 import { StoragesService } from '../storages.service';
 
@@ -25,13 +25,7 @@ describe('StoragesService', () => {
 
     storagesService = moduleRef.get<StoragesService>(StoragesService);
 
-    localFile = {
-      id: 1,
-      fileName: 'avatar.jpg',
-      path: '/users/profiles/avatars',
-      mimeType: 'image/jpg',
-      generalAccess: FileGeneralAccess.Public,
-    };
+    localFile = localFilesData[0];
   });
 
   afterEach(() => {

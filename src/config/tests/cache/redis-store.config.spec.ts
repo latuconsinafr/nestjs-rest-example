@@ -35,9 +35,7 @@ describe('when redisStoreConfig is registered', () => {
       },
     };
 
-    mockedCacheManagerRedisStore.redisStore = jest
-      .fn()
-      .mockResolvedValue(parsedEnv);
+    mockedCacheManagerRedisStore.redisStore.mockResolvedValue(parsedEnv);
     (redisStore as jest.Mock) = mockedCacheManagerRedisStore.redisStore;
 
     expect(redisStoreConfig()).toStrictEqual(parsedEnv);

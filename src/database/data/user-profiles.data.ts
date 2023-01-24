@@ -1,4 +1,5 @@
 import { UserProfile } from '../../services/users/entities/user-profile.entity';
+import { localFilesData } from './local-files.data';
 import { usersData } from './users.data';
 
 /**
@@ -13,5 +14,6 @@ export const userProfilesData: UserProfile[] = [
     location: 'Indonesia',
     website: null,
     birthDate: new Date('1995-08-06'),
+    avatarFileId: localFilesData[0].id,
   }),
 ];
