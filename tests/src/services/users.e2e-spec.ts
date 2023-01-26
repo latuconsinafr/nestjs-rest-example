@@ -1,16 +1,23 @@
-import { HttpStatus, INestApplication } from '@nestjs/common';
+import * as request from 'supertest';
+import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import * as request from 'supertest';
 import { DeepPartial } from 'typeorm';
 import { AppModule } from '../../../src/app.module';
-import { UserRole } from '../../../src/common/enums/user-role.enum';
 import { mockedRepository } from '../../../src/common/utils/mocks/repository.mock';
 import { usersData } from '../../../src/database/data/users.data';
 import { UserProfile } from '../../../src/services/users/entities/user-profile.entity';
 import { User } from '../../../src/services/users/entities/user.entity';
+import { userProfilesData } from '../../../src/database/data/user-profiles.data';
+import { ValidationError } from 'class-validator';
+import { UnprocessableEntityException } from '../../../src/common/exceptions/unprocessable-entity.exception';
+import { localFilesData } from '../../../src/database/data/local-files.data';
 
 const users = [...usersData];
+const userProfiles = [...userProfilesData];
+const localFiles = [...localFilesData];
+
+const userId = users[0].id;
 
 describe('Users', () => {
   let app: INestApplication;
@@ -26,6 +33,15 @@ describe('Users', () => {
       .compile();
 
     app = moduleRef.createNestApplication();
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+        exceptionFactory: (errors: ValidationError[]) => {
+          return new UnprocessableEntityException({}, errors);
+        },
+      }),
+    );
     await app.init();
   });
 
@@ -35,14 +51,16 @@ describe('Users', () => {
 
   it(`/users (POST)`, () => {
     const userToCreate: DeepPartial<User> = {
-      username: 'username',
-      email: 'mail@mail.com',
-      phone: '+6282246924950',
-      password: 'password',
-      roles: [UserRole.User],
+      ...users[0],
+      profile: {
+        ...userProfiles[0],
+      },
     };
 
-    mockedRepository.create.mockReturnValue({ id: 1, ...userToCreate });
+    mockedRepository.create.mockReturnValue({
+      ...userToCreate,
+      profile: { ...userProfiles[0] },
+    });
 
     return request(app.getHttpServer())
       .post('/users')
@@ -50,7 +68,13 @@ describe('Users', () => {
       .expect(HttpStatus.CREATED)
       .expect({
         message: 'User created',
-        data: { id: 1, ...userToCreate },
+        data: {
+          ...userToCreate,
+          profile: {
+            ...userProfiles[0],
+            birthDate: userProfiles[0].birthDate.toISOString(),
+          },
+        },
       });
   });
 
@@ -70,34 +94,29 @@ describe('Users', () => {
       });
   });
 
-  it(`/users/${1} (GET)`, () => {
+  it(`/users/${userId} (GET)`, () => {
     mockedRepository.findOne.mockResolvedValue(
-      users.find((user) => user.id === 1),
+      users.find((user) => user.id === userId),
     );
 
     return request(app.getHttpServer())
-      .get(`/users/${1}`)
+      .get(`/users/${userId}`)
       .expect(HttpStatus.OK)
       .expect({
         message: 'User retrieved',
-        data: { ...users.find((user) => user.id === 1) },
+        data: { ...users.find((user) => user.id === userId) },
       });
   });
 
-  it(`/users/${1} (PUT)`, () => {
+  it(`/users/${userId} (PUT)`, () => {
     const userToUpdate: DeepPartial<User> = {
-      id: 1,
-      username: 'username',
-      email: 'mail@mail.com',
-      phone: '+6282246924950',
-      password: 'password',
-      roles: [UserRole.User],
+      ...users[0],
     };
 
     mockedRepository.update.mockReturnValue(userToUpdate);
 
     return request(app.getHttpServer())
-      .put(`/users/${1}`)
+      .put(`/users/${userId}`)
       .send(userToUpdate)
       .expect(HttpStatus.OK)
       .expect({
@@ -105,31 +124,41 @@ describe('Users', () => {
       });
   });
 
-  it(`/users/${1} (DELETE)`, () => {
+  it(`/users/${userId} (DELETE)`, () => {
     return request(app.getHttpServer())
-      .delete(`/users/${1}`)
+      .delete(`/users/${userId}`)
       .expect(HttpStatus.FORBIDDEN); // * There's an auth decorator above the method
   });
 
-  it(`/users/profile/${1} (PUT)`, () => {
+  it(`/users/profile/${userId} (PUT)`, () => {
     const userProfileToUpdate: DeepPartial<UserProfile> = {
-      id: 1,
-      firstName: 'New',
-      lastName: 'User',
-      bio: null,
-      location: 'Indonesia',
-      website: null,
-      birthDate: new Date('1995-08-06'),
+      ...userProfiles[0],
     };
 
     mockedRepository.update.mockReturnValue(userProfileToUpdate);
 
     return request(app.getHttpServer())
-      .put(`/users/profile/${1}`)
+      .put(`/users/profile/${userId}`)
       .send(userProfileToUpdate)
       .expect(HttpStatus.OK)
       .expect({
         message: 'User profile updated',
+      });
+  });
+
+  it(`/users/profile/${userId}/avatar/upload (PUT)`, () => {
+    mockedRepository.update.mockReturnValue({ ...userProfiles[0] });
+
+    return request(app.getHttpServer())
+      .put(`/users/profile/${userId}/avatar/upload`)
+      .field('id', userId)
+      .attach(
+        'avatar',
+        `${__dirname}/../../../src/database/data/${localFiles[0].path}`,
+      )
+      .expect(HttpStatus.OK)
+      .expect({
+        message: 'User profile avatar updated',
       });
   });
 });

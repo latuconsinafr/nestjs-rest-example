@@ -1,6 +1,5 @@
 import { FileGeneralAccess } from '../../common/enums/file-general-access.enum';
 import { LocalFile } from '../../services/storages/entities/local-file.entity';
-import { usersData } from './users.data';
 
 /**
  * Dummy data for {@link LocalFile} entity.
@@ -8,10 +7,10 @@ import { usersData } from './users.data';
 export const localFilesData: LocalFile[] = [
   new LocalFile({
     id: 1,
-    fileName: 'avatar.jpg',
-    path: '/users/profiles/avatars',
-    mimeType: 'image/jpeg',
+    fileName: 'avatar.png',
+    path: 'media/users/profiles/avatars/a36ed5b784054001a0cf4b6772cd4f29',
+    mimeType: 'image/png',
     generalAccess: FileGeneralAccess.Public,
-    ownerId: usersData[0].id,
+    ownerId: 1,
   }),
 ];

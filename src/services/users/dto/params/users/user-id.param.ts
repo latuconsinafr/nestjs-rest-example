@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
 /**
@@ -6,5 +7,6 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 export class UserIdParam {
   @IsNotEmpty()
   @IsNumber()
+  @Type(/* istanbul ignore next */ () => Number)
   id: number;
 }

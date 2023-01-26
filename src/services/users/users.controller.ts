@@ -248,7 +248,7 @@ export class UsersController {
   async updateUserProfileAvatar(
     @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileAvatarRequest: UserIdParam,
-    @UploadedFile() avatar: Express.Multer.File,
+    @UploadedFile() avatar: Express.Multer.File, // TODO: File validator
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,
