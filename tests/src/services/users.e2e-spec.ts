@@ -42,6 +42,7 @@ describe('Users', () => {
         },
       }),
     );
+
     await app.init();
   });
 
@@ -152,10 +153,7 @@ describe('Users', () => {
     return request(app.getHttpServer())
       .put(`/users/profile/${userId}/avatar/upload`)
       .field('id', userId)
-      .attach(
-        'avatar',
-        `${__dirname}/../../../src/database/data/${localFiles[0].path}`,
-      )
+      .attach('avatar', `${__dirname}/../../../${localFiles[0].path}`)
       .expect(HttpStatus.OK)
       .expect({
         message: 'User profile avatar updated',
