@@ -1,4 +1,4 @@
-export const mockedLogger = {
+export const mockedPinoLogger = {
   setContext: jest.fn(),
 
   log: jest.fn(),

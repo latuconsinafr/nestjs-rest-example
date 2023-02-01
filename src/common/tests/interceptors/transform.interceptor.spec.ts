@@ -1,14 +1,14 @@
 import { Test } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { mockedCallHandler } from '../../utils/mocks/call-handler.mock';
-import { mockedExecutionContext } from '../../utils/mocks/execution-context.mock';
+import { mockedCallHandler } from '../../utils/mocks/@nestjs/common/call-handler.mock';
+import { mockedExecutionContext } from '../../utils/mocks/@nestjs/common/execution-context.mock';
 import {
   mockedGetRequest,
   mockedGetResponse,
-} from '../../utils/mocks/arguments-host.mock';
+} from '../../utils/mocks/@nestjs/common/arguments-host.mock';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { Reflector } from '@nestjs/core';
-import { mockedReflector } from '../../utils/mocks/reflector.mock';
+import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
 
 describe('TransformInterceptor', () => {
   const executionContext = mockedExecutionContext as any;

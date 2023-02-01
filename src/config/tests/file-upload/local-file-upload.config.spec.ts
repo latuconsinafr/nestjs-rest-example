@@ -1,6 +1,6 @@
 import { localFileUploadConfig } from '../../file-upload/local-file-upload.config';
 import * as fs from 'fs';
-import { mockedFs } from '../../../common/utils/mocks/fs.mock';
+import { mockedFs } from '../../../common/utils/mocks/fs/fs.mock';
 
 describe('when localFileUploadConfig is registered', () => {
   const env = process.env;

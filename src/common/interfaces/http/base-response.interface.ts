@@ -24,10 +24,10 @@ export type BaseResponse = {
 /**
  * Defines the shape of validation error response type.
  */
-export type ValidationErrorResponse = {
+export type ValidationErrorBaseResponse = {
   // * The property which is fail to validate
   property: string;
 
   // * The constraint which is fail to validate
-  constraints: string[] | ValidationErrorResponse[];
+  constraints: string[] | ValidationErrorBaseResponse[];
 };

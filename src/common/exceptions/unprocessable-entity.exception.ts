@@ -5,7 +5,7 @@ import {
   DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE,
 } from '../constants';
 import { ErrorCode } from '../enums/error-code.enum';
-import { ValidationErrorResponse } from '../interfaces/http/base-response.interface';
+import { ValidationErrorBaseResponse } from '../interfaces/http/base-response.interface';
 import { ErrorResponse } from '../interfaces/http/error-response.interface';
 
 /**
@@ -18,7 +18,7 @@ import { ErrorResponse } from '../interfaces/http/error-response.interface';
  */
 const mapChildrenToValidationErrorResponses = (
   errors: ValidationError[],
-): ValidationErrorResponse[] => {
+): ValidationErrorBaseResponse[] => {
   return errors.map((error) => ({
     property: error.property,
     constraints:

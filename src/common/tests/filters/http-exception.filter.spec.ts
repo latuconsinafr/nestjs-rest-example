@@ -9,11 +9,11 @@ import {
   mockedGetRequest,
   mockedJson,
   mockedStatus,
-} from '../../utils/mocks/arguments-host.mock';
+} from '../../utils/mocks/@nestjs/common/arguments-host.mock';
 import { HttpExceptionFilter } from '../../filters/http-exception.filter';
 import { InternalServerErrorException } from '../../exceptions/internal-server-error.exception';
 import { getLoggerToken } from 'nestjs-pino';
-import { mockedLogger } from '../../utils/mocks/logger.mock';
+import { mockedPinoLogger } from '../../utils/mocks/nestjs-pino/pino-logger.mock';
 
 const argumentsHost = mockedArgumentsHost as any;
 
@@ -26,7 +26,7 @@ describe('HttpExceptionFilter', () => {
         HttpExceptionFilter,
         {
           provide: getLoggerToken(HttpExceptionFilter.name),
-          useValue: mockedLogger,
+          useValue: mockedPinoLogger,
         },
       ],
     }).compile();
@@ -96,7 +96,7 @@ describe('HttpExceptionFilter', () => {
       it('should log the error exception', () => {
         httpExceptionFilter.catch(exception, argumentsHost);
 
-        expect(mockedLogger.error).toBeCalledWith(exception);
+        expect(mockedPinoLogger.error).toBeCalledWith(exception);
       });
     });
 
@@ -104,7 +104,7 @@ describe('HttpExceptionFilter', () => {
       it('should log the warn exception', () => {
         httpExceptionFilter.catch(exception, argumentsHost);
 
-        expect(mockedLogger.warn).toBeCalledWith(exception);
+        expect(mockedPinoLogger.warn).toBeCalledWith(exception);
       });
     });
 

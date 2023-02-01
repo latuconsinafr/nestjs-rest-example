@@ -60,9 +60,10 @@ export class TransformInterceptor<T>
     const ctx = context.switchToHttp();
     const request = ctx.getRequest();
     const response = ctx.getResponse();
+    const httpStatus = response.statusCode;
 
     const baseResponseBody: BaseResponse = {
-      statusCode: response.statusCode,
+      statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: request.url,
       success: true,

@@ -39,8 +39,11 @@ export class RolesGuard implements CanActivate {
   }
 
   /**
+   * Function that matches incoming roles with user roles.
+   *
    * @param roles The roles to guard
    * @param userRoles The user roles
+   *
    * @returns The flag indicates whether a given user has a role that match,
    * return true if user has matching role(s), otherwise false.
    */

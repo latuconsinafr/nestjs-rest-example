@@ -4,16 +4,16 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
 import { Readable } from 'stream';
-import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
-import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { mockedPinoLogger } from '../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
+import { mockedRepository } from '../../../common/utils/mocks/typeorm/repository.mock';
 import { LocalFile } from '../entities/local-file.entity';
 import { StoragesController } from '../storages.controller';
 import { StoragesService } from '../storages.service';
 import * as fs from 'fs';
 import { localFilesData } from '../../../database/data/local-files.data';
-import { mockedFs } from '../../../common/utils/mocks/fs.mock';
+import { mockedFs } from '../../../common/utils/mocks/fs/fs.mock';
 import { response } from 'express';
-import { mockedResponse } from '../../../common/utils/mocks/response.mock';
+import { mockedResponse } from '../../../common/utils/mocks/express/response.mock';
 import { NotFoundException } from '../../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
 
@@ -28,7 +28,7 @@ describe('StoragesController', () => {
       providers: [
         {
           provide: PinoLogger,
-          useValue: mockedLogger,
+          useValue: mockedPinoLogger,
         },
         StoragesService,
         {

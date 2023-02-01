@@ -4,7 +4,7 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DeepPartial } from 'typeorm';
 import { AppModule } from '../../../src/app.module';
-import { mockedRepository } from '../../../src/common/utils/mocks/repository.mock';
+import { mockedRepository } from '../../../src/common/utils/mocks/typeorm/repository.mock';
 import { usersData } from '../../../src/database/data/users.data';
 import { UserProfile } from '../../../src/services/users/entities/user-profile.entity';
 import { User } from '../../../src/services/users/entities/user.entity';

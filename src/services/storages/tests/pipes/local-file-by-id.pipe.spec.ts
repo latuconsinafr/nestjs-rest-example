@@ -5,8 +5,8 @@ import { PinoLogger } from 'nestjs-pino';
 import { FileGeneralAccess } from '../../../../common/enums/file-general-access.enum';
 import { NotFoundException } from '../../../../common/exceptions/not-found.exception';
 import { UnprocessableEntityException } from '../../../../common/exceptions/unprocessable-entity.exception';
-import { mockedLogger } from '../../../../common/utils/mocks/logger.mock';
-import { mockedRepository } from '../../../../common/utils/mocks/repository.mock';
+import { mockedPinoLogger } from '../../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
+import { mockedRepository } from '../../../../common/utils/mocks/typeorm/repository.mock';
 import { LocalFile } from '../../entities/local-file.entity';
 import { LocalFileByIdPipe } from '../../pipes/local-file-by-id.pipe';
 import { StoragesService } from '../../storages.service';
@@ -22,7 +22,7 @@ describe('LocalFileByIdPipe', () => {
       providers: [
         LocalFileByIdPipe,
         StoragesService,
-        { provide: PinoLogger, useValue: mockedLogger },
+        { provide: PinoLogger, useValue: mockedPinoLogger },
         { provide: getRepositoryToken(LocalFile), useValue: mockedRepository },
       ],
     }).compile();

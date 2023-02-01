@@ -3,7 +3,7 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../../src/app.module';
 import { PinoLogger } from 'nestjs-pino';
-import { mockedLogger } from '../../src/common/utils/mocks/logger.mock';
+import { mockedLogger } from '../../src/common/utils/mocks/nestjs-pino/pino-logger.mock';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;

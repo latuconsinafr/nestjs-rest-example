@@ -6,8 +6,8 @@ import { SuccessResponseDto } from '../../../common/dto/responses/success-respon
 import { FileGeneralAccess } from '../../../common/enums/file-general-access.enum';
 import { ConflictException } from '../../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
-import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
-import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { mockedPinoLogger } from '../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
+import { mockedRepository } from '../../../common/utils/mocks/typeorm/repository.mock';
 import { userProfilesData } from '../../../database/data/user-profiles.data';
 import { usersData } from '../../../database/data/users.data';
 import { LocalFile } from '../../storages/entities/local-file.entity';
@@ -35,7 +35,7 @@ describe('UsersController', () => {
       providers: [
         {
           provide: PinoLogger,
-          useValue: mockedLogger,
+          useValue: mockedPinoLogger,
         },
         UsersService,
         { provide: getRepositoryToken(User), useValue: mockedRepository },

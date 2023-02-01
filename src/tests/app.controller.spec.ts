@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PinoLogger } from 'nestjs-pino';
 import { AppController } from '../app.controller';
-import { mockedLogger } from '../common/utils/mocks/logger.mock';
+import { mockedPinoLogger } from '../common/utils/mocks/nestjs-pino/pino-logger.mock';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -9,7 +9,7 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [{ provide: PinoLogger, useValue: mockedLogger }],
+      providers: [{ provide: PinoLogger, useValue: mockedPinoLogger }],
     }).compile();
 
     appController = app.get<AppController>(AppController);

@@ -1,12 +1,12 @@
 import { Test } from '@nestjs/testing';
-import { mockedExecutionContext } from '../../utils/mocks/execution-context.mock';
-import { mockedCallHandler } from '../../utils/mocks/call-handler.mock';
+import { mockedExecutionContext } from '../../utils/mocks/@nestjs/common/execution-context.mock';
+import { mockedCallHandler } from '../../utils/mocks/@nestjs/common/call-handler.mock';
 import { delay, EmptyError, of, throwError } from 'rxjs';
 import { APP_MAX_TIMEOUT } from '../../constants';
 import { RequestTimeoutException } from '../../exceptions/request-timeout.exception';
 import { TimeoutInterceptor } from '../../interceptors/timeout.interceptor';
 import { Reflector } from '@nestjs/core';
-import { mockedReflector } from '../../utils/mocks/reflector.mock';
+import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
 
 describe('TimeoutInterceptor', () => {
   const executionContext = mockedExecutionContext as any;

@@ -3,7 +3,7 @@ import { HttpStatus, INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AppModule } from '../../../src/app.module';
-import { mockedRepository } from '../../../src/common/utils/mocks/repository.mock';
+import { mockedRepository } from '../../../src/common/utils/mocks/typeorm/repository.mock';
 import { localFilesData } from '../../../src/database/data/local-files.data';
 import { LocalFile } from '../../../src/services/storages/entities/local-file.entity';
 

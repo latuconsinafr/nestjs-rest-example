@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
 import { of } from 'rxjs';
-import { mockedCallHandler } from '../../utils/mocks/call-handler.mock';
-import { mockedExecutionContext } from '../../utils/mocks/execution-context.mock';
-import { mockedGetRequest } from '../../utils/mocks/arguments-host.mock';
+import { mockedCallHandler } from '../../utils/mocks/@nestjs/common/call-handler.mock';
+import { mockedExecutionContext } from '../../utils/mocks/@nestjs/common/execution-context.mock';
+import { mockedGetRequest } from '../../utils/mocks/@nestjs/common/arguments-host.mock';
 import { LoggingInterceptor } from '../../interceptors/logging.interceptor';
 import { getLoggerToken } from 'nestjs-pino';
-import { mockedLogger } from '../../utils/mocks/logger.mock';
+import { mockedPinoLogger } from '../../utils/mocks/nestjs-pino/pino-logger.mock';
 
 describe('LoggingInterceptor', () => {
   const executionContext = mockedExecutionContext as any;
@@ -19,7 +19,7 @@ describe('LoggingInterceptor', () => {
         LoggingInterceptor,
         {
           provide: getLoggerToken(LoggingInterceptor.name),
-          useValue: mockedLogger,
+          useValue: mockedPinoLogger,
         },
       ],
     }).compile();
@@ -46,7 +46,7 @@ describe('LoggingInterceptor', () => {
         },
       });
 
-      expect(mockedLogger.log).toBeCalledWith(`Start hitting ${url}...`);
+      expect(mockedPinoLogger.log).toBeCalledWith(`Start hitting ${url}...`);
     });
 
     it(`should logging 3 times: Initialized, Start hitting and After`, (done: any) => {
@@ -54,7 +54,7 @@ describe('LoggingInterceptor', () => {
         complete() {
           done();
 
-          expect(mockedLogger.log).toBeCalledTimes(2);
+          expect(mockedPinoLogger.log).toBeCalledTimes(2);
         },
       });
     });

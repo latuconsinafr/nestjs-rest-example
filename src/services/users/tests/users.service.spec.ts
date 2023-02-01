@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
-import { mockedLogger } from '../../../common/utils/mocks/logger.mock';
-import { mockedRepository } from '../../../common/utils/mocks/repository.mock';
+import { mockedPinoLogger } from '../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
+import { mockedRepository } from '../../../common/utils/mocks/typeorm/repository.mock';
 import { userProfilesData } from '../../../database/data/user-profiles.data';
 import { usersData } from '../../../database/data/users.data';
 import { UserProfile } from '../entities/user-profile.entity';
@@ -20,7 +20,7 @@ describe('UsersService', () => {
         UsersService,
         {
           provide: PinoLogger,
-          useValue: mockedLogger,
+          useValue: mockedPinoLogger,
         },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
         {
