@@ -138,7 +138,7 @@ export class UsersController {
   /**
    * Update a user by a given id endpoint.
    *
-   * @param params The user id request parameter
+   * @param id The user id request parameter
    * @param updateUserRequest The DTO that carries data to update a user
    *
    * @returns The success response with `'User updated'` message.
@@ -202,7 +202,7 @@ export class UsersController {
   /**
    * Update a user profile by a given id endpoint.
    *
-   * @param params The user id request parameter
+   * @param id The user id request parameter
    * @param updateUserProfileRequest The DTO that carries data to update a user profile
    *
    * @returns The success response with `'User profile updated'` message.

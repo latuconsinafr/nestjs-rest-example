@@ -22,6 +22,8 @@ import { RedisClientOptions } from 'redis';
 import { localFileUploadConfig } from './file-upload/local-file-upload.config';
 import { MulterModule } from '@nestjs/platform-express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
+import { jwtConfig } from './auth/jwt.config';
 
 /**
  * Defines the application configuration module.
@@ -34,6 +36,7 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
  * - {@link CacheModule}: The nestjs CacheModule, load cache configuration
  * - {@link ScheduleModule}: The nestjs ScheduleModule, load task scheduling configuration
  * - {@link MulterModule}: The nestjs MulterModule, load local file upload configuration
+ * - {@link JwtModule}: The nestjs-jwt JwtModule, load JWT configuration
  */
 @Module({
   imports: [
@@ -47,6 +50,7 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
         cacheConfig,
         redisStoreConfig,
         localFileUploadConfig,
+        jwtConfig,
       ],
     }),
     LoggerModule.forRootAsync({
@@ -77,6 +81,12 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...configService.get<MulterOptions>('local-file-upload'),
+      }),
+    }),
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ...configService.get<JwtModuleOptions>('jwt'),
       }),
     }),
   ],

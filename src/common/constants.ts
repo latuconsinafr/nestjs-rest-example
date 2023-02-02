@@ -57,6 +57,13 @@ export const DEFAULT_HELP_MESSAGE = 'Help is not available';
 
 // * Default messages section
 /**
+ * Defines default message for the unauthorized error exception.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}
+ */
+export const DEFAULT_UNAUTHORIZED_MESSAGE = 'Unauthorized';
+
+/**
  * Defines default message for the resource not found error exception.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}

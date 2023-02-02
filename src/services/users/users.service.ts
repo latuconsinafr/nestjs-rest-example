@@ -74,6 +74,24 @@ export class UsersService {
   }
 
   /**
+   * Gets a user by a given username.
+   *
+   * @param username The username to find
+   *
+   * @returns The user if it exists, otherwise null.
+   */
+  async findByUsername(username: string): Promise<User | null> {
+    this.logger.info(
+      `Try to call ${UsersService.prototype.findByUsername.name}`,
+    );
+
+    return await this.usersRepository.findOne({
+      where: { username: username },
+      relations: ['profile'],
+    });
+  }
+
+  /**
    * Updates a user by a given id.
    *
    * @param id The id to find
