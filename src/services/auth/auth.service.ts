@@ -5,6 +5,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { AuthResponse } from './interface/auth-response.interface';
+import * as argon2 from 'argon2';
 
 /**
  * Defines the auth service that responsible for application authentication.
@@ -42,19 +43,13 @@ export class AuthService {
    * @param username The username to verify
    * @param password The password to verify
    *
-   * @returns The user entity with `password` attribute being omitted if it exists, otherwise null.
+   * @returns The verified user entity.
    */
-  async validateUser(
-    username: string,
-    password: string,
-  ): Promise<Omit<User, 'password'> | null> {
+  async validateUser(username: string, password: string): Promise<User | null> {
     const user = await this.usersService.findByUsername(username);
 
-    if (user && user.password === password) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-
-      return result;
+    if (user && (await argon2.verify(user.password, password))) {
+      return user;
     }
 
     return null;

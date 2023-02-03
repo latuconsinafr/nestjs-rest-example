@@ -33,12 +33,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    * @param username The username to validate
    * @param password The password to validate
    *
-   * @returns The user entity with `password` attribute being omitted.
+   * @returns The user entity.
    */
-  async validate(
-    username: string,
-    password: string,
-  ): Promise<Omit<User, 'password'>> {
+  async validate(username: string, password: string): Promise<User> {
     const user = await this.authService.validateUser(username, password);
 
     if (!user) {

@@ -4,6 +4,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { Repository } from 'typeorm';
 import { UserProfile } from './entities/user-profile.entity';
 import { User } from './entities/user.entity';
+import * as argon2 from 'argon2';
 
 // * Service will be responsible for data storage and retrieval
 /**
@@ -39,6 +40,7 @@ export class UsersService {
 
     const createdUser: User = this.usersRepository.create({
       ...user,
+      password: await argon2.hash(user.password),
     });
 
     await this.usersRepository.save(createdUser);
