@@ -1,6 +1,6 @@
 import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { FileGeneralAccess } from '../../../../common/enums/file-general-access.enum';
 import { LocalFile } from '../../entities/local-file.entity';
+import { FileGeneralAccess } from '../../enums/file-general-access.enum';
 
 /**
  * Defines the DTO that carries data to upload a file.

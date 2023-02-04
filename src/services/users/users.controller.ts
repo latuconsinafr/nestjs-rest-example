@@ -7,11 +7,10 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
-import { UserRole } from '../../common/enums/user-role.enum';
-import { Auth } from '../../common/decorators/auth.decorator';
 import { CreateUserRequest } from './dto/requests/users/create-user-request.dto';
 import { User } from './entities/user.entity';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
@@ -24,10 +23,13 @@ import { PinoLogger } from 'nestjs-pino';
 import { UpdateUserProfileRequest } from './dto/requests/user-profiles/update-user-profile-request.dto';
 import { StoragesService } from '../storages/storages.service';
 import { CreateLocalFileRequest } from '../storages/dto/requests/create-local-file-request.dto';
-import { FileGeneralAccess } from '../../common/enums/file-general-access.enum';
 import { LocalFileInterceptor } from '../storages/interceptors/local-file-interceptor';
 import { UserProfile } from './entities/user-profile.entity';
 import { UserIdParam } from './dto/params/users/user-id.param';
+import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
+import { UserRole } from './enums/user-role.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 /**
  * Defines the users controller.
@@ -60,6 +62,7 @@ export class UsersController {
    * @returns The success response with `'User created'` message and created `user` data.
    */
   @Post()
+  @Roles(UserRole.SuperAdmin)
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
   ): Promise<SuccessResponse> {
@@ -90,6 +93,8 @@ export class UsersController {
    * @returns The success response with `'Users retrieved'` message and `users` data.
    */
   @Get()
+  @Roles(UserRole.SuperAdmin)
+  @UseGuards(RolesGuard)
   // @UseFilters(AllExceptionsFilter)
   async findAllUsers(): Promise<SuccessResponse> {
     this.logger.info(
@@ -180,7 +185,7 @@ export class UsersController {
    * @returns The action string.
    */
   @Delete(':id')
-  @Auth(UserRole.SuperAdmin)
+  @Roles(UserRole.SuperAdmin)
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,

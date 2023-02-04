@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UserRole } from '../../../common/enums/user-role.enum';
+import { UserRole } from '../enums/user-role.enum';
 import { UserProfile } from './user-profile.entity';
 
 /**

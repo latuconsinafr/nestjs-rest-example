@@ -5,8 +5,8 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
-import { FileGeneralAccess } from '../../../common/enums/file-general-access.enum';
 import { User } from '../../users/entities/user.entity';
+import { FileGeneralAccess } from '../enums/file-general-access.enum';
 
 /**
  * Defines the local file entity.
