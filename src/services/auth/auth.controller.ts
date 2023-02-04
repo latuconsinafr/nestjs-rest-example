@@ -2,16 +2,16 @@ import {
   Controller,
   Request,
   Post,
-  UseGuards,
   HttpCode,
   Get,
+  UseGuards,
 } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
 import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Public } from './decorators/public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import RequestWithUser from './interface/request-with-user.interface';
 
@@ -42,7 +42,6 @@ export class AuthController {
    * @returns The success response with `'User authenticated'` message and a `user` data.
    */
   @Get()
-  @UseGuards(JwtAuthGuard)
   async authenticate(
     @Request() { user }: RequestWithUser,
   ): Promise<SuccessResponse> {
@@ -63,6 +62,7 @@ export class AuthController {
    *
    * @returns The success response with `'Signed in'` message and an `AuthResponse` data.
    */
+  @Public()
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
   @HttpCode(200)

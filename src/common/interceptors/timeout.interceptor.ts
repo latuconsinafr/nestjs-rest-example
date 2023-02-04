@@ -27,7 +27,7 @@ export class TimeoutInterceptor implements NestInterceptor {
   /**
    * The constructor.
    *
-   * @param reflector The reflector to access the route's role(s) (custom metadata)
+   * @param reflector The reflector to access the route's custom metadata
    */
   constructor(private readonly reflector: Reflector) {}
 

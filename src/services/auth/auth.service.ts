@@ -46,6 +46,8 @@ export class AuthService {
    * @returns The verified user entity.
    */
   async validateUser(username: string, password: string): Promise<User | null> {
+    this.logger.info(`Try to call ${AuthService.prototype.validateUser.name}`);
+
     const user = await this.usersService.findByUsername(username);
 
     if (user && (await argon2.verify(user.password, password))) {
@@ -63,6 +65,8 @@ export class AuthService {
    * @returns The {@link AuthResponse}.
    */
   async signIn(user: User): Promise<AuthResponse> {
+    this.logger.info(`Try to call ${AuthService.prototype.signIn.name}`);
+
     const payload = { username: user.username, sub: user.id };
 
     return {

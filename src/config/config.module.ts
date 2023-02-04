@@ -14,8 +14,6 @@ import { databaseConfig } from './database/database.config';
 import { appConfig } from './app/app.config';
 import { cacheConfig } from './cache/cache.config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { HttpCacheInterceptor } from '../common/interceptors/http-cache.interceptor';
 import { redisStore } from 'cache-manager-redis-store';
 import { redisStoreConfig } from './cache/redis-store.config';
 import { RedisClientOptions } from 'redis';
@@ -89,12 +87,6 @@ import { jwtConfig } from './auth/jwt.config';
         ...configService.get<JwtModuleOptions>('jwt'),
       }),
     }),
-  ],
-  providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: HttpCacheInterceptor,
-    },
   ],
 })
 export class ConfigModule {}
