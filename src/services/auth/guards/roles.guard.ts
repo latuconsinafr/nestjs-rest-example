@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLES_METADATA } from '../constants';
+import { ROLES_METADATA } from '../../../common/constants';
 
 /**
  * Class defining function that implement guard based on {@link UserRole}.

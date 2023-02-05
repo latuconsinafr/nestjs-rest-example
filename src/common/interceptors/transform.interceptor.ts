@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable, map } from 'rxjs';
-import { NOT_TO_BE_TRANSFORMED_METADATA } from '../constants';
+import { NOT_TO_BE_TRANSFORMED_KEY } from '../constants';
 import { BaseResponse } from '../interfaces/http/base-response.interface';
 
 /**
@@ -46,9 +46,9 @@ export class TransformInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
-    // * Get the not to be transformed status meta data by the NOT_TO_BE_TRANSFORMED_METADATA
+    // * Get the not to be transformed status meta data by the NOT_TO_BE_TRANSFORMED_KEY
     const notToBeTransformedMetadata = this.reflector.get(
-      NOT_TO_BE_TRANSFORMED_METADATA,
+      NOT_TO_BE_TRANSFORMED_KEY,
       context.getHandler(),
     );
 

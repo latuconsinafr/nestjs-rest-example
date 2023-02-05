@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
 import { SuccessResponseDto } from '../../../common/dto/responses/success-response.dto';
-import { FileGeneralAccess } from '../../../common/enums/file-general-access.enum';
+import { FileGeneralAccess } from '../../storages/enums/file-general-access.enum';
 import { ConflictException } from '../../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
 import { mockedPinoLogger } from '../../../common/utils/mocks/nestjs-pino/pino-logger.mock';

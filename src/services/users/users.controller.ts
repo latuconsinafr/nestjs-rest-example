@@ -10,8 +10,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
-import { UserRole } from '../../common/enums/user-role.enum';
-import { Auth } from '../../common/decorators/auth.decorator';
 import { CreateUserRequest } from './dto/requests/users/create-user-request.dto';
 import { User } from './entities/user.entity';
 import { UserByIdPipe } from './pipes/user-by-id.pipe';
@@ -24,7 +22,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { UpdateUserProfileRequest } from './dto/requests/user-profiles/update-user-profile-request.dto';
 import { StoragesService } from '../storages/storages.service';
 import { CreateLocalFileRequest } from '../storages/dto/requests/create-local-file-request.dto';
-import { FileGeneralAccess } from '../../common/enums/file-general-access.enum';
+import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
 import { LocalFileInterceptor } from '../storages/interceptors/local-file-interceptor';
 import { UserProfile } from './entities/user-profile.entity';
 import { UserIdParam } from './dto/params/users/user-id.param';
@@ -81,9 +79,6 @@ export class UsersController {
     }
   }
 
-  // * Asynchronous example
-  // * Prefer applying filters by using classes instead of instances when possible
-  // * @see {@link https://docs.nestjs.com/exception-filters documentation}
   /**
    * Get all users endpoint.
    *
@@ -107,12 +102,6 @@ export class UsersController {
       throw new InternalServerErrorException();
     }
   }
-
-  // * Observable streams example
-  // @Get()
-  // findAllUsers(): Observable<[]> {
-  //   return of([]);
-  // }
 
   /**
    * Get a user by a given id endpoint.
@@ -180,7 +169,6 @@ export class UsersController {
    * @returns The action string.
    */
   @Delete(':id')
-  @Auth(UserRole.SuperAdmin)
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,

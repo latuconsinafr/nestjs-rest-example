@@ -111,14 +111,14 @@ export const ROLES_METADATA = 'roles_guard:roles';
  *
  * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
  */
-export const NOT_TO_BE_CACHED_METADATA = 'cache_interceptor:not_to_be_cached';
+export const NOT_TO_BE_CACHED_KEY = 'cache_interceptor:not_to_be_cached';
 
 /**
  * Defines the meta data for route handler not to be transformed.
  *
  * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
  */
-export const NOT_TO_BE_TRANSFORMED_METADATA =
+export const NOT_TO_BE_TRANSFORMED_KEY =
   'transform_interceptor:not_to_be_transformed';
 
 /**
@@ -126,5 +126,5 @@ export const NOT_TO_BE_TRANSFORMED_METADATA =
  *
  * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
  */
-export const NOT_TO_BE_TIMEOUTED_METADATA =
+export const NOT_TO_BE_TIMEOUTED_KEY =
   'timeout_interceptor:not_to_be_timeouted';

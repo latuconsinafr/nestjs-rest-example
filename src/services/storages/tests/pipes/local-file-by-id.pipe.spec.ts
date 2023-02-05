@@ -2,7 +2,7 @@ import { ArgumentMetadata } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
-import { FileGeneralAccess } from '../../../../common/enums/file-general-access.enum';
+import { FileGeneralAccess } from '../../enums/file-general-access.enum';
 import { NotFoundException } from '../../../../common/exceptions/not-found.exception';
 import { UnprocessableEntityException } from '../../../../common/exceptions/unprocessable-entity.exception';
 import { mockedPinoLogger } from '../../../../common/utils/mocks/nestjs-pino/pino-logger.mock';

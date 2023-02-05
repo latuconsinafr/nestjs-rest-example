@@ -12,7 +12,7 @@ import {
   TimeoutError,
   throwError,
 } from 'rxjs';
-import { APP_MAX_TIMEOUT, NOT_TO_BE_TIMEOUTED_METADATA } from '../constants';
+import { APP_MAX_TIMEOUT, NOT_TO_BE_TIMEOUTED_KEY } from '../constants';
 import { RequestTimeoutException } from '../exceptions/request-timeout.exception';
 
 /**
@@ -35,9 +35,9 @@ export class TimeoutInterceptor implements NestInterceptor {
    * {@inheritDoc NestInterceptor.intercept}
    */
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    // * Get the not to be timeouted status meta data by the NOT_TO_BE_TIMEOUTED_METADATA
+    // * Get the not to be timeouted status meta data by the NOT_TO_BE_TIMEOUTED_KEY
     const notToBeTimeouted = this.reflector.get(
-      NOT_TO_BE_TIMEOUTED_METADATA,
+      NOT_TO_BE_TIMEOUTED_KEY,
       context.getHandler(),
     );
 

@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
-import { NOT_TO_BE_TRANSFORMED_METADATA } from '../constants';
+import { NOT_TO_BE_TRANSFORMED_KEY } from '../constants';
 
 /**
  * Decorator that combine multiple decorators to apply transform implementation,
@@ -17,5 +17,5 @@ import { NOT_TO_BE_TRANSFORMED_METADATA } from '../constants';
  * @param roles An array of user roles to bind
  */
 export function NotToBeTransformed() {
-  return applyDecorators(SetMetadata(NOT_TO_BE_TRANSFORMED_METADATA, true));
+  return applyDecorators(SetMetadata(NOT_TO_BE_TRANSFORMED_KEY, true));
 }

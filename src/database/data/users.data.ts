@@ -1,4 +1,4 @@
-import { UserRole } from '../../common/enums/user-role.enum';
+import { UserRole } from '../../services/users/enums/user-role.enum';
 import { User } from '../../services/users/entities/user.entity';
 
 /**

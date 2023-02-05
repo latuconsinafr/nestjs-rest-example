@@ -1,10 +1,10 @@
 import { Reflector } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
-import { UserRole } from '../../enums/user-role.enum';
+import { UserRole } from '../../../services/users/enums/user-role.enum';
 import { mockedGetRequest } from '../../utils/mocks/@nestjs/common/arguments-host.mock';
 import { mockedExecutionContext } from '../../utils/mocks/@nestjs/common/execution-context.mock';
 import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
-import { RolesGuard } from '../../guards/roles.guard';
+import { RolesGuard } from '../../../services/auth/guards/roles.guard';
 
 describe('RolesGuard', () => {
   const executionContext = mockedExecutionContext as any;

@@ -9,7 +9,7 @@ import {
   Length,
   ValidateNested,
 } from 'class-validator';
-import { UserRole } from '../../../../../common/enums/user-role.enum';
+import { UserRole } from '../../../enums/user-role.enum';
 import { User } from '../../../entities/user.entity';
 import { CreateUserProfileRequest } from '../user-profiles/create-user-profile-request.dto';
 

@@ -1,4 +1,4 @@
-import { FileGeneralAccess } from '../../common/enums/file-general-access.enum';
+import { FileGeneralAccess } from '../../services/storages/enums/file-general-access.enum';
 import { LocalFile } from '../../services/storages/entities/local-file.entity';
 
 /**
