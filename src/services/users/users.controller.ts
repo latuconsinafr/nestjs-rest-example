@@ -7,8 +7,8 @@ import {
   Post,
   Put,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
+  Request,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { CreateUserRequest } from './dto/requests/users/create-user-request.dto';
@@ -27,7 +27,11 @@ import { LocalFileInterceptor } from '../storages/interceptors/local-file-interc
 import { UserProfile } from './entities/user-profile.entity';
 import { UserIdParam } from './dto/params/users/user-id.param';
 import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
-import { RolesGuard } from '../auth/guards/roles.guard';
+import {
+  Actions,
+  CaslAbilityFactory,
+} from '../../common/services/casl/casl-ability.factory';
+import RequestWithUser from '../auth/interface/request-with-user.interface';
 
 /**
  * Defines the users controller.
@@ -48,6 +52,7 @@ export class UsersController {
     private readonly logger: PinoLogger,
     private readonly usersService: UsersService,
     private readonly storagesService: StoragesService,
+    private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {
     this.logger.setContext(UsersController.name);
   }
@@ -62,9 +67,16 @@ export class UsersController {
   @Post()
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.createUser.name}`,
+    );
+
+    this.caslAbilityFactory.checkAbility(
+      authenticatedUser,
+      Actions.Create,
+      User,
     );
 
     try {
@@ -87,10 +99,17 @@ export class UsersController {
    * @returns The success response with `'Users retrieved'` message and `users` data.
    */
   @Get()
-  @UseGuards(RolesGuard)
-  async findAllUsers(): Promise<SuccessResponse> {
+  async findAllUsers(
+    @Request() { authenticatedUser }: RequestWithUser,
+  ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findAllUsers.name}`,
+    );
+
+    this.caslAbilityFactory.checkAbility(
+      authenticatedUser,
+      Actions.ReadAll,
+      User,
     );
 
     try {
@@ -115,9 +134,16 @@ export class UsersController {
   @Get(':id')
   async findUserById(
     @Param('id', UserByIdPipe) user: User,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findUserById.name}`,
+    );
+
+    this.caslAbilityFactory.checkAbility(
+      authenticatedUser,
+      Actions.ReadSingle,
+      user,
     );
 
     return new SuccessResponseDto({
@@ -136,20 +162,27 @@ export class UsersController {
    */
   @Put(':id')
   async updateUser(
-    @Param('id', UserByIdPipe) { id }: User,
+    @Param('id', UserByIdPipe) user: User,
     @Body() updateUserRequest: UpdateUserRequest,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUser.name}`,
     );
 
-    if (id !== updateUserRequest.id) {
+    this.caslAbilityFactory.checkAbility(
+      authenticatedUser,
+      Actions.Update,
+      user,
+    );
+
+    if (user.id !== updateUserRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
       await this.usersService.update(
-        id,
+        user.id,
         UpdateUserRequest.toEntity(updateUserRequest),
       );
 
@@ -171,9 +204,18 @@ export class UsersController {
    * @returns The action string.
    */
   @Delete(':id')
-  async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
+  async deleteUser(
+    @Param('id', UserByIdPipe) { id }: User,
+    @Request() { authenticatedUser }: RequestWithUser,
+  ) {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,
+    );
+
+    this.caslAbilityFactory.checkAbility(
+      authenticatedUser,
+      Actions.Delete,
+      User,
     );
 
     try {
@@ -199,20 +241,27 @@ export class UsersController {
    */
   @Put('profile/:id')
   async updateUserProfile(
-    @Param('id', UserByIdPipe) { id }: User,
+    @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileRequest: UpdateUserProfileRequest,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfile.name}`,
     );
 
-    if (id !== updateUserProfileRequest.id) {
+    this.caslAbilityFactory.checkAbility(
+      authenticatedUser,
+      Actions.UpdateProfile,
+      user,
+    );
+
+    if (user.id !== updateUserProfileRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
       await this.usersService.updateProfile(
-        id,
+        user.id,
         UpdateUserProfileRequest.toEntity(updateUserProfileRequest),
       );
 
@@ -238,10 +287,17 @@ export class UsersController {
   async updateUserProfileAvatar(
     @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileAvatarRequest: UserIdParam,
-    @UploadedFile() avatar: Express.Multer.File, // TODO: File validator
+    @UploadedFile() avatar: Express.Multer.File, // TODO: File validator,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,
+    );
+
+    this.caslAbilityFactory.checkAbility(
+      authenticatedUser,
+      Actions.UpdateProfileAvatar,
+      user,
     );
 
     if (user.id !== updateUserProfileAvatarRequest.id) {

@@ -9,6 +9,7 @@ import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorato
 import { NotToBeTransformed } from '../../common/decorators/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
+import { Public } from '../auth/decorators/public.decorator';
 
 /**
  * Defines the storages controller.
@@ -36,6 +37,7 @@ export class StoragesController {
    * @returns The Streamable of LocalFile
    */
   @Get(':id')
+  @Public()
   @NotToBeCached()
   @NotToBeTransformed()
   async findLocalFileById(

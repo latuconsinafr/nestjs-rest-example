@@ -13,7 +13,11 @@ import { LocalStrategy } from './strategies/local.strategy';
  * Defines the auth module.
  */
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule],
+  imports: [
+    UsersModule,
+    PassportModule.register({ property: 'authenticatedUser' }),
+    JwtModule,
+  ],
   providers: [
     AuthService,
     LocalStrategy,

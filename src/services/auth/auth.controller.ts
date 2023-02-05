@@ -43,7 +43,7 @@ export class AuthController {
    */
   @Get()
   async authenticate(
-    @Request() { user }: RequestWithUser,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${AuthController.prototype.authenticate.name}`,
@@ -51,7 +51,7 @@ export class AuthController {
 
     return new SuccessResponseDto({
       message: 'User authenticated',
-      data: user,
+      data: authenticatedUser,
     });
   }
 
@@ -66,13 +66,15 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('sign-in')
   @HttpCode(200)
-  async signIn(@Request() { user }: RequestWithUser): Promise<SuccessResponse> {
+  async signIn(
+    @Request() { authenticatedUser }: RequestWithUser,
+  ): Promise<SuccessResponse> {
     this.logger.info(`Try to call ${AuthController.prototype.signIn.name}`);
 
     try {
       return new SuccessResponseDto({
         message: 'Signed in',
-        data: await this.authService.signIn(user),
+        data: await this.authService.signIn(authenticatedUser),
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

@@ -30,7 +30,7 @@ export class ForbiddenException extends HttpException {
    * @param errorResponse Object describing the error condition, if any
    */
   constructor(errorResponse?: ErrorResponse) {
-    const httpStatus = HttpStatus.UNAUTHORIZED;
+    const httpStatus = HttpStatus.FORBIDDEN;
     const response: ErrorResponse = {
       message: errorResponse?.message ?? DEFAULT_FORBIDDEN_MESSAGE,
       error: errorResponse?.error ?? ErrorCode.ErrorForbidden,
