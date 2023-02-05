@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLES_METADATA } from '../../../common/constants';
+import { ROLES_KEY } from '../constants';
 
 /**
  * Class defining function that implement guard based on {@link UserRole}.
@@ -20,10 +20,7 @@ export class RolesGuard implements CanActivate {
    * {@inheritDoc CanActivate.canActivate}
    */
   canActivate(context: ExecutionContext): boolean {
-    const roles = this.reflector.get<string[]>(
-      ROLES_METADATA,
-      context.getHandler(),
-    );
+    const roles = this.reflector.get<string[]>(ROLES_KEY, context.getHandler());
 
     if (!roles || roles.length == 0) {
       return true;

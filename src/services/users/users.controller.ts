@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
@@ -22,10 +23,11 @@ import { PinoLogger } from 'nestjs-pino';
 import { UpdateUserProfileRequest } from './dto/requests/user-profiles/update-user-profile-request.dto';
 import { StoragesService } from '../storages/storages.service';
 import { CreateLocalFileRequest } from '../storages/dto/requests/create-local-file-request.dto';
-import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
 import { LocalFileInterceptor } from '../storages/interceptors/local-file-interceptor';
 import { UserProfile } from './entities/user-profile.entity';
 import { UserIdParam } from './dto/params/users/user-id.param';
+import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 /**
  * Defines the users controller.
@@ -85,7 +87,7 @@ export class UsersController {
    * @returns The success response with `'Users retrieved'` message and `users` data.
    */
   @Get()
-  // @UseFilters(AllExceptionsFilter)
+  @UseGuards(RolesGuard)
   async findAllUsers(): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findAllUsers.name}`,

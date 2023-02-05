@@ -10,6 +10,13 @@ export enum ErrorCode {
   ErrorUnauthorized = 'error-unauthorized',
 
   /**
+   * Defines code for the forbidden error exception.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403 documentation}
+   */
+  ErrorForbidden = 'error-forbidden',
+
+  /**
    * Defines code for the resource not found error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}

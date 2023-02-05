@@ -64,6 +64,13 @@ export const DEFAULT_HELP_MESSAGE = 'Help is not available';
 export const DEFAULT_UNAUTHORIZED_MESSAGE = 'Unauthorized';
 
 /**
+ * Defines default message for the forbidden error exception.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}
+ */
+export const DEFAULT_FORBIDDEN_MESSAGE = 'Forbidden';
+
+/**
  * Defines default message for the resource not found error exception.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}
@@ -98,23 +105,16 @@ export const DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE = 'Unprocessable entity';
  */
 export const DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE = 'Internal server error';
 
-// * Meta data section
+// * Meta data key section
 /**
- * Defines the meta data for route handler to be guarded by specified roles.
- *
- * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
- */
-export const ROLES_METADATA = 'roles_guard:roles';
-
-/**
- * Defines the meta data for route handler not to be cached.
+ * Defines the not to be cached metadata key.
  *
  * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
  */
 export const NOT_TO_BE_CACHED_KEY = 'cache_interceptor:not_to_be_cached';
 
 /**
- * Defines the meta data for route handler not to be transformed.
+ * Defines the not to be transformed metadata key.
  *
  * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
  */
@@ -122,7 +122,7 @@ export const NOT_TO_BE_TRANSFORMED_KEY =
   'transform_interceptor:not_to_be_transformed';
 
 /**
- * Defines the meta data for route handler not to be timeout-ed.
+ * Defines the not to be timeout-ed metadata key.
  *
  * @see {@link https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata documentation}
  */

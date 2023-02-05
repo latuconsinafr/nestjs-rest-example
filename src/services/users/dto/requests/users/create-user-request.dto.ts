@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
   IsArray,
   IsEmail,
   IsEnum,
@@ -9,8 +10,8 @@ import {
   Length,
   ValidateNested,
 } from 'class-validator';
-import { UserRole } from '../../../enums/user-role.enum';
 import { User } from '../../../entities/user.entity';
+import { UserRole } from '../../../enums/user-role.enum';
 import { CreateUserProfileRequest } from '../user-profiles/create-user-profile-request.dto';
 
 /**
@@ -47,6 +48,7 @@ export class CreateUserRequest {
 
   @IsNotEmpty()
   @IsArray()
+  @ArrayNotEmpty()
   @IsEnum(UserRole, { each: true })
   roles: UserRole[];
 
