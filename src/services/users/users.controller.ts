@@ -73,7 +73,7 @@ export class UsersController {
       `Try to call ${UsersController.prototype.createUser.name}`,
     );
 
-    this.caslAbilityFactory.checkAbility(
+    this.caslAbilityFactory.checkUserAbility(
       authenticatedUser,
       Actions.Create,
       User,
@@ -106,7 +106,7 @@ export class UsersController {
       `Try to call ${UsersController.prototype.findAllUsers.name}`,
     );
 
-    this.caslAbilityFactory.checkAbility(
+    this.caslAbilityFactory.checkUserAbility(
       authenticatedUser,
       Actions.ReadAll,
       User,
@@ -140,7 +140,7 @@ export class UsersController {
       `Try to call ${UsersController.prototype.findUserById.name}`,
     );
 
-    this.caslAbilityFactory.checkAbility(
+    this.caslAbilityFactory.checkUserAbility(
       authenticatedUser,
       Actions.ReadSingle,
       user,
@@ -170,7 +170,7 @@ export class UsersController {
       `Try to call ${UsersController.prototype.updateUser.name}`,
     );
 
-    this.caslAbilityFactory.checkAbility(
+    this.caslAbilityFactory.checkUserAbility(
       authenticatedUser,
       Actions.Update,
       user,
@@ -212,7 +212,7 @@ export class UsersController {
       `Try to call ${UsersController.prototype.deleteUser.name}`,
     );
 
-    this.caslAbilityFactory.checkAbility(
+    this.caslAbilityFactory.checkUserAbility(
       authenticatedUser,
       Actions.Delete,
       User,
@@ -249,9 +249,9 @@ export class UsersController {
       `Try to call ${UsersController.prototype.updateUserProfile.name}`,
     );
 
-    this.caslAbilityFactory.checkAbility(
+    this.caslAbilityFactory.checkUserAbility(
       authenticatedUser,
-      Actions.UpdateProfile,
+      Actions.Update,
       user,
     );
 
@@ -294,9 +294,9 @@ export class UsersController {
       `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,
     );
 
-    this.caslAbilityFactory.checkAbility(
+    this.caslAbilityFactory.checkUserAbility(
       authenticatedUser,
-      Actions.UpdateProfileAvatar,
+      Actions.Update,
       user,
     );
 

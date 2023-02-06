@@ -10,7 +10,9 @@ import { User } from '../../../services/users/entities/user.entity';
 import { UserRole } from '../../../services/users/enums/user-role.enum';
 import { ForbiddenException } from '../../exceptions/forbidden.exception';
 import { UserAbility } from './abilities/user.ability';
-import { UserAction } from './actions/user.action';
+import { StoragesAction } from './actions/storages.action';
+import { UsersAction } from './actions/users.action';
+import { StorageSubject } from './subjects/storages.subject';
 import { UserSubject } from './subjects/user.subject';
 
 export enum Action {
@@ -22,9 +24,9 @@ export enum Action {
   Delete = 'delete',
 }
 
-export type Subjects = InferSubjects<UserSubject> | 'all';
-export const Actions = { ...Action, ...UserAction };
-export type Actions = Action | UserAction;
+export type Subjects = 'all' | InferSubjects<UserSubject | StorageSubject>;
+export const Actions = { ...Action, ...UsersAction, ...StoragesAction };
+export type Actions = Action | StoragesAction;
 export type AppAbility = Ability<[Actions, Subjects]>;
 
 @Injectable()
@@ -47,8 +49,8 @@ export class CaslAbilityFactory {
     });
   }
 
-  checkAbility(user: User, action: Actions, subject: Subjects): boolean {
-    if (this.createForUser(user).can(action, subject)) {
+  checkUserAbility(user: User, action: Actions, subject: Subjects): boolean {
+    if (user && this.createForUser(user).can(action, subject)) {
       return true;
     }
 
