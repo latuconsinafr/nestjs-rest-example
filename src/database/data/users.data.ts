@@ -1,5 +1,5 @@
 import { User } from '../../services/users/entities/user.entity';
-import { UserRole } from '../../services/users/enums/user-role.enum';
+import { rolesData } from './roles.data';
 
 /**
  * Dummy data for {@link User} entity.
@@ -7,10 +7,20 @@ import { UserRole } from '../../services/users/enums/user-role.enum';
 export const usersData: User[] = [
   new User({
     id: 1,
-    username: 'user',
-    email: 'user@gmail.com',
+    username: 'super-admin',
+    email: 'super_admin@mail.com',
     phone: '+6282246924950',
-    password: 'password',
-    roles: [UserRole.User],
+    password:
+      '$argon2id$v=19$m=65536,t=3,p=4$AJgltBJ0WY3dCBHs8/Hmgw$56y+zKfzef2qaaFWXYRLXw4VTjHjm1KJwgc8zngSp80',
+    roles: [rolesData[0]],
+  }),
+  new User({
+    id: 2,
+    username: 'user',
+    email: 'user@mail.com',
+    phone: '+6281231142801',
+    password:
+      '$argon2id$v=19$m=65536,t=3,p=4$AJgltBJ0WY3dCBHs8/Hmgw$56y+zKfzef2qaaFWXYRLXw4VTjHjm1KJwgc8zngSp80',
+    roles: [rolesData[1]],
   }),
 ];

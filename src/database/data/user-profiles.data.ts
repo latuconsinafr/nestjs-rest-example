@@ -1,17 +1,29 @@
 import { UserProfile } from '../../services/users/entities/user-profile.entity';
+import { localFilesData } from './local-files.data';
+import { usersData } from './users.data';
 
 /**
  * Dummy data for {@link UserProfile} entity.
  */
 export const userProfilesData: UserProfile[] = [
   new UserProfile({
-    id: 1,
-    firstName: 'New',
+    id: usersData[0].id,
+    firstName: 'Super',
+    lastName: 'Admin',
+    bio: null,
+    location: 'Indonesia',
+    website: null,
+    birthDate: new Date('1995-08-06'),
+    avatarFileId: localFilesData[0].id,
+  }),
+  new UserProfile({
+    id: usersData[1].id,
+    firstName: 'A',
     lastName: 'User',
     bio: null,
     location: 'Indonesia',
     website: null,
     birthDate: new Date('1995-08-06'),
-    avatarFileId: 1,
+    avatarFileId: localFilesData[1].id,
   }),
 ];

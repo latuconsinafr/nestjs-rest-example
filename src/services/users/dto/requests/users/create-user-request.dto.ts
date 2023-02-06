@@ -10,8 +10,8 @@ import {
   Length,
   ValidateNested,
 } from 'class-validator';
+import { UserRole } from '../../../../roles/enums/user-role.enum';
 import { User } from '../../../entities/user.entity';
-import { UserRole } from '../../../enums/user-role.enum';
 import { CreateUserProfileRequest } from '../user-profiles/create-user-profile-request.dto';
 
 /**
@@ -65,7 +65,8 @@ export class CreateUserRequest {
    * @returns The `User` entity
    */
   static toEntity(request: CreateUserRequest): User {
-    const { profile, ...user } = request;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { profile, roles, ...user } = request;
 
     return new User({
       ...user,

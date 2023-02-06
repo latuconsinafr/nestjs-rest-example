@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { UserProfile } from './entities/user-profile.entity';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
+import { RolesService } from '../roles/roles.service';
+import { UserRole } from '../roles/enums/user-role.enum';
 
 // * Service will be responsible for data storage and retrieval
 /**
@@ -16,11 +18,13 @@ export class UsersService {
    * The constructor.
    *
    * @param logger The pino logger
+   * @param rolesService The roles service
    * @param usersRepository The repository of user entity
    * @param userProfilesRepository The repository of user profile entity
    */
   constructor(
     private readonly logger: PinoLogger,
+    private readonly rolesService: RolesService,
     @InjectRepository(User) private usersRepository: Repository<User>,
     @InjectRepository(UserProfile)
     private userProfilesRepository: Repository<UserProfile>,
@@ -35,12 +39,13 @@ export class UsersService {
    *
    * @returns The created user.
    */
-  async create(user: User): Promise<User> {
+  async create(user: User, roleNames: UserRole[]): Promise<User> {
     this.logger.info(`Try to call ${UsersService.prototype.create.name}`);
 
     const createdUser: User = this.usersRepository.create({
       ...user,
       password: await argon2.hash(user.password),
+      roles: await this.rolesService.findByNames(roleNames),
     });
 
     await this.usersRepository.save(createdUser);
@@ -56,7 +61,7 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     this.logger.info(`Try to call ${UsersService.prototype.findAll.name}`);
 
-    return await this.usersRepository.find({ relations: ['profile'] });
+    return await this.usersRepository.find({ relations: ['profile', 'roles'] });
   }
 
   /**
@@ -70,8 +75,8 @@ export class UsersService {
     this.logger.info(`Try to call ${UsersService.prototype.findById.name}`);
 
     return await this.usersRepository.findOne({
-      where: { id: id },
-      relations: ['profile'],
+      where: { id },
+      relations: ['profile', 'roles'],
     });
   }
 
@@ -88,8 +93,8 @@ export class UsersService {
     );
 
     return await this.usersRepository.findOne({
-      where: { username: username },
-      relations: ['profile'],
+      where: { username },
+      relations: ['profile', 'roles'],
     });
   }
 

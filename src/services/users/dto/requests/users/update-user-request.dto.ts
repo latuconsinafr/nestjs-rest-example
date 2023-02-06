@@ -11,7 +11,7 @@ import { CreateUserRequest } from './create-user-request.dto';
  */
 export class UpdateUserRequest extends IntersectionType(
   UserIdParam,
-  OmitType(CreateUserRequest, ['profile']),
+  OmitType(CreateUserRequest, ['password', 'roles', 'profile']),
 ) {
   /**
    * Transform the DTO into the related entity.
