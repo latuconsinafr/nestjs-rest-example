@@ -1,4 +1,4 @@
-import { ErrorCode } from '../../enums/error-code.enum';
+import { ErrorCode } from '../../enums/http/error-code.enum';
 import { ValidationErrorBaseResponse } from './base-response.interface';
 
 /**

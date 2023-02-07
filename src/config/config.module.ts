@@ -24,7 +24,6 @@ import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { jwtConfig } from './auth/jwt.config';
 import { CaslModule } from 'nest-casl';
 import { UserRole } from '../services/roles/enums/user-role.enum';
-import { ForbiddenException } from '../common/exceptions/forbidden.exception';
 
 /**
  * Defines the application configuration module.
@@ -96,11 +95,29 @@ import { ForbiddenException } from '../common/exceptions/forbidden.exception';
       getUserFromRequest(request) {
         const user: any = request.user;
 
-        if (user === undefined) {
-          throw new ForbiddenException();
-        }
-
-        user.roles = user.roles.map((role: any) => role?.name); // ! Need to transform the array of Role Entity to array of UserRole enum
+        // ! Need to transform the array of Role Entity to array of UserRole
+        // @example
+        // ```ts
+        // From
+        // ***
+        // {
+        //   ...
+        //   roles: [
+        //       {
+        //           id: 1,
+        //           name: "super-admin"
+        //       }
+        //   ]
+        // }
+        // ***
+        // To
+        // ***
+        // {
+        //   ...
+        //   roles: ["super-admin"]
+        // }
+        // ***
+        user.roles = user.roles.map((role: any) => role?.name);
 
         return user;
       },

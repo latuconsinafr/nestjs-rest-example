@@ -1,4 +1,7 @@
-export enum Actions {
+/**
+ * Defines enum representing base possible actions that users can perform with.
+ */
+export enum AccessControlActions {
   Manage = 'manage',
   Create = 'create',
   ReadAll = 'read-all',

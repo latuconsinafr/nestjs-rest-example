@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   UploadedFile,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
@@ -27,9 +26,9 @@ import { LocalFileInterceptor } from '../storages/interceptors/local-file-interc
 import { UserProfile } from './entities/user-profile.entity';
 import { UserIdParam } from './dto/params/users/user-id.param';
 import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
-import { AccessGuard, UseAbility } from 'nest-casl';
-import { Actions } from '../../common/permissions/actions.enum';
 import { UserHook } from './permissions/hooks/user.hook';
+import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
+import { UserActions } from './permissions/user.permission';
 
 /**
  * Defines the users controller.
@@ -62,8 +61,7 @@ export class UsersController {
    * @returns The success response with `'User created'` message and created `user` data.
    */
   @Post()
-  @UseGuards(AccessGuard)
-  @UseAbility(Actions.Create, User)
+  @UseAccessControl(UserActions.Create, User)
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
   ): Promise<SuccessResponse> {
@@ -92,8 +90,7 @@ export class UsersController {
    * @returns The success response with `'Users retrieved'` message and `users` data.
    */
   @Get()
-  @UseGuards(AccessGuard)
-  @UseAbility(Actions.ReadAll, User)
+  @UseAccessControl(UserActions.ReadAll, User)
   async findAllUsers(): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findAllUsers.name}`,
@@ -119,8 +116,7 @@ export class UsersController {
    * @returns The success response with `'User retrieved'` message and a `user` data.
    */
   @Get(':id')
-  @UseGuards(AccessGuard)
-  @UseAbility(Actions.ReadBy, User, UserHook)
+  @UseAccessControl(UserActions.ReadBy, User, UserHook)
   async findUserById(
     @Param('id', UserByIdPipe) user: User,
   ): Promise<SuccessResponse> {
@@ -143,8 +139,7 @@ export class UsersController {
    * @returns The success response with `'User updated'` message.
    */
   @Put(':id')
-  @UseGuards(AccessGuard)
-  @UseAbility(Actions.Update, User, UserHook)
+  @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUser(
     @Param('id', UserByIdPipe) { id }: User,
     @Body() updateUserRequest: UpdateUserRequest,
@@ -181,8 +176,7 @@ export class UsersController {
    * @returns The action string.
    */
   @Delete(':id')
-  @UseGuards(AccessGuard)
-  @UseAbility(Actions.Delete, User)
+  @UseAccessControl(UserActions.Delete, User)
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,
@@ -210,8 +204,7 @@ export class UsersController {
    * @returns The success response with `'User profile updated'` message.
    */
   @Put('profile/:id')
-  @UseGuards(AccessGuard)
-  @UseAbility(Actions.Update, User)
+  @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUserProfile(
     @Param('id', UserByIdPipe) { id }: User,
     @Body() updateUserProfileRequest: UpdateUserProfileRequest,
@@ -246,8 +239,7 @@ export class UsersController {
    * @param avatar The user profile avatar
    */
   @Put('profile/:id/avatar/upload')
-  @UseGuards(AccessGuard)
-  @UseAbility(Actions.Update, User)
+  @UseAccessControl(UserActions.Update, User, UserHook)
   @UseInterceptors(
     LocalFileInterceptor('avatar', { dest: '/users/profiles/avatars' }),
   )

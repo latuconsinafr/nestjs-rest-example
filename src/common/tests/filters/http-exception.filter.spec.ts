@@ -2,7 +2,7 @@ import { HttpStatus } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { ValidationError } from 'class-validator';
 import { DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE } from '../../constants';
-import { ErrorCode } from '../../enums/error-code.enum';
+import { ErrorCode } from '../../enums/http/error-code.enum';
 import { UnprocessableEntityException } from '../../exceptions/unprocessable-entity.exception';
 import {
   mockedArgumentsHost,

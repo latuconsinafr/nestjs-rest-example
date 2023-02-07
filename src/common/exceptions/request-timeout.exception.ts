@@ -3,7 +3,7 @@ import {
   DEFAULT_HELP_MESSAGE,
   DEFAULT_REQUEST_TIMEOUT_MESSAGE,
 } from '../constants';
-import { ErrorCode } from '../enums/error-code.enum';
+import { ErrorCode } from '../enums/http/error-code.enum';
 import { ErrorResponse } from '../interfaces/http/error-response.interface';
 
 /**
