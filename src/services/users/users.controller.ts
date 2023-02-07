@@ -29,6 +29,8 @@ import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
 import { UserHook } from './permissions/hooks/user.hook';
 import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
 import { UserActions } from './permissions/user.permission';
+import { UpdateUserPasswordRequest } from './dto/requests/users/update-user-password-request.dto';
+import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
 
 /**
  * Defines the users controller.
@@ -196,6 +198,79 @@ export class UsersController {
   }
 
   /**
+   * Update a user's password by a given id endpoint.
+   *
+   * @param id The user id request parameter
+   * @param updateUserPasswordRequest The DTO that carries data to update a user's password
+   *
+   * @returns The success response with `'User updated'` message.
+   */
+  @Put(':id/password')
+  @UseAccessControl(UserActions.Update, User, UserHook)
+  async updateUserPassword(
+    @Param('id', UserByIdPipe) { id }: User,
+    @Body() updateUserPasswordRequest: UpdateUserPasswordRequest,
+  ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUserPassword.name}`,
+    );
+
+    if (id !== updateUserPasswordRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
+
+    try {
+      await this.usersService.updatePassword(
+        id,
+        updateUserPasswordRequest.password,
+      );
+
+      return new SuccessResponseDto({
+        message: `User's password updated`,
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
+   * Update a user's roles by a given id endpoint.
+   *
+   * @param id The user id request parameter
+   * @param updateUserRolesRequest The DTO that carries data to update a user's roles
+   *
+   * @returns The success response with `'User updated'` message.
+   */
+  @Put(':id/roles')
+  @UseAccessControl(UserActions.Update, User, UserHook)
+  async updateUserRoles(
+    @Param('id', UserByIdPipe) user: User,
+    @Body() updateUserRolesRequest: UpdateUserRolesRequest,
+  ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUserRoles.name}`,
+    );
+
+    if (user.id !== updateUserRolesRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
+
+    try {
+      await this.usersService.updateRoles(user, updateUserRolesRequest.roles);
+
+      return new SuccessResponseDto({
+        message: `User's roles updated`,
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
    * Update a user profile by a given id endpoint.
    *
    * @param id The user id request parameter
@@ -203,7 +278,7 @@ export class UsersController {
    *
    * @returns The success response with `'User profile updated'` message.
    */
-  @Put('profile/:id')
+  @Put(':id/profile')
   @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUserProfile(
     @Param('id', UserByIdPipe) { id }: User,
@@ -238,7 +313,7 @@ export class UsersController {
    *
    * @param avatar The user profile avatar
    */
-  @Put('profile/:id/avatar/upload')
+  @Put(':id/profile/avatar/upload')
   @UseAccessControl(UserActions.Update, User, UserHook)
   @UseInterceptors(
     LocalFileInterceptor('avatar', { dest: '/users/profiles/avatars' }),

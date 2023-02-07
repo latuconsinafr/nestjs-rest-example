@@ -36,16 +36,17 @@ export class UsersService {
    * Creates a user.
    *
    * @param user A user to create
+   * @param roles The user's roles to create
    *
    * @returns The created user.
    */
-  async create(user: User, roleNames: UserRole[]): Promise<User> {
+  async create(user: User, roles: UserRole[]): Promise<User> {
     this.logger.info(`Try to call ${UsersService.prototype.create.name}`);
 
     const createdUser: User = this.usersRepository.create({
       ...user,
       password: await argon2.hash(user.password),
-      roles: await this.rolesService.findByNames(roleNames),
+      roles: await this.rolesService.findByNames(roles),
     });
 
     await this.usersRepository.save(createdUser);
@@ -101,7 +102,7 @@ export class UsersService {
   /**
    * Updates a user by a given id.
    *
-   * @param id The id to find
+   * @param id The user id to update
    * @param user The user to update
    *
    * @returns The flag indicates whether the update process is success or not.
@@ -111,6 +112,52 @@ export class UsersService {
     this.logger.info(`Try to call ${UsersService.prototype.update.name}`);
 
     await this.usersRepository.update(id, { ...user });
+
+    return true;
+  }
+
+  /**
+   * Updates a user's password by a given id.
+   *
+   * @param id The user id to update
+   * @param password The password to update to
+   *
+   * @returns The flag indicates whether the update process is success or not.
+   * Return `true` if the update process is success, otherwise `false`.
+   */
+  async updatePassword(id: number, password: string): Promise<boolean> {
+    this.logger.info(
+      `Try to call ${UsersService.prototype.updatePassword.name}`,
+    );
+
+    await this.usersRepository.update(id, {
+      password: await argon2.hash(password),
+    });
+
+    return true;
+  }
+
+  /**
+   * Updates a user's roles by a given id.
+   *
+   * @param user The user to update
+   * @param roles The roles to update to
+   *
+   * @returns The flag indicates whether the update process is success or not.
+   * Return `true` if the update process is success, otherwise `false`.
+   */
+  async updateRoles(user: User, roles: UserRole[]): Promise<boolean> {
+    this.logger.info(`Try to call ${UsersService.prototype.updateRoles.name}`);
+
+    //? This gonna be working in the future, perhaps.
+    // await this.usersRepository.update(id, {
+    //   roles: await this.rolesService.findByNames(roles),
+    // });
+
+    await this.usersRepository.save({
+      ...user,
+      roles: await this.rolesService.findByNames(roles),
+    });
 
     return true;
   }
