@@ -8,6 +8,7 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
+  Request,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { CreateUserRequest } from './dto/requests/users/create-user-request.dto';
@@ -51,6 +52,7 @@ export class UsersController {
     private readonly logger: PinoLogger,
     private readonly usersService: UsersService,
     private readonly storagesService: StoragesService,
+    private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {
     this.logger.setContext(UsersController.name);
   }
@@ -66,9 +68,16 @@ export class UsersController {
   @UseAccessControl(UserActions.Create, User)
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.createUser.name}`,
+    );
+
+    this.caslAbilityFactory.checkUserAbility(
+      authenticatedUser,
+      Actions.Create,
+      User,
     );
 
     try {
@@ -98,6 +107,12 @@ export class UsersController {
       `Try to call ${UsersController.prototype.findAllUsers.name}`,
     );
 
+    this.caslAbilityFactory.checkUserAbility(
+      authenticatedUser,
+      Actions.ReadAll,
+      User,
+    );
+
     try {
       return new SuccessResponseDto({
         message: 'Users retrieved',
@@ -121,9 +136,16 @@ export class UsersController {
   @UseAccessControl(UserActions.ReadBy, User, UserHook)
   async findUserById(
     @Param('id', UserByIdPipe) user: User,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findUserById.name}`,
+    );
+
+    this.caslAbilityFactory.checkUserAbility(
+      authenticatedUser,
+      Actions.ReadSingle,
+      user,
     );
 
     return new SuccessResponseDto({
@@ -143,20 +165,27 @@ export class UsersController {
   @Put(':id')
   @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUser(
-    @Param('id', UserByIdPipe) { id }: User,
+    @Param('id', UserByIdPipe) user: User,
     @Body() updateUserRequest: UpdateUserRequest,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUser.name}`,
     );
 
-    if (id !== updateUserRequest.id) {
+    this.caslAbilityFactory.checkUserAbility(
+      authenticatedUser,
+      Actions.Update,
+      user,
+    );
+
+    if (user.id !== updateUserRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
       await this.usersService.update(
-        id,
+        user.id,
         UpdateUserRequest.toEntity(updateUserRequest),
       );
 
@@ -182,6 +211,12 @@ export class UsersController {
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,
+    );
+
+    this.caslAbilityFactory.checkUserAbility(
+      authenticatedUser,
+      Actions.Delete,
+      User,
     );
 
     try {
@@ -281,20 +316,27 @@ export class UsersController {
   @Put(':id/profile')
   @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUserProfile(
-    @Param('id', UserByIdPipe) { id }: User,
+    @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileRequest: UpdateUserProfileRequest,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfile.name}`,
     );
 
-    if (id !== updateUserProfileRequest.id) {
+    this.caslAbilityFactory.checkUserAbility(
+      authenticatedUser,
+      Actions.Update,
+      user,
+    );
+
+    if (user.id !== updateUserProfileRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
       await this.usersService.updateProfile(
-        id,
+        user.id,
         UpdateUserProfileRequest.toEntity(updateUserProfileRequest),
       );
 
@@ -321,10 +363,17 @@ export class UsersController {
   async updateUserProfileAvatar(
     @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileAvatarRequest: UserIdParam,
-    @UploadedFile() avatar: Express.Multer.File, // TODO: File validator
+    @UploadedFile() avatar: Express.Multer.File, // TODO: File validator,
+    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,
+    );
+
+    this.caslAbilityFactory.checkUserAbility(
+      authenticatedUser,
+      Actions.Update,
+      user,
     );
 
     if (user.id !== updateUserProfileAvatarRequest.id) {
