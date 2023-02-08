@@ -7,11 +7,11 @@ import { CreateUserRequest } from './create-user-request.dto';
  * Defines the DTO that carries data to update a user.
  *
  * @usageNotes
- * This DTO intersect {@link UserIdParam} with {@link CreateUserRequest}.
+ * This DTO intersect {@link UserIdParam} with {@link CreateUserRequest} with omitted `password`, `roles` and `profile` attribute.
  */
 export class UpdateUserRequest extends IntersectionType(
   UserIdParam,
-  OmitType(CreateUserRequest, ['profile']),
+  OmitType(CreateUserRequest, ['password', 'roles', 'profile']),
 ) {
   /**
    * Transform the DTO into the related entity.

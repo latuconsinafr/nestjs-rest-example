@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { DEFAULT_CONFLICT_MESSAGE, DEFAULT_HELP_MESSAGE } from '../constants';
-import { ErrorCode } from '../enums/error-code.enum';
+import { ErrorCode } from '../enums/http/error-code.enum';
 import { ErrorResponse } from '../interfaces/http/error-response.interface';
 
 /**

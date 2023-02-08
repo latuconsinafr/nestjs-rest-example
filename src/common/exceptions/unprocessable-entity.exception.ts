@@ -4,7 +4,7 @@ import {
   DEFAULT_HELP_MESSAGE,
   DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE,
 } from '../constants';
-import { ErrorCode } from '../enums/error-code.enum';
+import { ErrorCode } from '../enums/http/error-code.enum';
 import { ValidationErrorBaseResponse } from '../interfaces/http/base-response.interface';
 import { ErrorResponse } from '../interfaces/http/error-response.interface';
 

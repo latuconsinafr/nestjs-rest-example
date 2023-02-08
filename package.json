@@ -48,6 +48,7 @@
     "csurf": "^1.11.0",
     "helmet": "^6.0.0",
     "mysql2": "^2.3.3",
+    "nest-casl": "^1.8.2",
     "nestjs-pino": "^3.1.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",

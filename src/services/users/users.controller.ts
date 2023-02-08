@@ -27,11 +27,11 @@ import { LocalFileInterceptor } from '../storages/interceptors/local-file-interc
 import { UserProfile } from './entities/user-profile.entity';
 import { UserIdParam } from './dto/params/users/user-id.param';
 import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
-import {
-  Actions,
-  CaslAbilityFactory,
-} from '../../common/services/casl/casl-ability.factory';
-import RequestWithUser from '../auth/interface/request-with-user.interface';
+import { UserHook } from './permissions/hooks/user.hook';
+import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
+import { UserActions } from './permissions/user.permission';
+import { UpdateUserPasswordRequest } from './dto/requests/users/update-user-password-request.dto';
+import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
 
 /**
  * Defines the users controller.
@@ -65,6 +65,7 @@ export class UsersController {
    * @returns The success response with `'User created'` message and created `user` data.
    */
   @Post()
+  @UseAccessControl(UserActions.Create, User)
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
     @Request() { authenticatedUser }: RequestWithUser,
@@ -84,6 +85,7 @@ export class UsersController {
         message: 'User created',
         data: await this.usersService.create(
           CreateUserRequest.toEntity(createUserRequest),
+          createUserRequest.roles,
         ),
       });
     } catch (error) {
@@ -99,9 +101,8 @@ export class UsersController {
    * @returns The success response with `'Users retrieved'` message and `users` data.
    */
   @Get()
-  async findAllUsers(
-    @Request() { authenticatedUser }: RequestWithUser,
-  ): Promise<SuccessResponse> {
+  @UseAccessControl(UserActions.ReadAll, User)
+  async findAllUsers(): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findAllUsers.name}`,
     );
@@ -132,6 +133,7 @@ export class UsersController {
    * @returns The success response with `'User retrieved'` message and a `user` data.
    */
   @Get(':id')
+  @UseAccessControl(UserActions.ReadBy, User, UserHook)
   async findUserById(
     @Param('id', UserByIdPipe) user: User,
     @Request() { authenticatedUser }: RequestWithUser,
@@ -161,6 +163,7 @@ export class UsersController {
    * @returns The success response with `'User updated'` message.
    */
   @Put(':id')
+  @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUser(
     @Param('id', UserByIdPipe) user: User,
     @Body() updateUserRequest: UpdateUserRequest,
@@ -204,10 +207,8 @@ export class UsersController {
    * @returns The action string.
    */
   @Delete(':id')
-  async deleteUser(
-    @Param('id', UserByIdPipe) { id }: User,
-    @Request() { authenticatedUser }: RequestWithUser,
-  ) {
+  @UseAccessControl(UserActions.Delete, User)
+  async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,
     );
@@ -232,6 +233,79 @@ export class UsersController {
   }
 
   /**
+   * Update a user's password by a given id endpoint.
+   *
+   * @param id The user id request parameter
+   * @param updateUserPasswordRequest The DTO that carries data to update a user's password
+   *
+   * @returns The success response with `'User updated'` message.
+   */
+  @Put(':id/password')
+  @UseAccessControl(UserActions.Update, User, UserHook)
+  async updateUserPassword(
+    @Param('id', UserByIdPipe) { id }: User,
+    @Body() updateUserPasswordRequest: UpdateUserPasswordRequest,
+  ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUserPassword.name}`,
+    );
+
+    if (id !== updateUserPasswordRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
+
+    try {
+      await this.usersService.updatePassword(
+        id,
+        updateUserPasswordRequest.password,
+      );
+
+      return new SuccessResponseDto({
+        message: `User's password updated`,
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
+   * Update a user's roles by a given id endpoint.
+   *
+   * @param id The user id request parameter
+   * @param updateUserRolesRequest The DTO that carries data to update a user's roles
+   *
+   * @returns The success response with `'User updated'` message.
+   */
+  @Put(':id/roles')
+  @UseAccessControl(UserActions.Update, User, UserHook)
+  async updateUserRoles(
+    @Param('id', UserByIdPipe) user: User,
+    @Body() updateUserRolesRequest: UpdateUserRolesRequest,
+  ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUserRoles.name}`,
+    );
+
+    if (user.id !== updateUserRolesRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
+
+    try {
+      await this.usersService.updateRoles(user, updateUserRolesRequest.roles);
+
+      return new SuccessResponseDto({
+        message: `User's roles updated`,
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
    * Update a user profile by a given id endpoint.
    *
    * @param id The user id request parameter
@@ -239,7 +313,8 @@ export class UsersController {
    *
    * @returns The success response with `'User profile updated'` message.
    */
-  @Put('profile/:id')
+  @Put(':id/profile')
+  @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUserProfile(
     @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileRequest: UpdateUserProfileRequest,
@@ -280,7 +355,8 @@ export class UsersController {
    *
    * @param avatar The user profile avatar
    */
-  @Put('profile/:id/avatar/upload')
+  @Put(':id/profile/avatar/upload')
+  @UseAccessControl(UserActions.Update, User, UserHook)
   @UseInterceptors(
     LocalFileInterceptor('avatar', { dest: '/users/profiles/avatars' }),
   )

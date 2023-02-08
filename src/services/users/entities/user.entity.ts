@@ -1,6 +1,13 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UserRole } from '../enums/user-role.enum';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Role } from '../../roles/entities/role.entity';
 import { UserProfile } from './user-profile.entity';
 
 /**
@@ -13,7 +20,8 @@ import { UserProfile } from './user-profile.entity';
  * - `email`: The email of user
  * - `phone`: The phone of user
  * - `password`: The password of user
- * - `roles`: The roles of user
+ * - `roles`: The user roles
+ * - `profile`: The user profile
  */
 @Entity()
 export class User {
@@ -33,8 +41,13 @@ export class User {
   @Column()
   password: string;
 
-  @Column('enum', { enum: UserRole })
-  roles: UserRole[];
+  @ManyToMany(
+    /* istanbul ignore next */ () => Role,
+    /* istanbul ignore next */ (role: Role) => role.users,
+    { cascade: true },
+  )
+  @JoinTable({ name: 'users_roles' })
+  roles: Role[];
 
   @OneToOne(
     /* istanbul ignore next */ () => UserProfile,

@@ -22,6 +22,8 @@ import { MulterModule } from '@nestjs/platform-express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { jwtConfig } from './auth/jwt.config';
+import { CaslModule } from 'nest-casl';
+import { UserRole } from '../services/roles/enums/user-role.enum';
 
 /**
  * Defines the application configuration module.
@@ -35,6 +37,7 @@ import { jwtConfig } from './auth/jwt.config';
  * - {@link ScheduleModule}: The nestjs ScheduleModule, load task scheduling configuration
  * - {@link MulterModule}: The nestjs MulterModule, load local file upload configuration
  * - {@link JwtModule}: The nestjs-jwt JwtModule, load JWT configuration
+ * - {@link CaslModule}: The nestjs-casl CaslModule, load access control with CASL configuration
  */
 @Module({
   imports: [
@@ -86,6 +89,38 @@ import { jwtConfig } from './auth/jwt.config';
       useFactory: async (configService: ConfigService) => ({
         ...configService.get<JwtModuleOptions>('jwt'),
       }),
+    }),
+    CaslModule.forRoot<UserRole>({
+      superuserRole: UserRole.SuperAdmin,
+      getUserFromRequest(request) {
+        const user: any = request.user;
+
+        // ! Need to transform the array of Role Entity to array of UserRole
+        // @example
+        // ```ts
+        // From
+        // ***
+        // {
+        //   ...
+        //   roles: [
+        //       {
+        //           id: 1,
+        //           name: "super-admin"
+        //       }
+        //   ]
+        // }
+        // ***
+        // To
+        // ***
+        // {
+        //   ...
+        //   roles: ["super-admin"]
+        // }
+        // ***
+        user.roles = user.roles.map((role: any) => role?.name);
+
+        return user;
+      },
     }),
   ],
 })

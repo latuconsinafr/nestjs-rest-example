@@ -1,18 +1,11 @@
-import {
-  Controller,
-  Request,
-  Post,
-  HttpCode,
-  Get,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Request, Post, HttpCode, Get } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
 import { AuthService } from './auth.service';
-import { Public } from './decorators/public.decorator';
-import { LocalAuthGuard } from './guards/local-auth.guard';
+import { UseJwtAuth } from './decorators/use-jwt-auth.decorator';
+import { UseLocalAuth } from './decorators/use-local-auth.decorator';
 import RequestWithUser from './interface/request-with-user.interface';
 
 /**
@@ -42,6 +35,7 @@ export class AuthController {
    * @returns The success response with `'User authenticated'` message and a `user` data.
    */
   @Get()
+  @UseJwtAuth()
   async authenticate(
     @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
@@ -62,9 +56,8 @@ export class AuthController {
    *
    * @returns The success response with `'Signed in'` message and an `AuthResponse` data.
    */
-  @Public()
-  @UseGuards(LocalAuthGuard)
   @Post('sign-in')
+  @UseLocalAuth()
   @HttpCode(200)
   async signIn(
     @Request() { authenticatedUser }: RequestWithUser,
