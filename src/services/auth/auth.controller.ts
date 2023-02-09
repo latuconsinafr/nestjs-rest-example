@@ -1,12 +1,13 @@
-import { Controller, Request, Post, HttpCode, Get } from '@nestjs/common';
+import { Controller, Req, Post, HttpCode, Get } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
+import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorator';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
 import { AuthService } from './auth.service';
 import { UseJwtAuth } from './decorators/use-jwt-auth.decorator';
 import { UseLocalAuth } from './decorators/use-local-auth.decorator';
-import RequestWithUser from './interface/request-with-user.interface';
+import RequestWithAuthUser from './interface/request-with-auth-user.interface';
 
 /**
  * Defines the auth controller.
@@ -25,7 +26,9 @@ export class AuthController {
   constructor(
     private readonly logger: PinoLogger,
     private readonly authService: AuthService,
-  ) {}
+  ) {
+    this.logger.setContext(AuthController.name);
+  }
 
   /**
    * Gets an authenticated user with a given token payload endpoint.
@@ -35,9 +38,10 @@ export class AuthController {
    * @returns The success response with `'User authenticated'` message and a `user` data.
    */
   @Get()
+  @NotToBeCached()
   @UseJwtAuth()
   async authenticate(
-    @Request() { authenticatedUser }: RequestWithUser,
+    @Req() { user }: RequestWithAuthUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${AuthController.prototype.authenticate.name}`,
@@ -45,7 +49,7 @@ export class AuthController {
 
     return new SuccessResponseDto({
       message: 'User authenticated',
-      data: authenticatedUser,
+      data: user,
     });
   }
 
@@ -59,15 +63,13 @@ export class AuthController {
   @Post('sign-in')
   @UseLocalAuth()
   @HttpCode(200)
-  async signIn(
-    @Request() { authenticatedUser }: RequestWithUser,
-  ): Promise<SuccessResponse> {
+  async signIn(@Req() { user }: RequestWithAuthUser): Promise<SuccessResponse> {
     this.logger.info(`Try to call ${AuthController.prototype.signIn.name}`);
 
     try {
       return new SuccessResponseDto({
         message: 'Signed in',
-        data: await this.authService.signIn(authenticatedUser),
+        data: await this.authService.signIn(user),
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

@@ -24,6 +24,8 @@ import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { jwtConfig } from './auth/jwt.config';
 import { CaslModule } from 'nest-casl';
 import { UserRole } from '../services/roles/enums/user-role.enum';
+import { User } from '../services/users/entities/user.entity';
+import RequestWithAuthUser from '../services/auth/interface/request-with-auth-user.interface';
 
 /**
  * Defines the application configuration module.
@@ -32,11 +34,11 @@ import { UserRole } from '../services/roles/enums/user-role.enum';
  * This config module contains configuration as follow:
  * - {@link ConfigModule}: The nestjs ConfigModule, load configuration based on environments
  * - {@link LoggerModule}: The nestjs-pino LoggerModule, load logger configuration
- * - {@link TypeOrmModule}: The nestjs-typeORM TypeORMModule, load database configuration
+ * - {@link TypeOrmModule}: The nestjs TypeORMModule, load database configuration
  * - {@link CacheModule}: The nestjs CacheModule, load cache configuration
  * - {@link ScheduleModule}: The nestjs ScheduleModule, load task scheduling configuration
  * - {@link MulterModule}: The nestjs MulterModule, load local file upload configuration
- * - {@link JwtModule}: The nestjs-jwt JwtModule, load JWT configuration
+ * - {@link JwtModule}: The nestjs JwtModule, load JWT configuration
  * - {@link CaslModule}: The nestjs-casl CaslModule, load access control with CASL configuration
  */
 @Module({
@@ -90,10 +92,10 @@ import { UserRole } from '../services/roles/enums/user-role.enum';
         ...configService.get<JwtModuleOptions>('jwt'),
       }),
     }),
-    CaslModule.forRoot<UserRole>({
+    CaslModule.forRoot<UserRole, User, RequestWithAuthUser>({
       superuserRole: UserRole.SuperAdmin,
-      getUserFromRequest(request) {
-        const user: any = request.user;
+      getUserFromRequest(request: RequestWithAuthUser) {
+        const user = request.user;
 
         // ! Need to transform the array of Role Entity to array of UserRole
         // @example
@@ -117,7 +119,9 @@ import { UserRole } from '../services/roles/enums/user-role.enum';
         //   roles: ["super-admin"]
         // }
         // ***
-        user.roles = user.roles.map((role: any) => role?.name);
+        if (user) {
+          user.roles = user.roles.map((role: any) => role?.name);
+        }
 
         return user;
       },

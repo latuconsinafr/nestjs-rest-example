@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { InjectPinoLogger, Logger } from 'nestjs-pino';
-import { DEFAULT_FORBIDDEN_MESSAGE, DEFAULT_HELP_MESSAGE } from '../constants';
+import { DEFAULT_HELP_MESSAGE } from '../constants';
 import { ErrorCode } from '../enums/http/error-code.enum';
 import { BaseResponse } from '../interfaces/http/base-response.interface';
 
@@ -58,16 +58,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const responseBody = {
       ...baseResponseBody,
       ...exceptionResponse,
-      ...(httpStatus === 404
-        ? { error: ErrorCode.ErrorNotFound, help: DEFAULT_HELP_MESSAGE }
-        : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
       ...(httpStatus === 403
         ? {
-            message: DEFAULT_FORBIDDEN_MESSAGE,
             error: ErrorCode.ErrorForbidden,
             help: DEFAULT_HELP_MESSAGE,
           }
         : undefined), //! Forcing forbidden error to be exactly the same as the other exception error
+      ...(httpStatus === 404
+        ? { error: ErrorCode.ErrorNotFound, help: DEFAULT_HELP_MESSAGE }
+        : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
     };
 
     response.status(httpStatus).json(responseBody);

@@ -92,6 +92,11 @@ async function bootstrap() {
       // * @see {@link https://docs.nestjs.com/techniques/validation#transform-payload-objects}
       transform: true,
 
+      // * This option has to be default (default -> true) somewhere near the future for security's sake (to prevent sql injection, xss attacks, etc)
+      // * The break changes with 0.14.0 class-validator version makes the default forbidUnknownValues to true, which is raised the "an unknown value was passed to the validate function" error
+      // * @see {@link https://github.com/nestjs/nest/issues/10683 issue}
+      // forbidUnknownValues: true,
+
       exceptionFactory: (errors: ValidationError[]) => {
         return new UnprocessableEntityException({}, errors);
       },
@@ -100,7 +105,7 @@ async function bootstrap() {
 
   // * Global interceptor section
   app.useGlobalInterceptors(
-    // new LoggingInterceptor(logger), // * Disabled, since the logger itself has calculated the request time
+    // new LoggingInterceptor(logger), // * Disabled, since the pino logger itself has calculated the request time
     new TimeoutInterceptor(app.get(Reflector)),
     new TransformInterceptor(app.get(Reflector)),
     new ClassSerializerInterceptor(app.get(Reflector)),

@@ -19,6 +19,7 @@ import { User } from '../../users/entities/user.entity';
  * - `mimeType`: The mime type of local file
  * - `generalAccess`: The general access of local file
  * - `ownerId`: The id of owner of local file
+ * - `owner`: The local file owner
  */
 @Entity()
 export class LocalFile {

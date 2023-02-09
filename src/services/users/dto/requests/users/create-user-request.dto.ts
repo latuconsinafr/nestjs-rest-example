@@ -23,7 +23,8 @@ import { CreateUserProfileRequest } from '../user-profiles/create-user-profile-r
  * - `email`: The email of user
  * - `phone`: The phone of user
  * - `password`: The password of user
- * - `roles`: The roles of user
+ * - `roles`: The user roles
+ * - `profile`: The user profile
  */
 export class CreateUserRequest {
   @IsNotEmpty()

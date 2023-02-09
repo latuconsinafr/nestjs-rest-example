@@ -16,7 +16,7 @@ import { UsersService } from '../users.service';
  * @see [Pipes](https://docs.nestjs.com/pipes)
  */
 @Injectable()
-export class UserByIdPipe implements PipeTransform<string> {
+export class UserByIdPipe implements PipeTransform<string, Promise<User>> {
   constructor(private readonly usersService: UsersService) {}
 
   /**

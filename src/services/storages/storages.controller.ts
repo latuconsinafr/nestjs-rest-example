@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Res,
-  Req,
-  StreamableFile,
-} from '@nestjs/common';
+import { Controller, Get, Param, Res, StreamableFile } from '@nestjs/common';
 import * as fs from 'fs';
 import { PinoLogger } from 'nestjs-pino';
 import { join } from 'path';
@@ -16,12 +9,6 @@ import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorato
 import { NotToBeTransformed } from '../../common/decorators/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
-import { Public } from '../auth/decorators/public.decorator';
-import {
-  Actions,
-  CaslAbilityFactory,
-} from '../../common/services/casl/casl-ability.factory';
-import RequestWithUser from '../auth/interface/request-with-user.interface';
 
 /**
  * Defines the storages controller.
@@ -36,10 +23,7 @@ export class StoragesController {
    *
    * @param logger The pino logger
    */
-  constructor(
-    private readonly logger: PinoLogger,
-    private readonly caslAbilityFactory: CaslAbilityFactory,
-  ) {
+  constructor(private readonly logger: PinoLogger) {
     this.logger.setContext(StoragesController.name);
   }
 
@@ -52,22 +36,14 @@ export class StoragesController {
    * @returns The Streamable of LocalFile
    */
   @Get(':id')
-  @Public()
   @NotToBeCached()
   @NotToBeTransformed()
   async findLocalFileById(
     @Param('id', LocalFileByIdPipe) file: LocalFile,
     @Res({ passthrough: true }) response: Response,
-    @Req() { authenticatedUser }: RequestWithUser,
   ): Promise<StreamableFile> {
     this.logger.info(
       `Try to call ${StoragesController.prototype.findLocalFileById.name}`,
-    );
-
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.GeneralAccess,
-      file,
     );
 
     const path = join(process.cwd(), file.path);

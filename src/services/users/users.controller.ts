@@ -8,7 +8,6 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
-  Request,
 } from '@nestjs/common';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
 import { CreateUserRequest } from './dto/requests/users/create-user-request.dto';
@@ -52,7 +51,6 @@ export class UsersController {
     private readonly logger: PinoLogger,
     private readonly usersService: UsersService,
     private readonly storagesService: StoragesService,
-    private readonly caslAbilityFactory: CaslAbilityFactory,
   ) {
     this.logger.setContext(UsersController.name);
   }
@@ -68,16 +66,9 @@ export class UsersController {
   @UseAccessControl(UserActions.Create, User)
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
-    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.createUser.name}`,
-    );
-
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.Create,
-      User,
     );
 
     try {
@@ -107,12 +98,6 @@ export class UsersController {
       `Try to call ${UsersController.prototype.findAllUsers.name}`,
     );
 
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.ReadAll,
-      User,
-    );
-
     try {
       return new SuccessResponseDto({
         message: 'Users retrieved',
@@ -136,16 +121,9 @@ export class UsersController {
   @UseAccessControl(UserActions.ReadBy, User, UserHook)
   async findUserById(
     @Param('id', UserByIdPipe) user: User,
-    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.findUserById.name}`,
-    );
-
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.ReadSingle,
-      user,
     );
 
     return new SuccessResponseDto({
@@ -165,27 +143,20 @@ export class UsersController {
   @Put(':id')
   @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUser(
-    @Param('id', UserByIdPipe) user: User,
+    @Param('id', UserByIdPipe) { id }: User,
     @Body() updateUserRequest: UpdateUserRequest,
-    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUser.name}`,
     );
 
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.Update,
-      user,
-    );
-
-    if (user.id !== updateUserRequest.id) {
+    if (id !== updateUserRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
       await this.usersService.update(
-        user.id,
+        id,
         UpdateUserRequest.toEntity(updateUserRequest),
       );
 
@@ -211,12 +182,6 @@ export class UsersController {
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,
-    );
-
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.Delete,
-      User,
     );
 
     try {
@@ -261,7 +226,7 @@ export class UsersController {
       );
 
       return new SuccessResponseDto({
-        message: `User's password updated`,
+        message: `User password updated`,
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);
@@ -296,7 +261,7 @@ export class UsersController {
       await this.usersService.updateRoles(user, updateUserRolesRequest.roles);
 
       return new SuccessResponseDto({
-        message: `User's roles updated`,
+        message: `User roles updated`,
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);
@@ -316,27 +281,20 @@ export class UsersController {
   @Put(':id/profile')
   @UseAccessControl(UserActions.Update, User, UserHook)
   async updateUserProfile(
-    @Param('id', UserByIdPipe) user: User,
+    @Param('id', UserByIdPipe) { id }: User,
     @Body() updateUserProfileRequest: UpdateUserProfileRequest,
-    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfile.name}`,
     );
 
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.Update,
-      user,
-    );
-
-    if (user.id !== updateUserProfileRequest.id) {
+    if (id !== updateUserProfileRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
       await this.usersService.updateProfile(
-        user.id,
+        id,
         UpdateUserProfileRequest.toEntity(updateUserProfileRequest),
       );
 
@@ -364,16 +322,9 @@ export class UsersController {
     @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileAvatarRequest: UserIdParam,
     @UploadedFile() avatar: Express.Multer.File, // TODO: File validator,
-    @Request() { authenticatedUser }: RequestWithUser,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,
-    );
-
-    this.caslAbilityFactory.checkUserAbility(
-      authenticatedUser,
-      Actions.Update,
-      user,
     );
 
     if (user.id !== updateUserProfileAvatarRequest.id) {
@@ -384,7 +335,6 @@ export class UsersController {
       const avatarFile = await this.storagesService.createLocalFile(
         CreateLocalFileRequest.toEntity(avatar, {
           generalAccess: FileGeneralAccess.Public,
-          // TODO : The owner id should be the authenticated user's id
           ownerId: user.id,
         }),
       );

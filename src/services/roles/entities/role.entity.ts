@@ -19,7 +19,10 @@ export class Role {
   @Column('enum', { enum: UserRole })
   name: UserRole;
 
-  @ManyToMany(() => User, (user: User) => user.roles)
+  @ManyToMany(
+    /* istanbul ignore next */ () => User,
+    /* istanbul ignore next */ (user: User) => user.roles,
+  )
   users: User[];
 
   /**
