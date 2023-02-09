@@ -32,7 +32,7 @@ export class LoggerEnvironmentVariables {
 }
 
 /**
- * Defines the logger configuration using Pino Logger.
+ * Defines the logger configuration under nestjs-pino.
  * This configuration is registered as `logger` namespace.
  *
  * @see [Configuration Namespace](https://docs.nestjs.com/techniques/configuration#configuration-namespaces)
