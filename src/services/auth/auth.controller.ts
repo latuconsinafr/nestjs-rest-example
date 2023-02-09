@@ -1,4 +1,13 @@
 import { Controller, Req, Post, HttpCode, Get } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+  ApiUnprocessableEntityResponse,
+} from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorator';
 import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
@@ -7,6 +16,7 @@ import { SuccessResponse } from '../../common/interfaces/http/success-response.i
 import { AuthService } from './auth.service';
 import { UseJwtAuth } from './decorators/use-jwt-auth.decorator';
 import { UseLocalAuth } from './decorators/use-local-auth.decorator';
+import SignInRequest from './dto/requests/sign-in-request.dto';
 import RequestWithAuthUser from './interface/request-with-auth-user.interface';
 
 /**
@@ -16,6 +26,7 @@ import RequestWithAuthUser from './interface/request-with-auth-user.interface';
   version: '1',
   path: 'auth',
 })
+@ApiTags('Auth')
 export class AuthController {
   /**
    * The constructor.
@@ -40,6 +51,10 @@ export class AuthController {
   @Get()
   @NotToBeCached()
   @UseJwtAuth()
+  @ApiBearerAuth()
+  @ApiOkResponse({ description: 'User authenticated' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
+  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
   async authenticate(
     @Req() { user }: RequestWithAuthUser,
   ): Promise<SuccessResponse> {
@@ -63,6 +78,10 @@ export class AuthController {
   @Post('sign-in')
   @UseLocalAuth()
   @HttpCode(200)
+  @ApiBody({ type: SignInRequest })
+  @ApiOkResponse({ description: 'Signed in' })
+  @ApiUnprocessableEntityResponse({ description: 'Wrong credential provided' })
+  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
   async signIn(@Req() { user }: RequestWithAuthUser): Promise<SuccessResponse> {
     this.logger.info(`Try to call ${AuthController.prototype.signIn.name}`);
 

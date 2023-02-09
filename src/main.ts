@@ -15,7 +15,17 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 import { ConfigService } from '@nestjs/config';
 import { AppConfigOptions, Environment } from './config/app/app.config';
 import { UnprocessableEntityException } from './common/exceptions/unprocessable-entity.exception';
-import { APP_GLOBAL_PREFIX } from './common/constants';
+import {
+  APP_NAME,
+  APP_DESCRIPTION,
+  APP_GLOBAL_PREFIX,
+  APP_VERSION,
+  APP_AUTHOR_NAME,
+  APP_AUTHOR_URL,
+  APP_TERMS_OF_SERVICE,
+  APP_AUTHOR_EMAIL,
+} from './common/constants';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 /**
  * Defines the application bootstrapping function.
@@ -49,7 +59,7 @@ async function bootstrap() {
     // * This versioning uses the version passed within the URL `https://example.com/v1/{route}`
     // * @see {@link https://docs.nestjs.com/techniques/versioning#uri-versioning-type}
     type: VersioningType.URI,
-    defaultVersion: '1',
+    defaultVersion: APP_VERSION,
   });
 
   // * CORS section
@@ -57,8 +67,25 @@ async function bootstrap() {
 
   // * Global middleware section
   // * Note that applying helmet as global or registering it must come before other calls to app.use() or setup functions that may call app.use()
-  // * @see {@link https://docs.nestjs.com/security/helmet)}
+  // * @see {@link https://docs.nestjs.com/security/helmet}
   app.use(helmet());
+
+  // * When using openapi and helmet, there may be a problem with CSP
+  // * @see {@link https://docs.nestjs.com/openapi/introduction}
+  // app.register(
+  // helmet,
+  // {
+  //   contentSecurityPolicy: false, // * If not use CSP at all
+  //   contentSecurityPolicy: {
+  //     directives: {
+  //       defaultSrc: [`'self'`],
+  //       styleSrc: [`'self'`, `'unsafe-inline'`],
+  //       imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
+  //       scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+  //     },
+  //   },
+  // },
+  // );
 
   // * CSURF middleware requires either session middleware or cookie-parser to be initialized first.
   // * @see {@link https://github.com/expressjs/csurf#csurf)}
@@ -109,6 +136,32 @@ async function bootstrap() {
     new TimeoutInterceptor(app.get(Reflector)),
     new TransformInterceptor(app.get(Reflector)),
     new ClassSerializerInterceptor(app.get(Reflector)),
+  );
+
+  // * Open API section
+  SwaggerModule.setup(
+    `docs/v${APP_VERSION}`,
+    app,
+    SwaggerModule.createDocument(
+      app,
+      new DocumentBuilder()
+        .setTitle(APP_NAME)
+        .setDescription(APP_DESCRIPTION)
+        .setVersion(`${APP_VERSION}.0`)
+        .setTermsOfService(APP_TERMS_OF_SERVICE)
+        .setContact(APP_AUTHOR_NAME, APP_AUTHOR_URL, APP_AUTHOR_EMAIL)
+        .addBearerAuth({
+          // * According to {@link https://stackoverflow.com/questions/68808863/nestjs-swagger-does-not-set-authorization-headers}
+          // * Also was tested without prefix 'Bearer ' before the token
+          description: `Please enter token in following format: Bearer [token]`,
+          name: 'Authorization',
+          bearerFormat: 'Bearer', // * Tested not to use this field, but the result was the same
+          scheme: 'Bearer',
+          type: 'http', // * Attempted type: 'apiKey' too
+          in: 'Header',
+        })
+        .build(),
+    ),
   );
 
   await app.listen(appConfig.port, appConfig.host);

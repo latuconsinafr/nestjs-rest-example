@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDateString,
   IsNotEmpty,
@@ -22,27 +23,51 @@ import { UserProfile } from '../../../entities/user-profile.entity';
 export class CreateUserProfileRequest {
   @IsNotEmpty()
   @IsString()
+  @ApiProperty({
+    description: 'The first name of user profile',
+    example: 'first',
+  })
   firstName: string;
 
   @IsNotEmpty()
   @IsString()
+  @ApiProperty({
+    description: 'The last name of user profile',
+    example: 'last',
+  })
   lastName: string;
 
   @IsOptional()
   @IsString()
   @MaxLength(160)
+  @ApiPropertyOptional({
+    description: 'The bio of user profile',
+    example: 'This is a bio',
+  })
   bio?: string | null | undefined;
 
   @IsOptional()
   @IsString()
+  @ApiPropertyOptional({
+    description: 'The location of user profile',
+    example: 'earth',
+  })
   location?: string | null | undefined;
 
   @IsOptional()
   @IsString()
+  @ApiPropertyOptional({
+    description: 'The website of user profile',
+    example: 'latuconsinafr.id',
+  })
   website?: string | null | undefined;
 
   @IsNotEmpty()
   @IsDateString({ strict: true })
+  @ApiProperty({
+    description: 'The birth date of user profile',
+    example: '1995-08-06',
+  })
   birthDate: Date;
 
   /**

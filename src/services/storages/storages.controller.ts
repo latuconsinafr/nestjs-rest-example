@@ -9,6 +9,12 @@ import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorato
 import { NotToBeTransformed } from '../../common/decorators/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
+import {
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 /**
  * Defines the storages controller.
@@ -17,6 +23,7 @@ import { InternalServerErrorException } from '../../common/exceptions/internal-s
   version: '1',
   path: 'storages',
 })
+@ApiTags('Storages')
 export class StoragesController {
   /**
    * The constructor.
@@ -38,6 +45,9 @@ export class StoragesController {
   @Get(':id')
   @NotToBeCached()
   @NotToBeTransformed()
+  @ApiOkResponse({ description: 'File loaded' })
+  @ApiNotFoundResponse({ description: 'File not found' })
+  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
   async findLocalFileById(
     @Param('id', LocalFileByIdPipe) file: LocalFile,
     @Res({ passthrough: true }) response: Response,

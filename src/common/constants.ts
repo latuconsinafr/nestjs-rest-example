@@ -18,7 +18,12 @@ export const APP_GLOBAL_PREFIX = 'api';
 /**
  * Defines current application version.
  */
-export const APP_VERSION = '1.0';
+export const APP_VERSION = '1';
+
+/**
+ * Defines current application terms of service.
+ */
+export const APP_TERMS_OF_SERVICE = 'tos';
 
 /**
  * Defines the application author name.

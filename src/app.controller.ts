@@ -1,10 +1,12 @@
 import { Controller, Get, Query, Redirect } from '@nestjs/common';
+import { ApiFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 
 /**
  * Defines the application controller.
  */
 @Controller()
+@ApiTags('App')
 export class AppController {
   /**
    * The constructor.
@@ -21,6 +23,7 @@ export class AppController {
    * @returns A welcome string in html format.
    */
   @Get()
+  @ApiOkResponse({ description: 'Success' })
   index(): null {
     this.logger.info(`Try to call ${AppController.prototype.index.name}`);
 
@@ -36,6 +39,8 @@ export class AppController {
    */
   @Get('docs')
   @Redirect('https://docs.nestjs.com', 302)
+  @ApiOkResponse({ description: 'Success' })
+  @ApiFoundResponse({ description: 'Redirected' })
   getDocs(@Query('version') version: string): { url: string } {
     this.logger.info(`Try to call ${AppController.prototype.getDocs.name}`);
 
