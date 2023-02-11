@@ -5,28 +5,8 @@ import {
   DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE,
 } from '../constants';
 import { ErrorCode } from '../enums/http/error-code.enum';
-import { ValidationErrorBaseResponse } from '../interfaces/http/base-response.interface';
-import { ErrorResponse } from '../interfaces/http/error-response.interface';
-
-/**
- * Maps an array of validation error to array of validation error response.
- * This function maps the nested `children` `constraints` value.
- *
- * @param errors The validation error to map
- *
- * @returns The array of validation error response.
- */
-const mapChildrenToValidationErrorResponses = (
-  errors: ValidationError[],
-): ValidationErrorBaseResponse[] => {
-  return errors.map((error) => ({
-    property: error.property,
-    constraints:
-      Array.isArray(error.children) && error.children.length > 0
-        ? mapChildrenToValidationErrorResponses(error.children)
-        : Object.values(error.constraints ?? []),
-  }));
-};
+import { ValidationErrors } from '../interfaces/http/validation-errors.interface';
+import { ErrorResponse } from '../dto/responses/error-response.dto';
 
 /**
  * Defines an HTTP exception for *Unprocessable Entity* type errors.
@@ -56,10 +36,12 @@ export class UnprocessableEntityException extends HttpException {
    * @param errorResponse Object describing the error condition, if any
    * @param errors Object describing error validation, if any
    */
-  constructor(errorResponse?: ErrorResponse, errors?: ValidationError[]) {
+  constructor(
+    errorResponse?: Partial<ErrorResponse>,
+    errors?: ValidationError[],
+  ) {
     const httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-
-    const response: ErrorResponse = {
+    const response: ErrorResponse = new ErrorResponse({
       message:
         errorResponse?.message ??
         (errors
@@ -67,7 +49,7 @@ export class UnprocessableEntityException extends HttpException {
           : DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE),
       error: errorResponse?.error ?? ErrorCode.ErrorUnprocessableEntity,
       help: errorResponse?.help ?? DEFAULT_HELP_MESSAGE,
-    };
+    });
 
     super(
       HttpException.createBody(response, response.error, httpStatus),
@@ -75,3 +57,23 @@ export class UnprocessableEntityException extends HttpException {
     );
   }
 }
+
+/**
+ * Maps an array of validation error to array of validation error response.
+ * This function maps the nested `children` `constraints` value.
+ *
+ * @param errors The validation error to map
+ *
+ * @returns The array of validation error response.
+ */
+const mapChildrenToValidationErrorResponses = (
+  errors: ValidationError[],
+): ValidationErrors[] => {
+  return errors.map((error) => ({
+    property: error.property,
+    constraints:
+      Array.isArray(error.children) && error.children.length > 0
+        ? mapChildrenToValidationErrorResponses(error.children)
+        : Object.values(error.constraints ?? []),
+  }));
+};

@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { DEFAULT_FORBIDDEN_MESSAGE, DEFAULT_HELP_MESSAGE } from '../constants';
+import { ErrorResponse } from '../dto/responses/error-response.dto';
 import { ErrorCode } from '../enums/http/error-code.enum';
-import { ErrorResponse } from '../interfaces/http/error-response.interface';
 
 /**
  * Defines an HTTP exception for *Forbidden* type errors.
@@ -29,13 +29,13 @@ export class ForbiddenException extends HttpException {
    *
    * @param errorResponse Object describing the error condition, if any
    */
-  constructor(errorResponse?: ErrorResponse) {
+  constructor(errorResponse?: Partial<ErrorResponse>) {
     const httpStatus = HttpStatus.FORBIDDEN;
-    const response: ErrorResponse = {
+    const response: ErrorResponse = new ErrorResponse({
       message: errorResponse?.message ?? DEFAULT_FORBIDDEN_MESSAGE,
       error: errorResponse?.error ?? ErrorCode.ErrorForbidden,
       help: errorResponse?.help ?? DEFAULT_HELP_MESSAGE,
-    };
+    });
 
     super(
       HttpException.createBody(response, response.error, httpStatus),

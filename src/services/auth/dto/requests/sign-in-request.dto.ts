@@ -13,13 +13,13 @@ export default class SignInRequest {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
-    description: 'The username of user.',
+    description: 'The username of user',
     example: 'user',
   })
   username: string;
 
   @ApiProperty({
-    description: 'The password of user.',
+    description: 'The password of user',
     example: 'password',
   })
   @IsNotEmpty()

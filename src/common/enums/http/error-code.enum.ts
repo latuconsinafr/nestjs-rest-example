@@ -2,6 +2,7 @@
  * Defines enum for application error code.
  */
 export enum ErrorCode {
+  // * Error codes related to http status code
   /**
    * Defines code for the unauthorized error exception.
    *
@@ -50,4 +51,10 @@ export enum ErrorCode {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500 documentation}
    */
   ErrorInternalServerError = 'error-internal-server-error',
+
+  // * Other error codes
+  /**
+   * Defines the code for input validation error exception.
+   */
+  ErrorInputValidation = 'error-input-validation',
 }

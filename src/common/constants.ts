@@ -55,12 +55,12 @@ export const APP_LICENSE_URL = 'https://opensource.org/licenses/MIT';
  */
 export const APP_MAX_TIMEOUT = 2500;
 
+// * Default messages section
 /**
  * Defines the default message for help response.
  */
 export const DEFAULT_HELP_MESSAGE = 'Help is not available';
 
-// * Default messages section
 /**
  * Defines default message for the unauthorized error exception.
  *

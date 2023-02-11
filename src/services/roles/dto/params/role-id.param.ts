@@ -3,14 +3,14 @@ import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
 /**
- * Defines the DTO that carries the user identifier request parameter.
+ * Defines the DTO that carries the role identifier request parameter.
  */
-export class UserIdParam {
+export class RoleIdParam {
   @IsNotEmpty()
   @IsNumber()
   @Type(/* istanbul ignore next */ () => Number)
   @ApiProperty({
-    description: 'The id of user',
+    description: 'The id of role',
     example: 1,
   })
   id: number;

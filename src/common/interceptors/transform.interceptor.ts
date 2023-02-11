@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Observable, map } from 'rxjs';
 import { NOT_TO_BE_TRANSFORMED_KEY } from '../constants';
-import { BaseResponse } from '../interfaces/http/base-response.interface';
+import { SuccessResponse } from '../dto/responses/success-response.dto';
 
 /**
  * Defines default response.
@@ -62,13 +62,13 @@ export class TransformInterceptor<T>
     const response = ctx.getResponse();
     const httpStatus = response.statusCode;
 
-    const baseResponseBody: BaseResponse = {
+    const baseResponseBody = new SuccessResponse({
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: request.url,
       success: true,
       message: 'Success',
-    };
+    });
 
     return next.handle().pipe(
       map((responseBody) => ({

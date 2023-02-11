@@ -10,13 +10,16 @@ import {
 } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorator';
-import { SuccessResponseDto } from '../../common/dto/responses/success-response.dto';
+import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
+import { ApiSuccessResponse } from '../../common/decorators/open-api/api-success-response.decorator';
+import { SuccessResponse } from '../../common/dto/responses/success-response.dto';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
-import { SuccessResponse } from '../../common/interfaces/http/success-response.interface';
+import UserResponse from '../users/dto/responses/users/user-response.dto';
 import { AuthService } from './auth.service';
 import { UseJwtAuth } from './decorators/use-jwt-auth.decorator';
 import { UseLocalAuth } from './decorators/use-local-auth.decorator';
 import SignInRequest from './dto/requests/sign-in-request.dto';
+import SignInResponse from './dto/responses/sign-in-response.dto';
 import RequestWithAuthUser from './interface/request-with-auth-user.interface';
 
 /**
@@ -52,17 +55,29 @@ export class AuthController {
   @NotToBeCached()
   @UseJwtAuth()
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'User authenticated' })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
+  @ApiSuccessResponse({
+    response: ApiOkResponse,
+    model: UserResponse,
+    options: { description: 'User authenticated' },
+  })
+  @ApiErrorResponses([
+    {
+      response: ApiUnauthorizedResponse,
+      options: { description: 'Unauthorized' },
+    },
+    {
+      response: ApiInternalServerErrorResponse,
+      options: { description: 'Something went wrong' },
+    },
+  ])
   async authenticate(
     @Req() { user }: RequestWithAuthUser,
-  ): Promise<SuccessResponse> {
+  ): Promise<SuccessResponse<UserResponse>> {
     this.logger.info(
       `Try to call ${AuthController.prototype.authenticate.name}`,
     );
 
-    return new SuccessResponseDto({
+    return new SuccessResponse({
       message: 'User authenticated',
       data: user,
     });
@@ -79,14 +94,28 @@ export class AuthController {
   @UseLocalAuth()
   @HttpCode(200)
   @ApiBody({ type: SignInRequest })
-  @ApiOkResponse({ description: 'Signed in' })
-  @ApiUnprocessableEntityResponse({ description: 'Wrong credential provided' })
-  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
-  async signIn(@Req() { user }: RequestWithAuthUser): Promise<SuccessResponse> {
+  @ApiSuccessResponse({
+    response: ApiOkResponse,
+    model: SignInResponse,
+    options: { description: 'Signed in' },
+  })
+  @ApiErrorResponses([
+    {
+      response: ApiUnprocessableEntityResponse,
+      options: { description: 'Wrong credential provided' },
+    },
+    {
+      response: ApiInternalServerErrorResponse,
+      options: { description: 'Something went wrong' },
+    },
+  ])
+  async signIn(
+    @Req() { user }: RequestWithAuthUser,
+  ): Promise<SuccessResponse<SignInResponse>> {
     this.logger.info(`Try to call ${AuthController.prototype.signIn.name}`);
 
     try {
-      return new SuccessResponseDto({
+      return new SuccessResponse({
         message: 'Signed in',
         data: await this.authService.signIn(user),
       });

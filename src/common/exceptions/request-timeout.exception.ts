@@ -3,8 +3,8 @@ import {
   DEFAULT_HELP_MESSAGE,
   DEFAULT_REQUEST_TIMEOUT_MESSAGE,
 } from '../constants';
+import { ErrorResponse } from '../dto/responses/error-response.dto';
 import { ErrorCode } from '../enums/http/error-code.enum';
-import { ErrorResponse } from '../interfaces/http/error-response.interface';
 
 /**
  * Defines an HTTP exception for *Request Timeout* type errors.
@@ -32,13 +32,13 @@ export class RequestTimeoutException extends HttpException {
    *
    * @param errorResponse Object describing the error condition, if any
    */
-  constructor(errorResponse?: ErrorResponse) {
+  constructor(errorResponse?: Partial<ErrorResponse>) {
     const httpStatus = HttpStatus.REQUEST_TIMEOUT;
-    const response: ErrorResponse = {
+    const response: ErrorResponse = new ErrorResponse({
       message: errorResponse?.message ?? DEFAULT_REQUEST_TIMEOUT_MESSAGE,
       error: errorResponse?.error ?? ErrorCode.ErrorRequestTimeout,
       help: errorResponse?.help ?? DEFAULT_HELP_MESSAGE,
-    };
+    });
 
     super(
       HttpException.createBody(response, response.error, httpStatus),

@@ -15,6 +15,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
 
 /**
  * Defines the storages controller.
@@ -46,8 +47,16 @@ export class StoragesController {
   @NotToBeCached()
   @NotToBeTransformed()
   @ApiOkResponse({ description: 'File loaded' })
-  @ApiNotFoundResponse({ description: 'File not found' })
-  @ApiInternalServerErrorResponse({ description: 'Something went wrong' })
+  @ApiErrorResponses([
+    {
+      response: ApiNotFoundResponse,
+      options: { description: 'File not found' },
+    },
+    {
+      response: ApiInternalServerErrorResponse,
+      options: { description: 'Something went wrong' },
+    },
+  ])
   async findLocalFileById(
     @Param('id', LocalFileByIdPipe) file: LocalFile,
     @Res({ passthrough: true }) response: Response,

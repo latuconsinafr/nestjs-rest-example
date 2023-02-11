@@ -26,6 +26,7 @@ import {
   APP_AUTHOR_EMAIL,
 } from './common/constants';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ErrorCode } from './common/enums/http/error-code.enum';
 
 /**
  * Defines the application bootstrapping function.
@@ -125,7 +126,10 @@ async function bootstrap() {
       // forbidUnknownValues: true,
 
       exceptionFactory: (errors: ValidationError[]) => {
-        return new UnprocessableEntityException({}, errors);
+        return new UnprocessableEntityException(
+          { error: ErrorCode.ErrorInputValidation },
+          errors,
+        );
       },
     }),
   );

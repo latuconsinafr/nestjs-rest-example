@@ -7,8 +7,8 @@ import {
 import { Request, Response } from 'express';
 import { InjectPinoLogger, Logger } from 'nestjs-pino';
 import { DEFAULT_HELP_MESSAGE } from '../constants';
+import { ErrorResponse } from '../dto/responses/error-response.dto';
 import { ErrorCode } from '../enums/http/error-code.enum';
-import { BaseResponse } from '../interfaces/http/base-response.interface';
 
 /**
  * Class describing implementation of an exception filter that catch {@link HttpException}.
@@ -47,13 +47,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? (exception.getResponse() as object)
         : { message: exception.getResponse() };
 
-    const baseResponseBody: BaseResponse = {
+    const baseResponseBody = new ErrorResponse({
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
       path: request.url,
       success: false,
       message: 'Error',
-    };
+    });
 
     const responseBody = {
       ...baseResponseBody,

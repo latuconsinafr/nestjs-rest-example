@@ -24,8 +24,6 @@ export class UserByIdPipe implements PipeTransform<string, Promise<User>> {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async transform(value: string, metadata: ArgumentMetadata): Promise<User> {
-    console.log('masuk');
-    console.log(value);
     const val = parseInt(value, 10);
 
     if (isNaN(val)) {

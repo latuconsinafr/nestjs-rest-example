@@ -3,8 +3,8 @@ import {
   DEFAULT_HELP_MESSAGE,
   DEFAULT_UNAUTHORIZED_MESSAGE,
 } from '../constants';
+import { ErrorResponse } from '../dto/responses/error-response.dto';
 import { ErrorCode } from '../enums/http/error-code.enum';
-import { ErrorResponse } from '../interfaces/http/error-response.interface';
 
 /**
  * Defines an HTTP exception for *Unauthorized* type errors.
@@ -32,13 +32,13 @@ export class UnauthorizedException extends HttpException {
    *
    * @param errorResponse Object describing the error condition, if any
    */
-  constructor(errorResponse?: ErrorResponse) {
+  constructor(errorResponse?: Partial<ErrorResponse>) {
     const httpStatus = HttpStatus.UNAUTHORIZED;
-    const response: ErrorResponse = {
+    const response: ErrorResponse = new ErrorResponse({
       message: errorResponse?.message ?? DEFAULT_UNAUTHORIZED_MESSAGE,
       error: errorResponse?.error ?? ErrorCode.ErrorUnauthorized,
       help: errorResponse?.help ?? DEFAULT_HELP_MESSAGE,
-    };
+    });
 
     super(
       HttpException.createBody(response, response.error, httpStatus),
