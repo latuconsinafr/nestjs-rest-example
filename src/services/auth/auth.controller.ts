@@ -9,7 +9,7 @@ import {
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
-import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorator';
+import { NotToBeCached } from '../../common/decorators/interceptors/not-to-be-cached.decorator';
 import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
 import { ApiSuccessResponse } from '../../common/decorators/open-api/api-success-response.decorator';
 import { SuccessResponse } from '../../common/dto/responses/success-response.dto';

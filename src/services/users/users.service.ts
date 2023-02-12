@@ -5,8 +5,7 @@ import { Repository } from 'typeorm';
 import { UserProfile } from './entities/user-profile.entity';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
-import { RolesService } from '../roles/roles.service';
-import { UserRole } from '../roles/enums/user-role.enum';
+import { Role } from '../roles/entities/role.entity';
 
 // * Service will be responsible for data storage and retrieval
 /**
@@ -18,35 +17,30 @@ export class UsersService {
    * The constructor.
    *
    * @param logger The pino logger
-   * @param rolesService The roles service
    * @param usersRepository The repository of user entity
-   * @param userProfilesRepository The repository of user profile entity
    */
   constructor(
     private readonly logger: PinoLogger,
-    private readonly rolesService: RolesService,
-    @InjectRepository(User) private usersRepository: Repository<User>,
-    @InjectRepository(UserProfile)
-    private userProfilesRepository: Repository<UserProfile>,
+    @InjectRepository(User) private readonly usersRepository: Repository<User>,
   ) {
     this.logger.setContext(UsersService.name);
   }
 
   /**
-   * Creates a user.
+   * Creates a user with its whole relations {@link Role} and {@link UserProfile}.
    *
    * @param user A user to create
-   * @param roles The user's roles to create
    *
    * @returns The created user.
    */
-  async create(user: User, roles: UserRole[]): Promise<User> {
+  async create(user: User): Promise<User> {
     this.logger.info(`Try to call ${UsersService.prototype.create.name}`);
 
     const createdUser: User = this.usersRepository.create({
       ...user,
-      password: await argon2.hash(user.password),
-      roles: await this.rolesService.findByNames(roles),
+      ...(user.password
+        ? { password: await argon2.hash(user.password) }
+        : undefined),
     });
 
     await this.usersRepository.save(createdUser);
@@ -62,7 +56,7 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     this.logger.info(`Try to call ${UsersService.prototype.findAll.name}`);
 
-    return await this.usersRepository.find({ relations: ['profile', 'roles'] });
+    return await this.usersRepository.find({ relations: ['roles', 'profile'] });
   }
 
   /**
@@ -77,7 +71,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { id },
-      relations: ['profile', 'roles'],
+      relations: ['roles', 'profile'],
     });
   }
 
@@ -95,7 +89,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { username },
-      relations: ['profile', 'roles'],
+      relations: ['roles', 'profile'],
     });
   }
 
@@ -111,16 +105,21 @@ export class UsersService {
   async update(id: number, user: User): Promise<boolean> {
     this.logger.info(`Try to call ${UsersService.prototype.update.name}`);
 
-    await this.usersRepository.update(id, { ...user });
+    await this.usersRepository.update(id, {
+      ...user,
+      ...(user.password
+        ? { password: await argon2.hash(user.password) }
+        : undefined),
+    });
 
     return true;
   }
 
   /**
-   * Updates a user's password by a given id.
+   * Updates a user password by a given id.
    *
    * @param id The user id to update
-   * @param password The password to update to
+   * @param password The user password to update
    *
    * @returns The flag indicates whether the update process is success or not.
    * Return `true` if the update process is success, otherwise `false`.
@@ -138,42 +137,21 @@ export class UsersService {
   }
 
   /**
-   * Updates a user's roles by a given id.
+   * Updates a user roles by a given id.
    *
-   * @param user The user to update
-   * @param roles The roles to update to
+   * @param id The user id to update
+   * @param roles The user roles to update
    *
    * @returns The flag indicates whether the update process is success or not.
    * Return `true` if the update process is success, otherwise `false`.
    */
-  async updateRoles(user: User, roles: UserRole[]): Promise<boolean> {
+  async updateRoles(id: number, roles: Role[]): Promise<boolean> {
     this.logger.info(`Try to call ${UsersService.prototype.updateRoles.name}`);
 
-    //? This gonna be working in the future, perhaps.
-    // await this.usersRepository.update(id, {
-    //   roles: await this.rolesService.findByNames(roles),
-    // });
-
     await this.usersRepository.save({
-      ...user,
-      roles: await this.rolesService.findByNames(roles),
+      ...(await this.findById(id)),
+      roles: roles,
     });
-
-    return true;
-  }
-
-  /**
-   * Deletes a user by a given id.
-   *
-   * @param id The id to find
-   *
-   * @returns The flag indicates whether the delete process is success or not.
-   * Return `true` if the delete process is success, otherwise `false`.
-   */
-  async delete(id: number): Promise<boolean> {
-    this.logger.info(`Try to call ${UsersService.prototype.delete.name}`);
-
-    await this.usersRepository.delete(id);
 
     return true;
   }
@@ -192,7 +170,26 @@ export class UsersService {
       `Try to call ${UsersService.prototype.updateProfile.name}`,
     );
 
-    await this.userProfilesRepository.update(id, { ...userProfile });
+    await this.usersRepository.save({
+      ...(await this.findById(id)),
+      profile: userProfile,
+    });
+
+    return true;
+  }
+
+  /**
+   * Deletes a user by a given id.
+   *
+   * @param id The id to find
+   *
+   * @returns The flag indicates whether the delete process is success or not.
+   * Return `true` if the delete process is success, otherwise `false`.
+   */
+  async delete(id: number): Promise<boolean> {
+    this.logger.info(`Try to call ${UsersService.prototype.delete.name}`);
+
+    await this.usersRepository.delete(id);
 
     return true;
   }

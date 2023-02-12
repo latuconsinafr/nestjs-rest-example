@@ -6,7 +6,7 @@ import { UsersService } from '../users.service';
 
 /**
  * Class defining the implementation of a pipe that parse int from any string value {@link ParseIntPipe},
- * also parse the user entity from the parsed int user identifier value.
+ * and return the promise of user entity of related identifier value.
  *
  * @usageNotes
  * The transform method will throw {@link UnprocessableEntityException}, if fail to parse the string value.

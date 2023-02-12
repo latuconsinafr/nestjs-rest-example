@@ -11,6 +11,7 @@ import {
   Length,
   ValidateNested,
 } from 'class-validator';
+import { usersData } from '../../../../../database/data/users.data';
 import { UserRole } from '../../../../roles/enums/user-role.enum';
 import { User } from '../../../entities/user.entity';
 import { CreateUserProfileRequest } from '../user-profiles/create-user-profile-request.dto';
@@ -33,7 +34,7 @@ export class CreateUserRequest {
   @Length(4, 12)
   @ApiProperty({
     description: 'The username of user',
-    example: 'user',
+    example: usersData[0].username,
   })
   username: string;
 
@@ -42,7 +43,7 @@ export class CreateUserRequest {
   @IsEmail()
   @ApiProperty({
     description: 'The email of user',
-    example: 'user@mail.com',
+    example: usersData[0].email,
   })
   email: string;
 
@@ -51,7 +52,7 @@ export class CreateUserRequest {
   @IsPhoneNumber('ID')
   @ApiProperty({
     description: 'The phone number of user',
-    example: '+6282246924950',
+    example: usersData[0].phone,
   })
   phone: string;
 
@@ -72,7 +73,7 @@ export class CreateUserRequest {
     description: 'The roles of user',
     enum: UserRole,
     isArray: true,
-    example: [UserRole.User],
+    example: usersData[0].roles.map((role) => role.name),
   })
   roles: UserRole[];
 
@@ -92,13 +93,15 @@ export class CreateUserRequest {
    *
    * @returns The `User` entity
    */
-  static toEntity(request: CreateUserRequest): User {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static toEntity(request: CreateUserRequest): [User, UserRole[]] {
     const { profile, roles, ...user } = request;
 
-    return new User({
-      ...user,
-      profile: CreateUserProfileRequest.toEntity(profile),
-    });
+    return [
+      new User({
+        ...user,
+        profile: CreateUserProfileRequest.toEntity(profile),
+      }),
+      roles,
+    ];
   }
 }

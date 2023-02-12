@@ -18,7 +18,7 @@ import { User } from './user.entity';
  * - `birthDate`: The birthDate of user profile
  * - `avatarFileId`: The id of avatar file of user profile
  * - `user`: The profile user
- * - `avatarFile`: The profile avatar
+ * - `avatarFile`: The profile avatar file
  */
 @Entity()
 export class UserProfile {

@@ -1,4 +1,4 @@
-import { IntersectionType } from '@nestjs/mapped-types';
+import { IntersectionType } from '@nestjs/swagger';
 import { UserProfile } from '../../../entities/user-profile.entity';
 import { UserIdParam } from '../../params/users/user-id.param';
 import { CreateUserProfileRequest } from './create-user-profile-request.dto';

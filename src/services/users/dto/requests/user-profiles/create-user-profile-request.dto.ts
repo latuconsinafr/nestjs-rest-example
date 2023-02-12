@@ -6,6 +6,7 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
+import { userProfilesData } from '../../../../../database/data/user-profiles.data';
 import { UserProfile } from '../../../entities/user-profile.entity';
 
 /**
@@ -25,7 +26,7 @@ export class CreateUserProfileRequest {
   @IsString()
   @ApiProperty({
     description: 'The first name of user profile',
-    example: 'first',
+    example: userProfilesData[0].firstName,
   })
   firstName: string;
 
@@ -33,7 +34,7 @@ export class CreateUserProfileRequest {
   @IsString()
   @ApiProperty({
     description: 'The last name of user profile',
-    example: 'last',
+    example: userProfilesData[0].lastName,
   })
   lastName: string;
 
@@ -42,7 +43,7 @@ export class CreateUserProfileRequest {
   @MaxLength(160)
   @ApiPropertyOptional({
     description: 'The bio of user profile',
-    example: 'This is a bio',
+    example: userProfilesData[0].bio,
   })
   bio?: string | null | undefined;
 
@@ -50,7 +51,7 @@ export class CreateUserProfileRequest {
   @IsString()
   @ApiPropertyOptional({
     description: 'The location of user profile',
-    example: 'earth',
+    example: userProfilesData[0].location,
   })
   location?: string | null | undefined;
 
@@ -58,7 +59,7 @@ export class CreateUserProfileRequest {
   @IsString()
   @ApiPropertyOptional({
     description: 'The website of user profile',
-    example: 'latuconsinafr.id',
+    example: userProfilesData[0].website,
   })
   website?: string | null | undefined;
 
@@ -66,7 +67,7 @@ export class CreateUserProfileRequest {
   @IsDateString({ strict: true })
   @ApiProperty({
     description: 'The birth date of user profile',
-    example: '1995-08-06',
+    example: userProfilesData[0].birthDate,
   })
   birthDate: Date;
 

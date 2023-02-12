@@ -19,7 +19,7 @@ export class RolesService {
    */
   constructor(
     private readonly logger: PinoLogger,
-    @InjectRepository(Role) private rolesRepository: Repository<Role>,
+    @InjectRepository(Role) private readonly rolesRepository: Repository<Role>,
   ) {
     this.logger.setContext(RolesService.name);
   }

@@ -4,7 +4,7 @@ import { UserRole } from '../../services/roles/enums/user-role.enum';
 /**
  * Dummy data for {@link Role} entity.
  */
-export const rolesData: Role[] = [
+export const rolesData = [
   new Role({
     id: 1,
     name: UserRole.SuperAdmin,
@@ -13,4 +13,4 @@ export const rolesData: Role[] = [
     id: 2,
     name: UserRole.User,
   }),
-];
+] as const; // * Make it tuple to allow checked indexes {@see https://www.youtube.com/watch?v=nNse0r0aRT8&t=957s}

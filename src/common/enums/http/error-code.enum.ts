@@ -46,6 +46,13 @@ export enum ErrorCode {
   ErrorUnprocessableEntity = 'error-unprocessable-entity',
 
   /**
+   * Defines code for the too many requests error exception.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 documentation}
+   */
+  ErrorTooManyRequests = 'error-too-many-requests',
+
+  /**
    * Defines code for the internal server error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500 documentation}

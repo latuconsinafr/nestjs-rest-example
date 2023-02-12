@@ -4,7 +4,7 @@ import { rolesData } from './roles.data';
 /**
  * Dummy data for {@link User} entity.
  */
-export const usersData: User[] = [
+export const usersData = [
   new User({
     id: 1,
     username: 'super-admin',
@@ -23,4 +23,4 @@ export const usersData: User[] = [
       '$argon2id$v=19$m=65536,t=3,p=4$AJgltBJ0WY3dCBHs8/Hmgw$56y+zKfzef2qaaFWXYRLXw4VTjHjm1KJwgc8zngSp80',
     roles: [rolesData[1]],
   }),
-];
+] as const; // * Make it tuple to allow checked indexes {@see https://www.youtube.com/watch?v=nNse0r0aRT8&t=957s}

@@ -45,6 +45,8 @@ import {
 import { ApiSuccessResponse } from '../../common/decorators/open-api/api-success-response.decorator';
 import UserResponse from './dto/responses/users/user-response.dto';
 import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
+import { RolesService } from '../roles/roles.service';
+import { usersData } from '../../database/data/users.data';
 
 /**
  * Defines the users controller.
@@ -60,11 +62,13 @@ export class UsersController {
    *
    * @param logger The pino logger
    * @param usersService The users service
+   * @param rolesService The roles service
    * @param storagesService The storages service
    */
   constructor(
     private readonly logger: PinoLogger,
     private readonly usersService: UsersService,
+    private readonly rolesService: RolesService,
     private readonly storagesService: StoragesService,
   ) {
     this.logger.setContext(UsersController.name);
@@ -111,12 +115,14 @@ export class UsersController {
     );
 
     try {
+      const [user, userRoles] = CreateUserRequest.toEntity(createUserRequest);
+
       return new SuccessResponse({
         message: 'User created',
-        data: await this.usersService.create(
-          CreateUserRequest.toEntity(createUserRequest),
-          createUserRequest.roles,
-        ),
+        data: await this.usersService.create({
+          ...user,
+          roles: await this.rolesService.findByNames(userRoles),
+        }),
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);
@@ -183,7 +189,7 @@ export class UsersController {
     type: Number,
     name: 'id',
     description: 'The id of user',
-    example: 1,
+    example: usersData[0].id,
   })
   @ApiBearerAuth()
   @ApiSuccessResponse({
@@ -236,7 +242,7 @@ export class UsersController {
     type: Number,
     name: 'id',
     description: 'The id of user',
-    example: 1,
+    example: usersData[0].id,
   })
   @ApiBearerAuth()
   @ApiSuccessResponse({
@@ -306,7 +312,7 @@ export class UsersController {
     type: Number,
     name: 'id',
     description: 'The id of user',
-    example: 1,
+    example: usersData[0].id,
   })
   @ApiBearerAuth()
   @ApiSuccessResponse({
@@ -359,7 +365,7 @@ export class UsersController {
     type: Number,
     name: 'id',
     description: 'The id of user',
-    example: 1,
+    example: usersData[0].id,
   })
   @ApiBearerAuth()
   @ApiSuccessResponse({
@@ -430,7 +436,7 @@ export class UsersController {
     type: Number,
     name: 'id',
     description: 'The id of user',
-    example: 1,
+    example: usersData[0].id,
   })
   @ApiBearerAuth()
   @ApiSuccessResponse({
@@ -460,19 +466,22 @@ export class UsersController {
     },
   ])
   async updateUserRoles(
-    @Param('id', UserByIdPipe) user: User,
+    @Param('id', UserByIdPipe) { id }: User,
     @Body() updateUserRolesRequest: UpdateUserRolesRequest,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserRoles.name}`,
     );
 
-    if (user.id !== updateUserRolesRequest.id) {
+    if (id !== updateUserRolesRequest.id) {
       throw new ConflictException({ message: `Inconsistent user id` });
     }
 
     try {
-      await this.usersService.updateRoles(user, updateUserRolesRequest.roles);
+      await this.usersService.updateRoles(
+        id,
+        await this.rolesService.findByNames(updateUserRolesRequest.roles),
+      );
 
       return new SuccessResponse({
         message: `User roles updated`,
@@ -498,7 +507,7 @@ export class UsersController {
     type: Number,
     name: 'id',
     description: 'The id of user',
-    example: 1,
+    example: usersData[0].id,
   })
   @ApiBearerAuth()
   @ApiSuccessResponse({
@@ -569,7 +578,7 @@ export class UsersController {
     type: Number,
     name: 'id',
     description: 'The id of user',
-    example: 1,
+    example: usersData[0].id,
   })
   @ApiBearerAuth()
   @ApiSuccessResponse({

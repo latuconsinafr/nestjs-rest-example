@@ -5,17 +5,19 @@ import { join } from 'path';
 import { LocalFile } from './entities/local-file.entity';
 import { Response } from 'express';
 import { LocalFileByIdPipe } from './pipes/local-file-by-id.pipe';
-import { NotToBeCached } from '../../common/decorators/not-to-be-cached.decorator';
-import { NotToBeTransformed } from '../../common/decorators/not-to-be-transformed.decorator';
+import { NotToBeCached } from '../../common/decorators/interceptors/not-to-be-cached.decorator';
+import { NotToBeTransformed } from '../../common/decorators/interceptors/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import {
   ApiInternalServerErrorResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
+import { localFilesData } from '../../database/data/local-files.data';
 
 /**
  * Defines the storages controller.
@@ -43,9 +45,15 @@ export class StoragesController {
    *
    * @returns The Streamable of LocalFile
    */
-  @Get(':id')
+  @Get('local/:id')
   @NotToBeCached()
   @NotToBeTransformed()
+  @ApiParam({
+    type: Number,
+    name: 'id',
+    description: 'The id of local file',
+    example: localFilesData[0].id,
+  })
   @ApiOkResponse({ description: 'File loaded' })
   @ApiErrorResponses([
     {

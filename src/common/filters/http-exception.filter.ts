@@ -59,14 +59,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
       ...baseResponseBody,
       ...exceptionResponse,
       ...(httpStatus === 403
-        ? {
-            error: ErrorCode.ErrorForbidden,
-            help: DEFAULT_HELP_MESSAGE,
-          }
+        ? { error: ErrorCode.ErrorForbidden, help: DEFAULT_HELP_MESSAGE }
         : undefined), //! Forcing forbidden error to be exactly the same as the other exception error
       ...(httpStatus === 404
         ? { error: ErrorCode.ErrorNotFound, help: DEFAULT_HELP_MESSAGE }
         : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
+      ...(httpStatus === 429
+        ? { error: ErrorCode.ErrorTooManyRequests, help: DEFAULT_HELP_MESSAGE }
+        : undefined), //! Forcing too many requests error to be exactly the same as the other not found exception error
     };
 
     response.status(httpStatus).json(responseBody);

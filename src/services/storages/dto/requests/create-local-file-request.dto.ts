@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { localFilesData } from '../../../../database/data/local-files.data';
 import { LocalFile } from '../../entities/local-file.entity';
 import { FileGeneralAccess } from '../../enums/file-general-access.enum';
 
@@ -17,7 +18,7 @@ export class CreateLocalFileRequest {
   @ApiProperty({
     description: 'The general access of local file',
     enum: FileGeneralAccess,
-    example: FileGeneralAccess.Public,
+    example: localFilesData[0].generalAccess,
   })
   generalAccess: FileGeneralAccess;
 
@@ -25,7 +26,7 @@ export class CreateLocalFileRequest {
   @IsNumber()
   @ApiProperty({
     description: 'The owner id of local file',
-    example: 1,
+    example: localFilesData[0].ownerId,
   })
   ownerId: number;
 

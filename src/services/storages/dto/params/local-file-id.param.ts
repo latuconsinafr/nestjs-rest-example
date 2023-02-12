@@ -1,18 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { rolesData } from '../../../../database/data/roles.data';
+import { localFilesData } from '../../../../database/data/local-files.data';
 
 /**
- * Defines the DTO that carries the role identifier request parameter.
+ * Defines the DTO that carries the local file identifier request parameter.
  */
-export class RoleIdParam {
+export class LocalFileIdParam {
   @IsNotEmpty()
   @IsNumber()
   @Type(/* istanbul ignore next */ () => Number)
   @ApiProperty({
-    description: 'The id of role',
-    example: rolesData[0].id,
+    description: 'The id of local file',
+    example: localFilesData[0].id,
   })
   id: number;
 }

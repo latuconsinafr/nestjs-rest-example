@@ -104,6 +104,13 @@ export const DEFAULT_CONFLICT_MESSAGE = 'Conflict';
 export const DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE = 'Unprocessable entity';
 
 /**
+ * Defines default message for the too many requests error exception.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 documentation}
+ */
+export const DEFAULT_TOO_MANY_REQUESTS_MESSAGE = 'Too many requests';
+
+/**
  * Defines default message for the internal server error exception.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500 documentation}

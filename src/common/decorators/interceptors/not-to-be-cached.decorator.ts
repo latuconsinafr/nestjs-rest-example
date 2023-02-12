@@ -1,5 +1,5 @@
 import { applyDecorators, SetMetadata } from '@nestjs/common';
-import { NOT_TO_BE_CACHED_KEY } from '../constants';
+import { NOT_TO_BE_CACHED_KEY } from '../../constants';
 
 /**
  * Decorator that combine multiple decorators to apply cache implementation,

@@ -4,7 +4,7 @@ import { LocalFile } from '../../services/storages/entities/local-file.entity';
 /**
  * Dummy data for {@link LocalFile} entity.
  */
-export const localFilesData: LocalFile[] = [
+export const localFilesData = [
   new LocalFile({
     id: 1,
     fileName: 'avatar.png',
@@ -21,4 +21,4 @@ export const localFilesData: LocalFile[] = [
     generalAccess: FileGeneralAccess.Public,
     ownerId: 2,
   }),
-];
+] as const; // * Make it tuple to allow checked indexes {@see https://www.youtube.com/watch?v=nNse0r0aRT8&t=957s}

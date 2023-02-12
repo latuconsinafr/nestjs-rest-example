@@ -1,4 +1,4 @@
-import { IntersectionType, OmitType } from '@nestjs/mapped-types';
+import { IntersectionType, OmitType } from '@nestjs/swagger';
 import { User } from '../../../entities/user.entity';
 import { UserIdParam } from '../../params/users/user-id.param';
 import { CreateUserRequest } from './create-user-request.dto';
@@ -11,7 +11,7 @@ import { CreateUserRequest } from './create-user-request.dto';
  */
 export class UpdateUserRequest extends IntersectionType(
   UserIdParam,
-  OmitType(CreateUserRequest, ['password', 'roles', 'profile']),
+  OmitType(CreateUserRequest, ['password', 'roles', 'profile'] as const),
 ) {
   /**
    * Transform the DTO into the related entity.
