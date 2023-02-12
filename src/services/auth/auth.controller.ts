@@ -1,17 +1,12 @@
 import { Controller, Req, Post, HttpCode, Get } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiInternalServerErrorResponse,
-  ApiOkResponse,
-  ApiTags,
-  ApiUnauthorizedResponse,
-  ApiUnprocessableEntityResponse,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { NotToBeCached } from '../../common/decorators/interceptors/not-to-be-cached.decorator';
-import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
+import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
 import { ApiSuccessResponse } from '../../common/decorators/open-api/api-success-response.decorator';
+import { ApiUnauthorizedErrorResponse } from '../../common/decorators/open-api/errors/api-unauthorized-error-response.decorator';
+import { ApiUnprocessableEntityErrorResponse } from '../../common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator';
+import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
 import { SuccessResponse } from '../../common/dto/responses/success-response.dto';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import UserResponse from '../users/dto/responses/users/user-response.dto';
@@ -56,20 +51,11 @@ export class AuthController {
   @UseJwtAuth()
   @ApiBearerAuth()
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     model: UserResponse,
     options: { description: 'User authenticated' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
-  ])
+  @ApiErrorsResponse([{ response: ApiUnauthorizedErrorResponse }])
   async authenticate(
     @Req() { user }: RequestWithAuthUser,
   ): Promise<SuccessResponse<UserResponse>> {
@@ -91,22 +77,18 @@ export class AuthController {
    * @returns The success response with `'Signed in'` message and an `AuthResponse` data.
    */
   @Post('sign-in')
-  @UseLocalAuth()
   @HttpCode(200)
+  @UseLocalAuth()
   @ApiBody({ type: SignInRequest })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     model: SignInResponse,
     options: { description: 'Signed in' },
   })
-  @ApiErrorResponses([
+  @ApiErrorsResponse([
     {
-      response: ApiUnprocessableEntityResponse,
+      response: ApiUnprocessableEntityErrorResponse,
       options: { description: 'Wrong credential provided' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
     },
   ])
   async signIn(

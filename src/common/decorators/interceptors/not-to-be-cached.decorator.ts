@@ -14,8 +14,10 @@ import { NOT_TO_BE_CACHED_KEY } from '../../constants';
  * This decorator applies:
  * - `@SetMetadata` decorator
  *
- * @param roles An array of user roles to bind
+ * @returns The method decorator & class decorator & property decorator
  */
-export function NotToBeCached() {
+export function NotToBeCached(): MethodDecorator &
+  ClassDecorator &
+  PropertyDecorator {
   return applyDecorators(SetMetadata(NOT_TO_BE_CACHED_KEY, true));
 }

@@ -62,6 +62,27 @@ export const APP_MAX_TIMEOUT = 2500;
 export const DEFAULT_HELP_MESSAGE = 'Help is not available';
 
 /**
+ * Defines default message for the ok success response.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200 documentation}
+ */
+export const DEFAULT_OK_MESSAGE = 'Ok';
+
+/**
+ * Defines default message for the created success response.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201 documentation}
+ */
+export const DEFAULT_CREATED_MESSAGE = 'Created';
+
+/**
+ * Defines default message for the no content success response.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/204 documentation}
+ */
+export const DEFAULT_NO_CONTENT_MESSAGE = 'No content';
+
+/**
  * Defines default message for the unauthorized error exception.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 documentation}

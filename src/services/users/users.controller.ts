@@ -30,23 +30,18 @@ import { UseAccessControl } from '../auth/decorators/use-access-control.decorato
 import { UserActions } from './permissions/user.permission';
 import { UpdateUserPasswordRequest } from './dto/requests/users/update-user-password-request.dto';
 import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
-import {
-  ApiBearerAuth,
-  ApiConflictResponse,
-  ApiCreatedResponse,
-  ApiForbiddenResponse,
-  ApiInternalServerErrorResponse,
-  ApiOkResponse,
-  ApiParam,
-  ApiTags,
-  ApiUnauthorizedResponse,
-  ApiUnprocessableEntityResponse,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiSuccessResponse } from '../../common/decorators/open-api/api-success-response.decorator';
 import UserResponse from './dto/responses/users/user-response.dto';
-import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
+import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
 import { RolesService } from '../roles/roles.service';
-import { usersData } from '../../database/data/users.data';
+import { ApiUnprocessableEntityErrorResponse } from '../../common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator';
+import { ApiUnauthorizedErrorResponse } from '../../common/decorators/open-api/errors/api-unauthorized-error-response.decorator';
+import { ApiForbiddenErrorResponse } from '../../common/decorators/open-api/errors/api-forbidden-error-response.decorator';
+import { ApiConflictErrorResponse } from '../../common/decorators/open-api/errors/api-conflict-error-response.decorator';
+import { ApiCreatedSuccessResponse } from '../../common/decorators/open-api/successes/api-created-success-response.decorator';
+import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
+import { ApiNumberParam } from '../../common/decorators/open-api/params/api-number-param.decorator';
 
 /**
  * Defines the users controller.
@@ -85,27 +80,14 @@ export class UsersController {
   @UseAccessControl(UserActions.Create, User)
   @ApiBearerAuth()
   @ApiSuccessResponse({
-    response: ApiCreatedResponse,
+    response: ApiCreatedSuccessResponse,
     model: UserResponse,
     options: { description: 'User created' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiUnprocessableEntityResponse,
-      options: { description: 'Unprocessable entity' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
   ])
   async createUser(
     @Body() createUserRequest: CreateUserRequest,
@@ -140,24 +122,14 @@ export class UsersController {
   @UseAccessControl(UserActions.ReadAll, User)
   @ApiBearerAuth()
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     model: UserResponse,
     isArray: true,
     options: { description: 'Users retrieved' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
   ])
   async findAllUsers(): Promise<SuccessResponse<UserResponse[]>> {
     this.logger.info(
@@ -185,35 +157,17 @@ export class UsersController {
    */
   @Get(':id')
   @UseAccessControl(UserActions.ReadBy, User, UserHook)
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of user',
-    example: usersData[0].id,
-  })
   @ApiBearerAuth()
+  @ApiNumberParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     model: UserResponse,
     options: { description: 'User retrieved' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiUnprocessableEntityResponse,
-      options: { description: 'Unprocessable entity' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
   ])
   async findUserById(
     @Param('id', UserByIdPipe) user: User,
@@ -238,38 +192,17 @@ export class UsersController {
    */
   @Put(':id')
   @UseAccessControl(UserActions.Update, User, UserHook)
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of user',
-    example: usersData[0].id,
-  })
   @ApiBearerAuth()
+  @ApiNumberParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     options: { description: 'User updated' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiConflictResponse,
-      options: { description: 'Conflict' },
-    },
-    {
-      response: ApiUnprocessableEntityResponse,
-      options: { description: 'Unprocessable entity' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiConflictErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
   ])
   async updateUser(
     @Param('id', UserByIdPipe) { id }: User,
@@ -308,30 +241,15 @@ export class UsersController {
    */
   @Delete(':id')
   @UseAccessControl(UserActions.Delete, User)
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of user',
-    example: usersData[0].id,
-  })
   @ApiBearerAuth()
+  @ApiNumberParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     options: { description: 'User deleted' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
   ])
   async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
     this.logger.info(
@@ -361,38 +279,17 @@ export class UsersController {
    */
   @Put(':id/password')
   @UseAccessControl(UserActions.Update, User, UserHook)
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of user',
-    example: usersData[0].id,
-  })
   @ApiBearerAuth()
+  @ApiNumberParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     options: { description: 'User password updated' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiConflictResponse,
-      options: { description: 'Conflict' },
-    },
-    {
-      response: ApiUnprocessableEntityResponse,
-      options: { description: 'Unprocessable entity' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiConflictErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
   ])
   async updateUserPassword(
     @Param('id', UserByIdPipe) { id }: User,
@@ -432,38 +329,17 @@ export class UsersController {
    */
   @Put(':id/roles')
   @UseAccessControl(UserActions.Update, User, UserHook)
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of user',
-    example: usersData[0].id,
-  })
   @ApiBearerAuth()
+  @ApiNumberParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     options: { description: 'User roles updated' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiConflictResponse,
-      options: { description: 'Conflict' },
-    },
-    {
-      response: ApiUnprocessableEntityResponse,
-      options: { description: 'Unprocessable entity' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiConflictErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
   ])
   async updateUserRoles(
     @Param('id', UserByIdPipe) { id }: User,
@@ -503,38 +379,17 @@ export class UsersController {
    */
   @Put(':id/profile')
   @UseAccessControl(UserActions.Update, User, UserHook)
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of user',
-    example: usersData[0].id,
-  })
   @ApiBearerAuth()
+  @ApiNumberParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     options: { description: 'User profile updated' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiConflictResponse,
-      options: { description: 'Conflict' },
-    },
-    {
-      response: ApiUnprocessableEntityResponse,
-      options: { description: 'Unprocessable entity' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiConflictErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
   ])
   async updateUserProfile(
     @Param('id', UserByIdPipe) { id }: User,
@@ -574,38 +429,17 @@ export class UsersController {
   @UseInterceptors(
     LocalFileInterceptor('avatar', { dest: '/users/profiles/avatars' }),
   )
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of user',
-    example: usersData[0].id,
-  })
   @ApiBearerAuth()
+  @ApiNumberParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessResponse({
-    response: ApiOkResponse,
+    response: ApiOkSuccessResponse,
     options: { description: 'User profile avatar updated' },
   })
-  @ApiErrorResponses([
-    {
-      response: ApiUnauthorizedResponse,
-      options: { description: 'Unauthorized' },
-    },
-    {
-      response: ApiForbiddenResponse,
-      options: { description: 'Forbidden' },
-    },
-    {
-      response: ApiConflictResponse,
-      options: { description: 'Conflict' },
-    },
-    {
-      response: ApiUnprocessableEntityResponse,
-      options: { description: 'Unprocessable entity' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
-    },
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiConflictErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
   ])
   async updateUserProfileAvatar(
     @Param('id', UserByIdPipe) user: User,

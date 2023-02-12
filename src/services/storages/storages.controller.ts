@@ -9,15 +9,11 @@ import { NotToBeCached } from '../../common/decorators/interceptors/not-to-be-ca
 import { NotToBeTransformed } from '../../common/decorators/interceptors/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
-import {
-  ApiInternalServerErrorResponse,
-  ApiNotFoundResponse,
-  ApiOkResponse,
-  ApiParam,
-  ApiTags,
-} from '@nestjs/swagger';
-import { ApiErrorResponses } from '../../common/decorators/open-api/api-error-responses.decorator';
-import { localFilesData } from '../../database/data/local-files.data';
+import { ApiTags } from '@nestjs/swagger';
+import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
+import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
+import { ApiNotFoundErrorResponse } from '../../common/decorators/open-api/errors/api-not-found-error-response.decorator';
+import { ApiNumberParam } from '../../common/decorators/open-api/params/api-number-param.decorator';
 
 /**
  * Defines the storages controller.
@@ -48,21 +44,12 @@ export class StoragesController {
   @Get('local/:id')
   @NotToBeCached()
   @NotToBeTransformed()
-  @ApiParam({
-    type: Number,
-    name: 'id',
-    description: 'The id of local file',
-    example: localFilesData[0].id,
-  })
-  @ApiOkResponse({ description: 'File loaded' })
-  @ApiErrorResponses([
+  @ApiNumberParam({ name: 'id', description: 'The id of local file' })
+  @ApiOkSuccessResponse({ description: 'File loaded' })
+  @ApiErrorsResponse([
     {
-      response: ApiNotFoundResponse,
+      response: ApiNotFoundErrorResponse,
       options: { description: 'File not found' },
-    },
-    {
-      response: ApiInternalServerErrorResponse,
-      options: { description: 'Something went wrong' },
     },
   ])
   async findLocalFileById(
