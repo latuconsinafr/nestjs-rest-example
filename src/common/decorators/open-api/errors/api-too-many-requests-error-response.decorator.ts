@@ -10,7 +10,7 @@ import { TooManyRequestsErrorResponse } from '../../../dto/responses/errors/too-
 
 /**
  * Decorator that combine {@link ApiExtraModels} and {@link ApiTooManyRequestsResponse},
- * to the scope controller or method or route handler, depending on its context.
+ * to the scope of controller or method or route handler, depending on its context.
  *
  * @param options The api response options
  *

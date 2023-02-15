@@ -3,7 +3,7 @@ import { ApiParamOptions, ApiParam } from '@nestjs/swagger';
 
 /**
  * Decorator that encapsulates {@link ApiParam} for param with type of Number,
- * to the scope controller or method or route handler, depending on its context.
+ * to the scope of controller or method or route handler, depending on its context.
  *
  * @param options The api param options
  *

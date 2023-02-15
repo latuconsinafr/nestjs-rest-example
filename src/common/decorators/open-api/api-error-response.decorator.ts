@@ -1,4 +1,3 @@
-import { applyDecorators } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
   ApiBadRequestResponse,
@@ -84,7 +83,7 @@ export interface ApiErrorResponseMetadata {
 
 /**
  * Decorator that encapsulates any error response of type of {@link ApiClientErrorResponse}, {@link ApiServerErrorResponse} and {@link ApiCustomErrorResponse},
- * to the scope controller or method or route handler, depending on its context.
+ * to the scope of controller or method or route handler, depending on its context.
  *
  * @param options The api error response meta data
  *
@@ -95,9 +94,5 @@ export const ApiErrorResponse = (
 ): MethodDecorator & ClassDecorator & PropertyDecorator => {
   const { response, options } = metadata;
 
-  return applyDecorators(
-    response({
-      ...options,
-    }),
-  );
+  return response({ ...options });
 };

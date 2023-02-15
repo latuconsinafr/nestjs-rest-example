@@ -10,7 +10,7 @@ import { RequestTimeoutErrorResponse } from '../../../dto/responses/errors/reque
 
 /**
  * Decorator that combine {@link ApiExtraModels} and {@link ApiRequestTimeoutResponse},
- * to the scope controller or method or route handler, depending on its context.
+ * to the scope of controller or method or route handler, depending on its context.
  *
  * @param options The api response options
  *

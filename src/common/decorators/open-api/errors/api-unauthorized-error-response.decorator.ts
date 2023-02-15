@@ -10,7 +10,7 @@ import { UnauthorizedErrorResponse } from '../../../dto/responses/errors/unautho
 
 /**
  * Decorator that combine {@link ApiExtraModels} and {@link ApiUnauthorizedResponse},
- * to the scope controller or method or route handler, depending on its context.
+ * to the scope of controller or method or route handler, depending on its context.
  *
  * @param options The api response options
  *

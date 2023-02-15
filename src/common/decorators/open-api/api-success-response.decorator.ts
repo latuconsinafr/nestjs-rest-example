@@ -1,18 +1,11 @@
-import { applyDecorators, Type } from '@nestjs/common';
+import { Type } from '@nestjs/common';
 import {
-  ApiAcceptedResponse,
-  ApiCreatedResponse,
-  ApiExtraModels,
-  ApiNoContentResponse,
   ApiOkResponse,
+  ApiCreatedResponse,
+  ApiAcceptedResponse,
+  ApiNoContentResponse,
   ApiResponseOptions,
-  getSchemaPath,
 } from '@nestjs/swagger';
-import { ReferenceObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { SuccessResponse } from '../../dto/responses/success-response.dto';
-import { CreatedSuccessResponse } from '../../dto/responses/successes/created-success-response.dto';
-import { NoContentSuccessResponse } from '../../dto/responses/successes/no-content-success-response.dto';
-import { OkSuccessResponse } from '../../dto/responses/successes/ok-success-response.dto';
 import { ApiCreatedSuccessResponse } from './successes/api-created-success-response.decorator';
 import { ApiNoContentSuccessResponse } from './successes/api-no-content-success-response.decorator';
 import { ApiOkSuccessResponse } from './successes/api-ok-success-response.decorator';
@@ -35,19 +28,25 @@ export type ApiCustomSuccessfulResponse =
   | typeof ApiNoContentSuccessResponse;
 
 /**
- * Defines the api success response meta data.
+ * Defines the interface for api success response meta data.
  */
 export interface ApiSuccessResponseMetadata<TModel extends Type<any>> {
   response: ApiSuccessfulResponse | ApiCustomSuccessfulResponse;
+  options?: ApiResponseOptions | ApiSuccessResponseMetadataOptions<TModel>;
+}
+
+/**
+ * Defines the interface for api success response meta data options.
+ */
+export interface ApiSuccessResponseMetadataOptions<TModel extends Type<any>> {
   model?: TModel;
   isArray?: boolean;
   options?: ApiResponseOptions;
 }
 
 /**
- * Decorator that encapsulates any success response of type of {@link ApiSuccessfulResponse} and {@link ApiCustomSuccessfulResponse},
- * combines {@link ApiExtraModels} and the supplied response decorator
- * to the scope controller or method or route handler, depending on its context.
+ * Decorator that encapsulates any success response of type of {@link ApiSuccessfulResponse} and {@link ApiCustomSuccessfulResponse}
+ * to the scope of controller or method or route handler, depending on its context.
  *
  * @param options The api success response meta data
  *
@@ -56,51 +55,7 @@ export interface ApiSuccessResponseMetadata<TModel extends Type<any>> {
 export const ApiSuccessResponse = <TModel extends Type<any>>(
   metadata: ApiSuccessResponseMetadata<TModel>,
 ): MethodDecorator & ClassDecorator & PropertyDecorator => {
-  const { response, model, isArray, options } = metadata;
+  const { response, options } = metadata;
 
-  let ref: ReferenceObject = { $ref: getSchemaPath(SuccessResponse) };
-
-  // TODO: This schema path should be dynamically assigned to api response
-  if (response === ApiOkSuccessResponse) {
-    ref = { $ref: getSchemaPath(OkSuccessResponse) };
-  } else if (response === ApiCreatedSuccessResponse) {
-    ref = { $ref: getSchemaPath(CreatedSuccessResponse) };
-  } else if (response === ApiNoContentSuccessResponse) {
-    ref = { $ref: getSchemaPath(NoContentSuccessResponse) };
-  }
-
-  return applyDecorators(
-    model
-      ? ApiExtraModels(SuccessResponse, model)
-      : ApiExtraModels(SuccessResponse),
-    response({
-      schema: {
-        title: `SuccessResponse ${model ? `of ${model.name}` : ``}`,
-        allOf: [
-          ref,
-          {
-            ...(model ? { required: ['data'] } : undefined),
-            properties: {
-              ...(model
-                ? isArray
-                  ? {
-                      data: {
-                        type: 'array',
-                        items: { $ref: getSchemaPath(model) },
-                      },
-                    }
-                  : {
-                      data: {
-                        type: 'object',
-                        $ref: getSchemaPath(model),
-                      },
-                    }
-                : undefined),
-            },
-          },
-        ],
-      },
-      ...options,
-    }),
-  );
+  return response({ ...options });
 };

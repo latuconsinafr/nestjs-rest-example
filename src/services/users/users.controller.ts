@@ -31,7 +31,6 @@ import { UserActions } from './permissions/user.permission';
 import { UpdateUserPasswordRequest } from './dto/requests/users/update-user-password-request.dto';
 import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { ApiSuccessResponse } from '../../common/decorators/open-api/api-success-response.decorator';
 import UserResponse from './dto/responses/users/user-response.dto';
 import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
 import { RolesService } from '../roles/roles.service';
@@ -42,6 +41,7 @@ import { ApiConflictErrorResponse } from '../../common/decorators/open-api/error
 import { ApiCreatedSuccessResponse } from '../../common/decorators/open-api/successes/api-created-success-response.decorator';
 import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
 import { ApiNumberParam } from '../../common/decorators/open-api/params/api-number-param.decorator';
+import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
 
 /**
  * Defines the users controller.
@@ -79,11 +79,15 @@ export class UsersController {
   @Post()
   @UseAccessControl(UserActions.Create, User)
   @ApiBearerAuth()
-  @ApiSuccessResponse({
-    response: ApiCreatedSuccessResponse,
-    model: UserResponse,
-    options: { description: 'User created' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiCreatedSuccessResponse,
+      options: {
+        model: UserResponse,
+        options: { description: 'User created' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -121,12 +125,16 @@ export class UsersController {
   @Get()
   @UseAccessControl(UserActions.ReadAll, User)
   @ApiBearerAuth()
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    model: UserResponse,
-    isArray: true,
-    options: { description: 'Users retrieved' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        model: UserResponse,
+        isArray: true,
+        options: { description: 'Users retrieved' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -159,11 +167,15 @@ export class UsersController {
   @UseAccessControl(UserActions.ReadBy, User, UserHook)
   @ApiBearerAuth()
   @ApiNumberParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    model: UserResponse,
-    options: { description: 'User retrieved' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        model: UserResponse,
+        options: { description: 'User retrieved' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -194,10 +206,14 @@ export class UsersController {
   @UseAccessControl(UserActions.Update, User, UserHook)
   @ApiBearerAuth()
   @ApiNumberParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    options: { description: 'User updated' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'User updated' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -243,10 +259,14 @@ export class UsersController {
   @UseAccessControl(UserActions.Delete, User)
   @ApiBearerAuth()
   @ApiNumberParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    options: { description: 'User deleted' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'User deleted' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -281,10 +301,14 @@ export class UsersController {
   @UseAccessControl(UserActions.Update, User, UserHook)
   @ApiBearerAuth()
   @ApiNumberParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    options: { description: 'User password updated' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'User password updated' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -331,10 +355,14 @@ export class UsersController {
   @UseAccessControl(UserActions.Update, User, UserHook)
   @ApiBearerAuth()
   @ApiNumberParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    options: { description: 'User roles updated' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'User roles updated' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -381,10 +409,14 @@ export class UsersController {
   @UseAccessControl(UserActions.Update, User, UserHook)
   @ApiBearerAuth()
   @ApiNumberParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    options: { description: 'User profile updated' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'User profile updated' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
@@ -431,10 +463,14 @@ export class UsersController {
   )
   @ApiBearerAuth()
   @ApiNumberParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    options: { description: 'User profile avatar updated' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'User profile avatar updated' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },

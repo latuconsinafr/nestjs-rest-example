@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { NotToBeCached } from '../../common/decorators/interceptors/not-to-be-cached.decorator';
 import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
-import { ApiSuccessResponse } from '../../common/decorators/open-api/api-success-response.decorator';
+import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
 import { ApiUnauthorizedErrorResponse } from '../../common/decorators/open-api/errors/api-unauthorized-error-response.decorator';
 import { ApiUnprocessableEntityErrorResponse } from '../../common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator';
 import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
@@ -50,11 +50,15 @@ export class AuthController {
   @NotToBeCached()
   @UseJwtAuth()
   @ApiBearerAuth()
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    model: UserResponse,
-    options: { description: 'User authenticated' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        model: UserResponse,
+        options: { description: 'User authenticated' },
+      },
+    },
+  ])
   @ApiErrorsResponse([{ response: ApiUnauthorizedErrorResponse }])
   async authenticate(
     @Req() { user }: RequestWithAuthUser,
@@ -80,11 +84,15 @@ export class AuthController {
   @HttpCode(200)
   @UseLocalAuth()
   @ApiBody({ type: SignInRequest })
-  @ApiSuccessResponse({
-    response: ApiOkSuccessResponse,
-    model: SignInResponse,
-    options: { description: 'Signed in' },
-  })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        model: SignInResponse,
+        options: { description: 'Signed in' },
+      },
+    },
+  ])
   @ApiErrorsResponse([
     {
       response: ApiUnprocessableEntityErrorResponse,

@@ -9,16 +9,16 @@ import { ApiTooManyRequestsErrorResponse } from './errors/api-too-many-requests-
 
 /**
  * Decorator that combines multiple {@link ApiErrorResponse} decorators to apply swagger error response(s),
- * to the scope controller or method or route handler, depending on its context.
+ * to the scope of controller or method or route handler, depending on its context.
  *
  * @example
  * `ApiErrorsResponse()`
  *
  * @usageNotes
  * This decorator by default applies:
- * - `@ApiRequestTimeoutErrorResponse` decorator
- * - `@ApiTooManyRequestsErrorResponse` decorator
- * - `@ApiInternalServerErrorErrorResponse` decorator
+ * - `@ApiRequestTimeoutErrorResponse()` decorator
+ * - `@ApiTooManyRequestsErrorResponse()` decorator
+ * - `@ApiInternalServerErrorErrorResponse()` decorator
  *
  * @param metadata The array of api error response metadata
  *

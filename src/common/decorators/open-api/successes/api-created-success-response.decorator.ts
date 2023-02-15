@@ -1,28 +1,59 @@
-import { applyDecorators } from '@nestjs/common';
+import { applyDecorators, Type } from '@nestjs/common';
 import {
-  ApiResponseOptions,
   ApiExtraModels,
   ApiCreatedResponse,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { DEFAULT_CREATED_MESSAGE } from '../../../constants';
 import { CreatedSuccessResponse } from '../../../dto/responses/successes/created-success-response.dto';
+import { ApiSuccessResponseMetadataOptions } from '../api-success-response.decorator';
 
 /**
- * Decorator that combine {@link ApiExtraModels} and {@link ApiCreatedResponse},
- * to the scope controller or method or route handler, depending on its context.
+ * Decorators that combine {@link ApiExtraModels} and {@link ApiCreatedResponse}
+ * to the scope of controller or method or route handler, depending on its context.
  *
- * @param options The api response options
+ * @param options The options of created success response
  *
  * @returns The method decorator & class decorator & property decorator.
  */
-export const ApiCreatedSuccessResponse = (
-  options?: ApiResponseOptions,
+export const ApiCreatedSuccessResponse = <TModel extends Type<any>>(
+  options: ApiSuccessResponseMetadataOptions<TModel>,
 ): MethodDecorator & ClassDecorator & PropertyDecorator => {
+  const { model, isArray, ...apiResponseOptions } = options;
+
   return applyDecorators(
-    ApiExtraModels(CreatedSuccessResponse),
+    model
+      ? ApiExtraModels(CreatedSuccessResponse, model)
+      : ApiExtraModels(CreatedSuccessResponse),
     ApiCreatedResponse({
       description: DEFAULT_CREATED_MESSAGE,
-      ...options,
+      schema: {
+        allOf: [
+          { $ref: getSchemaPath(CreatedSuccessResponse) }, // * Base schema
+          {
+            ...(model ? { required: ['data'] } : undefined), // * Required schema conditional
+            properties: {
+              // * Adjusting data type of model['data']
+              ...(model
+                ? isArray
+                  ? {
+                      data: {
+                        type: 'array',
+                        items: { $ref: getSchemaPath(model) },
+                      },
+                    }
+                  : {
+                      data: {
+                        type: 'object',
+                        $ref: getSchemaPath(model),
+                      },
+                    }
+                : undefined),
+            },
+          },
+        ],
+      },
+      ...apiResponseOptions.options,
     }),
   );
 };

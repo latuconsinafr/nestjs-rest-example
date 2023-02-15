@@ -9,11 +9,11 @@ import { NotToBeCached } from '../../common/decorators/interceptors/not-to-be-ca
 import { NotToBeTransformed } from '../../common/decorators/interceptors/not-to-be-transformed.decorator';
 import { NotFoundException } from '../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
-import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
 import { ApiNotFoundErrorResponse } from '../../common/decorators/open-api/errors/api-not-found-error-response.decorator';
 import { ApiNumberParam } from '../../common/decorators/open-api/params/api-number-param.decorator';
+import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
 
 /**
  * Defines the storages controller.
@@ -45,7 +45,12 @@ export class StoragesController {
   @NotToBeCached()
   @NotToBeTransformed()
   @ApiNumberParam({ name: 'id', description: 'The id of local file' })
-  @ApiOkSuccessResponse({ description: 'File loaded' })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkResponse,
+      options: { description: 'File loaded' },
+    },
+  ])
   @ApiErrorsResponse([
     {
       response: ApiNotFoundErrorResponse,
