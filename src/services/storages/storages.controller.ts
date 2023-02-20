@@ -14,13 +14,14 @@ import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-r
 import { ApiNotFoundErrorResponse } from '../../common/decorators/open-api/errors/api-not-found-error-response.decorator';
 import { ApiNumberParam } from '../../common/decorators/open-api/params/api-number-param.decorator';
 import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
+import { APP_VERSION } from '../../common/constants';
 
 /**
  * Defines the storages controller.
  */
 @Controller({
-  version: '1',
   path: 'storages',
+  version: APP_VERSION,
 })
 @ApiTags('Storages')
 export class StoragesController {

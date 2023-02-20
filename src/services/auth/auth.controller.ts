@@ -1,6 +1,7 @@
 import { Controller, Req, Post, HttpCode, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
+import { APP_VERSION } from '../../common/constants';
 import { NotToBeCached } from '../../common/decorators/interceptors/not-to-be-cached.decorator';
 import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
 import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
@@ -21,8 +22,8 @@ import RequestWithAuthUser from './interface/request-with-auth-user.interface';
  * Defines the auth controller.
  */
 @Controller({
-  version: '1',
   path: 'auth',
+  version: APP_VERSION,
 })
 @ApiTags('Auth')
 export class AuthController {

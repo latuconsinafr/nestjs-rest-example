@@ -42,13 +42,14 @@ import { ApiCreatedSuccessResponse } from '../../common/decorators/open-api/succ
 import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
 import { ApiNumberParam } from '../../common/decorators/open-api/params/api-number-param.decorator';
 import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
+import { APP_VERSION } from '../../common/constants';
 
 /**
  * Defines the users controller.
  */
 @Controller({
-  version: '1',
   path: 'users',
+  version: APP_VERSION,
 })
 @ApiTags('Users')
 export class UsersController {

@@ -6,7 +6,10 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { InjectPinoLogger, Logger } from 'nestjs-pino';
-import { DEFAULT_HELP_MESSAGE } from '../constants';
+import {
+  DEFAULT_HELP_MESSAGE,
+  DEFAULT_TOO_MANY_REQUESTS_MESSAGE,
+} from '../constants';
 import { ErrorResponse } from '../dto/responses/error-response.dto';
 import { ErrorCode } from '../enums/http/error-code.enum';
 
@@ -65,7 +68,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
         ? { error: ErrorCode.ErrorNotFound, help: DEFAULT_HELP_MESSAGE }
         : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
       ...(httpStatus === 429
-        ? { error: ErrorCode.ErrorTooManyRequests, help: DEFAULT_HELP_MESSAGE }
+        ? {
+            message: DEFAULT_TOO_MANY_REQUESTS_MESSAGE,
+            error: ErrorCode.ErrorTooManyRequests,
+            help: DEFAULT_HELP_MESSAGE,
+          }
         : undefined), //! Forcing too many requests error to be exactly the same as the other not found exception error
     };
 

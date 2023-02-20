@@ -18,7 +18,6 @@ import { UnprocessableEntityException } from './common/exceptions/unprocessable-
 import {
   APP_NAME,
   APP_DESCRIPTION,
-  APP_GLOBAL_PREFIX,
   APP_VERSION,
   APP_AUTHOR_NAME,
   APP_AUTHOR_URL,
@@ -55,12 +54,11 @@ async function bootstrap() {
   app.useLogger(logger);
 
   // * Global prefix & versioning section
-  app.setGlobalPrefix(APP_GLOBAL_PREFIX);
+  // app.setGlobalPrefix(APP_GLOBAL_PREFIX);
   app.enableVersioning({
     // * This versioning uses the version passed within the URL `https://example.com/v1/{route}`
     // * @see {@link https://docs.nestjs.com/techniques/versioning#uri-versioning-type}
     type: VersioningType.URI,
-    defaultVersion: APP_VERSION,
   });
 
   // * CORS section

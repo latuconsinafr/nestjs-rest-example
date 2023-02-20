@@ -1,6 +1,9 @@
-import { Controller, Get, Query, Redirect } from '@nestjs/common';
-import { ApiFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import { Controller, Get, Query, Redirect, Req } from '@nestjs/common';
+import { ApiExcludeEndpoint, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
+import { NotToBeCached } from './common/decorators/interceptors/not-to-be-cached.decorator';
+import { NotToBeTransformed } from './common/decorators/interceptors/not-to-be-transformed.decorator';
 
 /**
  * Defines the application controller.
@@ -38,16 +41,21 @@ export class AppController {
    * @returns The documentation link with specified version if exists, otherwise redirect to the default documentation.
    */
   @Get('docs')
+  @NotToBeCached()
+  @NotToBeTransformed()
   @Redirect('https://docs.nestjs.com', 302)
-  @ApiOkResponse({ description: 'Success' })
-  @ApiFoundResponse({ description: 'Redirected' })
-  getDocs(@Query('version') version: string): { url: string } {
+  @ApiExcludeEndpoint()
+  getDocs(@Req() req: Request, @Query('version') version: string) {
     this.logger.info(`Try to call ${AppController.prototype.getDocs.name}`);
 
-    if (version && version === '5') {
-      return { url: 'https://docs.nestjs.com/v5/' };
+    const docsUrl = `${req.protocol}://${req.get('Host')}/docs`;
+
+    if (version && version === '1') {
+      return {
+        url: `${docsUrl}/v${version}`,
+      };
     }
 
-    return { url: 'https://docs.nestjs.com' };
+    return { url: `${docsUrl}/v1` };
   }
 }
