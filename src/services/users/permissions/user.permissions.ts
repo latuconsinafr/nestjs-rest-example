@@ -19,7 +19,7 @@ export const UserActions = { ...AccessControlActions };
 /**
  * Defines permission for UserSubjects against UserActions.
  */
-export const UserPermission: Permissions<UserRole, UserSubjects, UserActions> =
+export const UserPermissions: Permissions<UserRole, UserSubjects, UserActions> =
   {
     // * {UserRole.SuperAdmin}
     'super-admin'({ can }) {

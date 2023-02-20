@@ -25,9 +25,9 @@ import { LocalFileInterceptor } from '../storages/interceptors/local-file-interc
 import { UserProfile } from './entities/user-profile.entity';
 import { UserIdParam } from './dto/params/users/user-id.param';
 import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
-import { UserHook } from './permissions/hooks/user.hook';
+import { UserByIdHook } from './permissions/hooks/users/user-by-id.hook';
 import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
-import { UserActions } from './permissions/user.permission';
+import { UserActions } from './permissions/user.permissions';
 import { UpdateUserPasswordRequest } from './dto/requests/users/update-user-password-request.dto';
 import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -40,9 +40,9 @@ import { ApiForbiddenErrorResponse } from '../../common/decorators/open-api/erro
 import { ApiConflictErrorResponse } from '../../common/decorators/open-api/errors/api-conflict-error-response.decorator';
 import { ApiCreatedSuccessResponse } from '../../common/decorators/open-api/successes/api-created-success-response.decorator';
 import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
-import { ApiNumberParam } from '../../common/decorators/open-api/params/api-number-param.decorator';
 import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
 import { APP_VERSION } from '../../common/constants';
+import { ApiUuidParam } from '../../common/decorators/open-api/params/api-uuid-param.decorator';
 
 /**
  * Defines the users controller.
@@ -165,9 +165,9 @@ export class UsersController {
    * @returns The success response with `'User retrieved'` message and a `user` data.
    */
   @Get(':id')
-  @UseAccessControl(UserActions.ReadBy, User, UserHook)
+  @UseAccessControl(UserActions.ReadBy, User, UserByIdHook)
   @ApiBearerAuth()
-  @ApiNumberParam({ name: 'id', description: 'The id of user' })
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,
@@ -204,9 +204,9 @@ export class UsersController {
    * @returns The success response with `'User updated'` message.
    */
   @Put(':id')
-  @UseAccessControl(UserActions.Update, User, UserHook)
+  @UseAccessControl(UserActions.Update, User, UserByIdHook)
   @ApiBearerAuth()
-  @ApiNumberParam({ name: 'id', description: 'The id of user' })
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,
@@ -259,7 +259,7 @@ export class UsersController {
   @Delete(':id')
   @UseAccessControl(UserActions.Delete, User)
   @ApiBearerAuth()
-  @ApiNumberParam({ name: 'id', description: 'The id of user' })
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,
@@ -299,9 +299,9 @@ export class UsersController {
    * @returns The success response with `'User updated'` message.
    */
   @Put(':id/password')
-  @UseAccessControl(UserActions.Update, User, UserHook)
+  @UseAccessControl(UserActions.Update, User, UserByIdHook)
   @ApiBearerAuth()
-  @ApiNumberParam({ name: 'id', description: 'The id of user' })
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,
@@ -353,9 +353,9 @@ export class UsersController {
    * @returns The success response with `'User updated'` message.
    */
   @Put(':id/roles')
-  @UseAccessControl(UserActions.Update, User, UserHook)
+  @UseAccessControl(UserActions.Update, User, UserByIdHook)
   @ApiBearerAuth()
-  @ApiNumberParam({ name: 'id', description: 'The id of user' })
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,
@@ -407,9 +407,9 @@ export class UsersController {
    * @returns The success response with `'User profile updated'` message.
    */
   @Put(':id/profile')
-  @UseAccessControl(UserActions.Update, User, UserHook)
+  @UseAccessControl(UserActions.Update, User, UserByIdHook)
   @ApiBearerAuth()
-  @ApiNumberParam({ name: 'id', description: 'The id of user' })
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,
@@ -458,12 +458,12 @@ export class UsersController {
    * @param avatar The user profile avatar
    */
   @Put(':id/profile/avatar/upload')
-  @UseAccessControl(UserActions.Update, User, UserHook)
+  @UseAccessControl(UserActions.Update, User, UserByIdHook)
   @UseInterceptors(
     LocalFileInterceptor('avatar', { dest: '/users/profiles/avatars' }),
   )
   @ApiBearerAuth()
-  @ApiNumberParam({ name: 'id', description: 'The id of user' })
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,

@@ -13,10 +13,10 @@ import { UserRole } from '../enums/user-role.enum';
  */
 @Entity()
 export class Role {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column('enum', { enum: UserRole })
+  @Column('enum', { unique: true, enum: UserRole })
   name: UserRole;
 
   @ManyToMany(

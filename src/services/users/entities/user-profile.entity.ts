@@ -23,7 +23,7 @@ import { User } from './user.entity';
 @Entity()
 export class UserProfile {
   @PrimaryColumn()
-  id: number;
+  id: string;
 
   @Column()
   firstName: string;
@@ -48,8 +48,8 @@ export class UserProfile {
   @Column()
   birthDate: Date;
 
-  @Column({ nullable: true })
-  avatarFileId?: number | null | undefined;
+  @Column('uuid', { nullable: true })
+  avatarFileId?: string | null | undefined;
 
   @OneToOne(
     /* istanbul ignore next */ () => User,

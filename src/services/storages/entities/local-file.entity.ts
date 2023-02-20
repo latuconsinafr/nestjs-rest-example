@@ -23,8 +23,8 @@ import { User } from '../../users/entities/user.entity';
  */
 @Entity()
 export class LocalFile {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   fileName: string;
@@ -38,8 +38,8 @@ export class LocalFile {
   @Column('enum', { enum: FileGeneralAccess })
   generalAccess: FileGeneralAccess;
 
-  @Column({ nullable: true })
-  ownerId?: number | null | undefined;
+  @Column('uuid', { nullable: true })
+  ownerId?: string | null | undefined;
 
   @ManyToOne(/* istanbul ignore next */ () => User)
   @JoinColumn()

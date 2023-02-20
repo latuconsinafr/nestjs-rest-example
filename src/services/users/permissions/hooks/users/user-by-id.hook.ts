@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Request, SubjectBeforeFilterHook } from 'nest-casl';
-import { User } from '../../entities/user.entity';
-import { UsersService } from '../../users.service';
+import { User } from '../../../entities/user.entity';
+import { UsersService } from '../../../users.service';
 
 /**
  * Defines subject hook for {@link User} subject.
+ * It hooks the {@link User} subject by its identifier.
  *
  * @usageNotes
  * For permissions with conditions we need to provide subject hook in {@link UseAccessControl} decorator.
@@ -12,7 +13,7 @@ import { UsersService } from '../../users.service';
  * @see [Subject hook](https://github.com/getjerry/nest-casl#subject-hook)
  */
 @Injectable()
-export class UserHook implements SubjectBeforeFilterHook<User, Request> {
+export class UserByIdHook implements SubjectBeforeFilterHook<User, Request> {
   /**
    * The constructor.
    *
@@ -21,7 +22,7 @@ export class UserHook implements SubjectBeforeFilterHook<User, Request> {
   constructor(private readonly usersService: UsersService) {}
 
   /**
-   * Run {@link UserHook}.
+   * Run {@link UserByIdHook}.
    *
    * @param params The request parameter
    *

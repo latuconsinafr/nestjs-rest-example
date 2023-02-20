@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
 import { localFilesData } from '../../../../database/data/local-files.data';
 import { LocalFile } from '../../entities/local-file.entity';
 import { FileGeneralAccess } from '../../enums/file-general-access.enum';
@@ -23,12 +23,12 @@ export class CreateLocalFileRequest {
   generalAccess: FileGeneralAccess;
 
   @IsNotEmpty()
-  @IsNumber()
+  @IsUUID('4')
   @ApiProperty({
     description: 'The owner id of local file',
     example: localFilesData[0].ownerId,
   })
-  ownerId: number;
+  ownerId: string;
 
   /**
    * Transform the DTO into the related entity.

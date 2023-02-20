@@ -25,9 +25,39 @@ export class RolesService {
   }
 
   /**
+   * Gets a role by a given id.
+   *
+   * @param id The id to find
+   *
+   * @returns The role if it exists, otherwise null.
+   */
+  async findById(id: string): Promise<Role | null> {
+    this.logger.info(`Try to call ${RolesService.prototype.findById.name}`);
+
+    return await this.rolesRepository.findOne({
+      where: { id },
+    });
+  }
+
+  /**
+   * Get role by a given name.
+   *
+   * @param name The role name to find
+   *
+   * @returns The role if it exists, otherwise null.
+   */
+  async findByName(name: UserRole): Promise<Role | null> {
+    this.logger.info(`Try to call ${RolesService.prototype.findByName.name}`);
+
+    return await this.rolesRepository.findOne({
+      where: { name },
+    });
+  }
+
+  /**
    * Get roles by a given set of name.
    *
-   * @param names The set of user role name to find
+   * @param names The set of role name to find
    *
    * @returns The roles array.
    */

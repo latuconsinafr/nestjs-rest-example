@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
+  ArrayUnique,
   IsArray,
   IsEmail,
   IsEnum,
@@ -13,7 +14,11 @@ import {
 } from 'class-validator';
 import { usersData } from '../../../../../database/data/users.data';
 import { UserRole } from '../../../../roles/enums/user-role.enum';
+import { IsRoleExistByName } from '../../../../roles/validators/is-role-exist-by-name.validator';
 import { User } from '../../../entities/user.entity';
+import { IsEmailUnique } from '../../../validators/is-email-unique-validator';
+import { IsPhoneNumberUnique } from '../../../validators/is-phone-number-unique.validator';
+import { IsUsernameUnique } from '../../../validators/is-username-unique.validator';
 import { CreateUserProfileRequest } from '../user-profiles/create-user-profile-request.dto';
 
 /**
@@ -32,6 +37,7 @@ export class CreateUserRequest {
   @IsNotEmpty()
   @IsString()
   @Length(4, 12)
+  @IsUsernameUnique()
   @ApiProperty({
     description: 'The username of user',
     example: usersData[0].username,
@@ -41,6 +47,7 @@ export class CreateUserRequest {
   @IsNotEmpty()
   @IsString()
   @IsEmail()
+  @IsEmailUnique()
   @ApiProperty({
     description: 'The email of user',
     example: usersData[0].email,
@@ -50,6 +57,7 @@ export class CreateUserRequest {
   @IsNotEmpty()
   @IsString()
   @IsPhoneNumber('ID')
+  @IsPhoneNumberUnique()
   @ApiProperty({
     description: 'The phone number of user',
     example: usersData[0].phone,
@@ -68,7 +76,9 @@ export class CreateUserRequest {
   @IsNotEmpty()
   @IsArray()
   @ArrayNotEmpty()
+  @ArrayUnique()
   @IsEnum(UserRole, { each: true })
+  @IsRoleExistByName({ each: true })
   @ApiProperty({
     description: 'The roles of user',
     enum: UserRole,

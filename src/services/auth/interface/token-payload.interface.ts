@@ -2,6 +2,6 @@
  * Defines token payload data interface.
  */
 export interface TokenPayload {
-  sub: number;
+  sub: string;
   username: string;
 }

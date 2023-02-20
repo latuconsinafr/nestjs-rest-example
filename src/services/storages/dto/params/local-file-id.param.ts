@@ -1,18 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { localFilesData } from '../../../../database/data/local-files.data';
+import { IsLocalFileExist } from '../../validators/is-local-file-exist.validator';
 
 /**
  * Defines the DTO that carries the local file identifier request parameter.
  */
 export class LocalFileIdParam {
   @IsNotEmpty()
-  @IsNumber()
-  @Type(/* istanbul ignore next */ () => Number)
+  @IsString()
+  @IsLocalFileExist()
   @ApiProperty({
     description: 'The id of local file',
     example: localFilesData[0].id,
   })
-  id: number;
+  id: string;
 }

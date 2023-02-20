@@ -8,7 +8,7 @@ import { AppModule } from './app.module';
 import { Logger } from 'nestjs-pino';
 import helmet from 'helmet';
 import * as compression from 'compression';
-import { ValidationError } from 'class-validator';
+import { useContainer, ValidationError } from 'class-validator';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
@@ -39,6 +39,10 @@ async function bootstrap() {
     // * This will force NestJS to wait for logger to be ready instead of using built-in logger on start
     bufferLogs: true,
   });
+
+  // * Class-validator provides very handy useContainer function, which allow to set the container to be used by class-validator library.
+  // * @see {@link https://github.com/typestack/class-validator#using-service-container}
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   // * Config section
   const configService = app.get(ConfigService);

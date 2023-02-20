@@ -66,7 +66,7 @@ export class UsersService {
    *
    * @returns The user if it exists, otherwise null.
    */
-  async findById(id: number): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
     this.logger.info(`Try to call ${UsersService.prototype.findById.name}`);
 
     return await this.usersRepository.findOne({
@@ -94,6 +94,38 @@ export class UsersService {
   }
 
   /**
+   * Gets a user by a given email.
+   *
+   * @param email The email to find
+   *
+   * @returns The user if it exists, otherwise null.
+   */
+  async findByEmail(email: string): Promise<User | null> {
+    this.logger.info(`Try to call ${UsersService.prototype.findByEmail.name}`);
+
+    return await this.usersRepository.findOne({
+      where: { email },
+      relations: ['roles', 'profile'],
+    });
+  }
+
+  /**
+   * Gets a user by a given phone.
+   *
+   * @param phone The phone to find
+   *
+   * @returns The user if it exists, otherwise null.
+   */
+  async findByPhone(phone: string): Promise<User | null> {
+    this.logger.info(`Try to call ${UsersService.prototype.findByPhone.name}`);
+
+    return await this.usersRepository.findOne({
+      where: { phone },
+      relations: ['roles', 'profile'],
+    });
+  }
+
+  /**f
    * Updates a user by a given id.
    *
    * @param id The user id to update
@@ -102,7 +134,7 @@ export class UsersService {
    * @returns The flag indicates whether the update process is success or not.
    * Return `true` if the update process is success, otherwise `false`.
    */
-  async update(id: number, user: User): Promise<boolean> {
+  async update(id: string, user: User): Promise<boolean> {
     this.logger.info(`Try to call ${UsersService.prototype.update.name}`);
 
     await this.usersRepository.update(id, {
@@ -124,7 +156,7 @@ export class UsersService {
    * @returns The flag indicates whether the update process is success or not.
    * Return `true` if the update process is success, otherwise `false`.
    */
-  async updatePassword(id: number, password: string): Promise<boolean> {
+  async updatePassword(id: string, password: string): Promise<boolean> {
     this.logger.info(
       `Try to call ${UsersService.prototype.updatePassword.name}`,
     );
@@ -145,7 +177,7 @@ export class UsersService {
    * @returns The flag indicates whether the update process is success or not.
    * Return `true` if the update process is success, otherwise `false`.
    */
-  async updateRoles(id: number, roles: Role[]): Promise<boolean> {
+  async updateRoles(id: string, roles: Role[]): Promise<boolean> {
     this.logger.info(`Try to call ${UsersService.prototype.updateRoles.name}`);
 
     await this.usersRepository.save({
@@ -165,7 +197,7 @@ export class UsersService {
    * @returns The flag indicates whether the update process is success or not.
    * Return `true` if the update process is success, otherwise `false`.
    */
-  async updateProfile(id: number, userProfile: UserProfile): Promise<boolean> {
+  async updateProfile(id: string, userProfile: UserProfile): Promise<boolean> {
     this.logger.info(
       `Try to call ${UsersService.prototype.updateProfile.name}`,
     );
@@ -186,7 +218,7 @@ export class UsersService {
    * @returns The flag indicates whether the delete process is success or not.
    * Return `true` if the delete process is success, otherwise `false`.
    */
-  async delete(id: number): Promise<boolean> {
+  async delete(id: string): Promise<boolean> {
     this.logger.info(`Try to call ${UsersService.prototype.delete.name}`);
 
     await this.usersRepository.delete(id);

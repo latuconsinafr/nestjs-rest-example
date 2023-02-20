@@ -51,7 +51,7 @@ export class StoragesService {
    *
    * @returns The local file if it exists, otherwise null.
    */
-  async findLocalFileById(id: number): Promise<LocalFile | null> {
+  async findLocalFileById(id: string): Promise<LocalFile | null> {
     this.logger.info(
       `Try to call ${StoragesService.prototype.findLocalFileById.name}`,
     );

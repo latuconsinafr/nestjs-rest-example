@@ -1,18 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 import { usersData } from '../../../../../database/data/users.data';
+import { IsUserExist } from '../../../validators/is-user-exist.validator';
 
 /**
  * Defines the DTO that carries the user identifier request parameter.
  */
 export class UserIdParam {
   @IsNotEmpty()
-  @IsNumber()
-  @Type(/* istanbul ignore next */ () => Number)
+  @IsUUID('4')
+  @IsUserExist()
   @ApiProperty({
     description: 'The id of user',
     example: usersData[0].id,
   })
-  id: number;
+  id: string;
 }
