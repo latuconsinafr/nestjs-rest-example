@@ -12,6 +12,7 @@ export class LocalFileIdParam {
   @IsLocalFileExist()
   @ApiProperty({
     description: 'The id of local file',
+    format: 'uuid',
     example: localFilesData[0].id,
   })
   id: string;

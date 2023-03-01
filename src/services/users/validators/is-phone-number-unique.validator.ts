@@ -33,7 +33,7 @@ export class IsPhoneNumberUniqueValidator
    * @returns The flag indicates whether the given phone is unique or not.
    */
   async validate(
-    value: any,
+    value: string,
     validationArguments?: ValidationArguments,
   ): Promise<boolean> {
     const { constraints, object } = validationArguments || {};

@@ -12,6 +12,7 @@ export class UserIdParam {
   @IsUserExist()
   @ApiProperty({
     description: 'The id of user',
+    format: 'uuid',
     example: usersData[0].id,
   })
   id: string;

@@ -39,6 +39,13 @@ export enum ErrorCode {
   ErrorConflict = 'error-conflict',
 
   /**
+   * Defines code for the content too large error exception.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/413 documentation}
+   */
+  ErrorContentTooLarge = 'error-content-too-large',
+
+  /**
    * Defines code for the unprocessable entity error exception.
    *
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422 documentation}

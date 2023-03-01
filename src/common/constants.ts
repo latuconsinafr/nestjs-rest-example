@@ -118,6 +118,13 @@ export const DEFAULT_REQUEST_TIMEOUT_MESSAGE = 'Request timeout';
 export const DEFAULT_CONFLICT_MESSAGE = 'Conflict';
 
 /**
+ * Defines default message for the content too large error exception.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/413 documentation}
+ */
+export const DEFAULT_CONTENT_TOO_LARGE_MESSAGE = 'Content too large';
+
+/**
  * Defines default message for the unprocessable entity error exception.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422 documentation}

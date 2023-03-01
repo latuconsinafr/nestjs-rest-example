@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 import { SuccessResponse } from '../../common/dto/responses/success-response.dto';
 import { CreateUserRequest } from './dto/requests/users/create-user-request.dto';
@@ -21,9 +20,7 @@ import { PinoLogger } from 'nestjs-pino';
 import { UpdateUserProfileRequest } from './dto/requests/user-profiles/update-user-profile-request.dto';
 import { StoragesService } from '../storages/storages.service';
 import { CreateLocalFileRequest } from '../storages/dto/requests/create-local-file-request.dto';
-import { LocalFileInterceptor } from '../storages/interceptors/local-file-interceptor';
 import { UserProfile } from './entities/user-profile.entity';
-import { UserIdParam } from './dto/params/users/user-id.param';
 import { FileGeneralAccess } from '../storages/enums/file-general-access.enum';
 import { UserByIdHook } from './permissions/hooks/users/user-by-id.hook';
 import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
@@ -43,6 +40,9 @@ import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes
 import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
 import { APP_VERSION } from '../../common/constants';
 import { ApiUuidParam } from '../../common/decorators/open-api/params/api-uuid-param.decorator';
+import { ApiFile } from '../../common/decorators/open-api/api-file.decorator';
+import { UpdateUserProfileAvatarRequest } from './dto/requests/user-profiles/update-user-profile-avatar-request.dto';
+import avatarFileFilterValidator from './validators/file-filters/avatar-file-filter.validator';
 
 /**
  * Defines the users controller.
@@ -459,11 +459,13 @@ export class UsersController {
    */
   @Put(':id/profile/avatar/upload')
   @UseAccessControl(UserActions.Update, User, UserByIdHook)
-  @UseInterceptors(
-    LocalFileInterceptor('avatar', { dest: '/users/profiles/avatars' }),
-  )
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of user' })
+  @ApiFile('avatar', {
+    dest: '/users/profiles/avatars',
+    fileFilter: avatarFileFilterValidator,
+    limits: { fileSize: Math.pow(1024, 1) }, // * 1 MB
+  })
   @ApiSuccessesResponse([
     {
       response: ApiOkSuccessResponse,
@@ -480,8 +482,8 @@ export class UsersController {
   ])
   async updateUserProfileAvatar(
     @Param('id', UserByIdPipe) user: User,
-    @Body() updateUserProfileAvatarRequest: UserIdParam,
-    @UploadedFile() avatar: Express.Multer.File, // TODO: File validator,
+    @Body() updateUserProfileAvatarRequest: UpdateUserProfileAvatarRequest,
+    @UploadedFile() avatar: Express.Multer.File,
   ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.updateUserProfileAvatar.name}`,

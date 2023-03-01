@@ -67,6 +67,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       ...(httpStatus === 404
         ? { error: ErrorCode.ErrorNotFound, help: DEFAULT_HELP_MESSAGE }
         : undefined), //! Forcing route not found error to be exactly the same as the other not found exception error
+      ...(httpStatus === 413
+        ? { error: ErrorCode.ErrorContentTooLarge, help: DEFAULT_HELP_MESSAGE }
+        : undefined), //! Forcing payload too large error to be exactly the same as the other not found exception error
       ...(httpStatus === 429
         ? {
             message: DEFAULT_TOO_MANY_REQUESTS_MESSAGE,

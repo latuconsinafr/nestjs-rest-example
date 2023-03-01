@@ -12,6 +12,7 @@ export class RoleIdParam {
   @IsRoleExistById()
   @ApiProperty({
     description: 'The id of role',
+    format: 'uuid',
     example: rolesData[0].id,
   })
   id: string;

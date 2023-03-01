@@ -31,7 +31,7 @@ export class IsUsernameUniqueValidator implements ValidatorConstraintInterface {
    * @returns The flag indicates whether the given username is unique or not.
    */
   async validate(
-    value: any,
+    value: string,
     validationArguments?: ValidationArguments,
   ): Promise<boolean> {
     const { constraints, object } = validationArguments || {};
