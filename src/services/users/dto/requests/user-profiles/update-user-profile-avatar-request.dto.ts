@@ -1,5 +1,4 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
-import { UserProfile } from '../../../entities/user-profile.entity';
 import { UserIdParam } from '../../params/users/user-id.param';
 
 /**
@@ -18,15 +17,4 @@ export class UpdateUserProfileAvatarRequest extends PickType(UserIdParam, [
     description: 'The avatar of user profile',
   })
   avatar: Express.Multer.File;
-
-  /**
-   * Transform the DTO into the related entity.
-   *
-   * @param request The request DTO to transform
-   *
-   * @returns The `UserProfile` entity
-   */
-  static toEntity(request: UpdateUserProfileAvatarRequest): UserProfile {
-    return new UserProfile(request);
-  }
 }

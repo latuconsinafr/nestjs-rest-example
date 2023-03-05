@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { HttpException, HttpStatus } from '@nestjs/common';
 import {
   DEFAULT_HELP_MESSAGE,

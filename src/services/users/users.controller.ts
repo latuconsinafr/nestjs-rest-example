@@ -102,13 +102,13 @@ export class UsersController {
     );
 
     try {
-      const [user, userRoles] = CreateUserRequest.toEntity(createUserRequest);
+      const user = CreateUserRequest.toEntity(createUserRequest);
 
       return new SuccessResponse({
         message: 'User created',
         data: await this.usersService.create({
           ...user,
-          roles: await this.rolesService.findByNames(userRoles),
+          roles: await this.rolesService.findByNames(createUserRequest.roles),
         }),
       });
     } catch (error) {

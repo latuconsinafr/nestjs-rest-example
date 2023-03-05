@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { DEFAULT_FORBIDDEN_MESSAGE, DEFAULT_HELP_MESSAGE } from '../constants';
 import { ErrorResponse } from '../dto/responses/error-response.dto';

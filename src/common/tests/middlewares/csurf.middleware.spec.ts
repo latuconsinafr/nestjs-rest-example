@@ -1,6 +1,6 @@
 import { csurfMiddleware } from '../../middlewares/csurf.middleware';
 
-describe('when csurfMiddleware is called', () => {
+describe(`when ${csurfMiddleware.name} is called`, () => {
   const request: any = {
     csrfToken: jest.fn(),
   };

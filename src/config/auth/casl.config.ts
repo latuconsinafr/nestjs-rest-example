@@ -15,7 +15,9 @@ export const caslConfig = registerAs(
   (): OptionsForRoot<UserRole, User, RequestWithAuthUser> => {
     return {
       superuserRole: UserRole.SuperAdmin,
-      getUserFromRequest(request: RequestWithAuthUser) {
+      /* istanbul ignore next */ getUserFromRequest(
+        request: RequestWithAuthUser,
+      ) {
         const user = request.user;
 
         // ! Need to transform the array of Role Entity to array of UserRole

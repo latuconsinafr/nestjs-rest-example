@@ -3,7 +3,7 @@ import { redisStoreConfig } from '../../cache/redis-store.config';
 import { redisStore } from 'cache-manager-redis-store';
 import { mockedCacheManagerRedisStore } from '../../../common/utils/mocks/cache-manager-redis-store/cache-manager-redis-store.mock';
 
-describe('when redisStoreConfig is registered', () => {
+describe(`when ${redisStoreConfig.name} is registered`, () => {
   const env = process.env;
 
   beforeEach(() => {

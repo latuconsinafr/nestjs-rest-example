@@ -2,6 +2,7 @@ import { Injectable, mixin, NestInterceptor, Type } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { PinoLogger } from 'nestjs-pino';
 import { join } from 'path';
 
 /**
@@ -26,7 +27,10 @@ export function LocalFileInterceptor(
   class Interceptor implements NestInterceptor {
     fileInterceptor: NestInterceptor;
 
-    constructor(configService: ConfigService) {
+    constructor(
+      private readonly logger: PinoLogger,
+      private readonly configService: ConfigService,
+    ) {
       const defaultMulterOptions =
         configService.get<MulterOptions>('local-file-upload');
 
@@ -38,10 +42,16 @@ export function LocalFileInterceptor(
         ...localOptions,
         dest: join(rootDestination, destination),
       }))();
+
+      this.logger.setContext(LocalFileInterceptor.name);
     }
 
     /* istanbul ignore next */
     intercept(...args: Parameters<NestInterceptor['intercept']>) {
+      this.logger.info(
+        `Try to call ${LocalFileInterceptor.prototype.intercept.name}`,
+      );
+
       return this.fileInterceptor.intercept(...args);
     }
   }

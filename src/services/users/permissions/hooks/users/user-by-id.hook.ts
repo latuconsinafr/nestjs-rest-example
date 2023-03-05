@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Request, SubjectBeforeFilterHook } from 'nest-casl';
+import { PinoLogger } from 'nestjs-pino';
 import { User } from '../../../entities/user.entity';
 import { UsersService } from '../../../users.service';
 
@@ -17,9 +18,15 @@ export class UserByIdHook implements SubjectBeforeFilterHook<User, Request> {
   /**
    * The constructor.
    *
+   * @param logger The pino logger
    * @param usersService The users service
    */
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly logger: PinoLogger,
+    private readonly usersService: UsersService,
+  ) {
+    this.logger.setContext(UserByIdHook.name);
+  }
 
   /**
    * Run {@link UserByIdHook}.
@@ -29,6 +36,8 @@ export class UserByIdHook implements SubjectBeforeFilterHook<User, Request> {
    * @returns The user if it exists, otherwise undefined
    */
   async run({ params }: Request): Promise<User | undefined> {
+    this.logger.info(`Try to call ${UserByIdHook.prototype.run.name}`);
+
     return (await this.usersService.findById(params.id)) ?? undefined;
   }
 }

@@ -103,15 +103,13 @@ export class CreateUserRequest {
    *
    * @returns The `User` entity
    */
-  static toEntity(request: CreateUserRequest): [User, UserRole[]] {
+  static toEntity(request: CreateUserRequest): User {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { profile, roles, ...user } = request;
 
-    return [
-      new User({
-        ...user,
-        profile: CreateUserProfileRequest.toEntity(profile),
-      }),
-      roles,
-    ];
+    return new User({
+      ...user,
+      profile: CreateUserProfileRequest.toEntity(profile),
+    });
   }
 }

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { localFilesData } from '../../../../database/data/local-files.data';

@@ -10,7 +10,7 @@ import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { Reflector } from '@nestjs/core';
 import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
 
-describe('TransformInterceptor', () => {
+describe(TransformInterceptor.name, () => {
   const executionContext = mockedExecutionContext as any;
   const callHandler = mockedCallHandler as any;
 
@@ -34,7 +34,7 @@ describe('TransformInterceptor', () => {
     jest.clearAllMocks();
   });
 
-  describe('when intercept is called', () => {
+  describe(`when ${TransformInterceptor.prototype.intercept.name} is called`, () => {
     const toReturn = { message: 'Success', data: [] };
     const url = '/url';
     const httpStatusCode = 200;

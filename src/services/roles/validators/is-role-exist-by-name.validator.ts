@@ -36,8 +36,6 @@ export class IsRoleExistByNameValidator
       if (role) return true;
       return false;
     });
-
-    return false;
   }
 
   /**

@@ -2,8 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PinoLogger } from 'nestjs-pino';
 import { AppController } from '../app.controller';
 import { mockedPinoLogger } from '../common/utils/mocks/nestjs-pino/pino-logger.mock';
+import { Request } from 'express';
 
-describe('AppController', () => {
+describe(AppController.name, () => {
   let appController: AppController;
 
   beforeEach(async () => {
@@ -19,35 +20,43 @@ describe('AppController', () => {
     jest.clearAllMocks();
   });
 
-  describe('when index is called', () => {
+  describe(`when ${AppController.prototype.index.name} is called`, () => {
     it('should return null', () => {
       expect(appController.index()).toBe(null);
     });
   });
 
-  describe('when getDocs is called', () => {
+  describe(`when ${AppController.prototype.getDocs.name} is called`, () => {
+    let request: Request;
     let version: string;
 
-    describe('and called with version other than 5', () => {
+    beforeEach(() => {
+      request = {
+        protocol: 'https',
+        get: () => 'localhost:8080',
+      } as any;
+    });
+
+    describe('and called with version 1', () => {
       beforeEach(() => {
         version = '1';
       });
 
-      it('should return null', () => {
-        expect(appController.getDocs(version)).toStrictEqual({
-          url: 'https://docs.nestjs.com',
+      it('should return the version 1 of docs url', () => {
+        expect(appController.getDocs(request, version)).toStrictEqual({
+          url: 'https://localhost:8080/docs/v1',
         });
       });
     });
 
-    describe('and called with version 5', () => {
+    describe('and called with version other than 1', () => {
       beforeEach(() => {
         version = '5';
       });
 
-      it('should return null', () => {
-        expect(appController.getDocs(version)).toStrictEqual({
-          url: 'https://docs.nestjs.com/v5/',
+      it('should return the version 5 of docs url', () => {
+        expect(appController.getDocs(request, version)).toStrictEqual({
+          url: `https://localhost:8080/docs/v5`,
         });
       });
     });

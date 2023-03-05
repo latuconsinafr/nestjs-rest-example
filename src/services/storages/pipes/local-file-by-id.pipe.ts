@@ -1,5 +1,6 @@
 import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common';
 import { isUUID } from 'class-validator';
+import { PinoLogger } from 'nestjs-pino';
 import { NotFoundException } from '../../../common/exceptions/not-found.exception';
 import { UnprocessableEntityException } from '../../../common/exceptions/unprocessable-entity.exception';
 import { LocalFile } from '../entities/local-file.entity';
@@ -20,7 +21,16 @@ import { StoragesService } from '../storages.service';
 export class LocalFileByIdPipe
   implements PipeTransform<string, Promise<LocalFile>>
 {
-  constructor(private readonly storagesService: StoragesService) {}
+  /**
+   * The constructor.
+   *
+   * @param logger The pino logger
+   * @param storagesService The storages service
+   */
+  constructor(
+    private readonly logger: PinoLogger,
+    private readonly storagesService: StoragesService,
+  ) {}
 
   /**
    * {@inheritDoc PipeTransform.transform}
@@ -30,6 +40,10 @@ export class LocalFileByIdPipe
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     metadata: ArgumentMetadata,
   ): Promise<LocalFile> {
+    this.logger.info(
+      `Try to call ${LocalFileByIdPipe.prototype.transform.name}`,
+    );
+
     if (!isUUID(value, '4')) {
       throw new UnprocessableEntityException({
         message: 'The given value is not a valid UUID',

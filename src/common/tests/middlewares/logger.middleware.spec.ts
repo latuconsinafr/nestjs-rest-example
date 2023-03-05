@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { loggerMiddleware } from '../../middlewares/logger.middleware';
 
-describe('when loggerMiddleware is called', () => {
+describe(`when ${loggerMiddleware.name} is called`, () => {
   const method = 'GET';
   const originalUrl = '/api/v1/users';
   let statusCode = 200;

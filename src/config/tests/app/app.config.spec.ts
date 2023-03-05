@@ -1,6 +1,6 @@
 import { appConfig } from '../../app/app.config';
 
-describe('when appConfig is registered', () => {
+describe(`when ${appConfig.name} is registered`, () => {
   const env = process.env;
 
   beforeEach(() => {

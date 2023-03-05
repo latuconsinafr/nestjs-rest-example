@@ -30,7 +30,7 @@ export class IsLocalFileExistValidator implements ValidatorConstraintInterface {
    * @returns The flag indicates whether the given local file by its related identifier already exists or not.
    */
   async validate(value: string): Promise<boolean> {
-    if (isUUID(value)) {
+    if (isUUID(value, '4')) {
       return await this.storagesService
         .findLocalFileById(value)
         .then((file) => {

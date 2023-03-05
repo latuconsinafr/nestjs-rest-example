@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { PinoLogger } from 'nestjs-pino';
 import { Strategy } from 'passport-local';
 import { UnprocessableEntityException } from '../../../common/exceptions/unprocessable-entity.exception';
 import { User } from '../../users/entities/user.entity';
@@ -18,10 +19,16 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   /**
    * The constructor.
    *
+   * @param logger The pino logger
    * @param authService The auth service
    */
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly logger: PinoLogger,
+    private readonly authService: AuthService,
+  ) {
     super();
+
+    this.logger.setContext(LocalStrategy.name);
   }
 
   /**
@@ -36,6 +43,8 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    * @returns The user entity.
    */
   async validate(username: string, password: string): Promise<User> {
+    this.logger.info(`Try to call ${LocalStrategy.prototype.validate.name}`);
+
     const user = await this.authService.validateUser(username, password);
 
     if (!user) {

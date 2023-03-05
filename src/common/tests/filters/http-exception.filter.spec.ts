@@ -17,7 +17,7 @@ import { mockedPinoLogger } from '../../utils/mocks/nestjs-pino/pino-logger.mock
 
 const argumentsHost = mockedArgumentsHost as any;
 
-describe('HttpExceptionFilter', () => {
+describe(HttpExceptionFilter.name, () => {
   let httpExceptionFilter: HttpExceptionFilter;
 
   beforeEach(async () => {
@@ -35,7 +35,7 @@ describe('HttpExceptionFilter', () => {
       moduleRef.get<HttpExceptionFilter>(HttpExceptionFilter);
   });
 
-  describe('when catch is called', () => {
+  describe(`when ${HttpExceptionFilter.prototype.catch.name} is called`, () => {
     const date = new Date(2020, 3, 1);
     const url = '/test';
     const validationErrors: ValidationError[] = [

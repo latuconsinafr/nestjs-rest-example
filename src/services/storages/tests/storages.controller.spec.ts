@@ -17,7 +17,7 @@ import { mockedResponse } from '../../../common/utils/mocks/express/response.moc
 import { NotFoundException } from '../../../common/exceptions/not-found.exception';
 import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
 
-describe('StoragesController', () => {
+describe(StoragesController.name, () => {
   let storagesController: StoragesController;
   let localFile: LocalFile;
   let file: Express.Multer.File;
@@ -66,7 +66,7 @@ describe('StoragesController', () => {
     jest.clearAllMocks();
   });
 
-  describe('when findLocalFileById is called', () => {
+  describe(`when ${StoragesController.prototype.findLocalFileById.name} is called`, () => {
     beforeEach(() => {
       (response.set as jest.Mock) = mockedResponse.set;
     });

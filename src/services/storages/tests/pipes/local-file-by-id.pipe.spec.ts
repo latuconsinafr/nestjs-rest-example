@@ -2,7 +2,6 @@ import { ArgumentMetadata } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
-import { FileGeneralAccess } from '../../enums/file-general-access.enum';
 import { NotFoundException } from '../../../../common/exceptions/not-found.exception';
 import { UnprocessableEntityException } from '../../../../common/exceptions/unprocessable-entity.exception';
 import { mockedPinoLogger } from '../../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
@@ -10,19 +9,20 @@ import { mockedRepository } from '../../../../common/utils/mocks/typeorm/reposit
 import { LocalFile } from '../../entities/local-file.entity';
 import { LocalFileByIdPipe } from '../../pipes/local-file-by-id.pipe';
 import { StoragesService } from '../../storages.service';
+import { v4 as uuidv4 } from 'uuid';
+import { localFilesData } from '../../../../database/data/local-files.data';
 
-describe('LocalFileByIdPipe', () => {
+describe(LocalFileByIdPipe.name, () => {
   let localFileByIdPipe: LocalFileByIdPipe;
   let storagesService: StoragesService;
   let argumentMetaData: ArgumentMetadata;
-  let localFile: LocalFile;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         LocalFileByIdPipe,
-        StoragesService,
         { provide: PinoLogger, useValue: mockedPinoLogger },
+        StoragesService,
         { provide: getRepositoryToken(LocalFile), useValue: mockedRepository },
       ],
     }).compile();
@@ -35,38 +35,29 @@ describe('LocalFileByIdPipe', () => {
       metatype: Number,
       data: 'id',
     };
-    localFile = {
-      id: 1,
-      fileName: 'avatar.jpg',
-      path: '/users/profiles/avatars',
-      mimeType: 'image/jpg',
-      generalAccess: FileGeneralAccess.Public,
-    };
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('when transform is called', () => {
-    describe('and the string value is unable to be parsed to int', () => {
+  describe(`when ${LocalFileByIdPipe.prototype.transform.name} is called`, () => {
+    describe('and the given value is not a valid UUID v4', () => {
       it(`should throw ${UnprocessableEntityException.name}`, async () => {
-        const value = 'asdxxasd';
-
         await expect(
-          localFileByIdPipe.transform(value, argumentMetaData),
+          localFileByIdPipe.transform('asdxxasd', argumentMetaData),
         ).rejects.toThrow(UnprocessableEntityException);
       });
     });
 
-    describe('and the string value is able to be parsed to int', () => {
+    describe('and the given value is a valid UUID v4', () => {
       let value: string;
 
       beforeEach(() => {
-        value = '1';
+        value = uuidv4();
       });
 
-      describe('and the user is not found', () => {
+      describe('and the local file is not found', () => {
         it(`should throw ${NotFoundException.name}`, async () => {
           jest
             .spyOn(storagesService, 'findLocalFileById')
@@ -78,15 +69,15 @@ describe('LocalFileByIdPipe', () => {
         });
       });
 
-      describe('and the user is found', () => {
-        it(`should return the user`, async () => {
+      describe('and the local file is found', () => {
+        it(`should return the local file`, async () => {
           jest
             .spyOn(storagesService, 'findLocalFileById')
-            .mockResolvedValue(localFile);
+            .mockResolvedValue(localFilesData[0]);
 
           expect(
             await localFileByIdPipe.transform(value, argumentMetaData),
-          ).toStrictEqual(localFile);
+          ).toStrictEqual(localFilesData[0]);
         });
       });
     });

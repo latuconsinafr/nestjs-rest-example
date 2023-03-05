@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { UnprocessableEntityException } from '../../exceptions/unprocessable-entity.exception';
 import { ParseIntPipe } from '../../pipes/parse-int.pipe';
 
-describe('ParseIntPipe', () => {
+describe(ParseIntPipe.name, () => {
   let parseIntPipe: ParseIntPipe;
   let argumentMetaData: ArgumentMetadata;
 
@@ -25,13 +25,11 @@ describe('ParseIntPipe', () => {
     jest.clearAllMocks();
   });
 
-  describe('when transform is called', () => {
+  describe(`when ${ParseIntPipe.prototype.transform.name} is called`, () => {
     describe('and the string value is unable to be parsed to int', () => {
       it(`should throw ${UnprocessableEntityException.name}`, () => {
-        const value = 'asdxxasd';
-
         expect(() => {
-          parseIntPipe.transform(value, argumentMetaData);
+          parseIntPipe.transform('asdsxasx', argumentMetaData);
         }).toThrow(UnprocessableEntityException);
       });
     });

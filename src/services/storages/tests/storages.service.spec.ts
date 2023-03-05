@@ -7,9 +7,8 @@ import { localFilesData } from '../../../database/data/local-files.data';
 import { LocalFile } from '../entities/local-file.entity';
 import { StoragesService } from '../storages.service';
 
-describe('StoragesService', () => {
+describe(StoragesService.name, () => {
   let storagesService: StoragesService;
-  let localFile: LocalFile;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -24,55 +23,60 @@ describe('StoragesService', () => {
     }).compile();
 
     storagesService = moduleRef.get<StoragesService>(StoragesService);
-
-    localFile = localFilesData[0];
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('when createLocalFile is called', () => {
+  describe(`when ${StoragesService.prototype.createLocalFile.name} is called`, () => {
     beforeEach(() => {
-      mockedRepository.create.mockReturnValue(localFile);
+      mockedRepository.create.mockReturnValue(localFilesData[0]);
     });
 
     it('should return the created local file', async () => {
-      expect(await storagesService.createLocalFile(localFile)).toBe(localFile);
+      expect(await storagesService.createLocalFile(localFilesData[0])).toBe(
+        localFilesData[0],
+      );
     });
   });
 
-  describe('when findLocalFileById is called', () => {
+  describe(`when ${StoragesService.prototype.findLocalFileById.name} is called`, () => {
     beforeEach(() => {
-      mockedRepository.findOne.mockResolvedValue(localFile);
+      mockedRepository.findOne.mockResolvedValue(localFilesData[0]);
     });
 
     it('should return a local file', async () => {
       expect(
-        await storagesService.findLocalFileById(localFile.id),
-      ).toStrictEqual(localFile);
+        await storagesService.findLocalFileById(localFilesData[0].id),
+      ).toStrictEqual(localFilesData[0]);
     });
   });
 
-  describe('when updateLocalFile is called', () => {
+  describe(`when ${StoragesService.prototype.updateLocalFile.name} is called`, () => {
     beforeEach(() => {
       mockedRepository.update.mockResolvedValue(true);
     });
 
     it('should return true', async () => {
       expect(
-        await storagesService.updateLocalFile(localFile.id, localFile),
+        await storagesService.updateLocalFile(
+          localFilesData[0].id,
+          localFilesData[0],
+        ),
       ).toBeTruthy();
     });
   });
 
-  describe('when deleteLocalFile is called', () => {
+  describe(`when ${StoragesService.prototype.deleteLocalFile.name} is called`, () => {
     beforeEach(() => {
       mockedRepository.delete.mockResolvedValue(true);
     });
 
     it('should return true', async () => {
-      expect(await storagesService.deleteLocalFile(localFile.id)).toBeTruthy();
+      expect(
+        await storagesService.deleteLocalFile(localFilesData[0].id),
+      ).toBeTruthy();
     });
   });
 });

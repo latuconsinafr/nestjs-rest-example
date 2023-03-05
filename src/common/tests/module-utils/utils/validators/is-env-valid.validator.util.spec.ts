@@ -2,7 +2,7 @@ import { plainToClass } from 'class-transformer';
 import { AppEnvironmentVariables } from '../../../../../config/app/app.config';
 import { isEnvValid } from '../../../../utils/validators/is-env-valid.validator.util';
 
-describe('when isEnvValid called', () => {
+describe(`when ${isEnvValid.name} called`, () => {
   describe('and applied on AppEnvironmentVariables', () => {
     it('should throw error when the supplied env is incorrect', () => {
       expect(() => isEnvValid({}, AppEnvironmentVariables)).toThrow(Error);

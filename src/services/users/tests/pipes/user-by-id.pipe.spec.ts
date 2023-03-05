@@ -6,29 +6,31 @@ import { NotFoundException } from '../../../../common/exceptions/not-found.excep
 import { UnprocessableEntityException } from '../../../../common/exceptions/unprocessable-entity.exception';
 import { mockedPinoLogger } from '../../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
 import { mockedRepository } from '../../../../common/utils/mocks/typeorm/repository.mock';
-import { usersData } from '../../../../database/data/users.data';
-import { UserProfile } from '../../entities/user-profile.entity';
 import { User } from '../../entities/user.entity';
 import { UserByIdPipe } from '../../pipes/user-by-id.pipe';
 import { UsersService } from '../../users.service';
+import { v4 as uuidv4 } from 'uuid';
+import { usersData } from '../../../../database/data/users.data';
 
-describe('UserByIdPipe', () => {
+describe(UserByIdPipe.name, () => {
   let userByIdPipe: UserByIdPipe;
   let usersService: UsersService;
   let argumentMetaData: ArgumentMetadata;
-  let users: User[];
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         UserByIdPipe,
-        UsersService,
-        { provide: PinoLogger, useValue: mockedPinoLogger },
-        { provide: getRepositoryToken(User), useValue: mockedRepository },
         {
-          provide: getRepositoryToken(UserProfile),
-          useValue: mockedRepository,
+          provide: PinoLogger,
+          useValue: mockedPinoLogger,
         },
+        UsersService,
+        {
+          provide: PinoLogger,
+          useValue: mockedPinoLogger,
+        },
+        { provide: getRepositoryToken(User), useValue: mockedRepository },
       ],
     }).compile();
 
@@ -37,32 +39,29 @@ describe('UserByIdPipe', () => {
 
     argumentMetaData = {
       type: 'param',
-      metatype: Number,
+      metatype: String,
       data: 'id',
     };
-    users = [...usersData];
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('when transform is called', () => {
-    describe('and the string value is unable to be parsed to int', () => {
+  describe(`when ${UserByIdPipe.prototype.transform.name} is called`, () => {
+    describe('and the given value is not a valid UUID v4', () => {
       it(`should throw ${UnprocessableEntityException.name}`, async () => {
-        const value = 'asdxxasd';
-
         await expect(
-          userByIdPipe.transform(value, argumentMetaData),
+          userByIdPipe.transform('asdxxxasd', argumentMetaData),
         ).rejects.toThrow(UnprocessableEntityException);
       });
     });
 
-    describe('and the string value is able to be parsed to int', () => {
+    describe('and the given value a valid UUID v4', () => {
       let value: string;
 
       beforeEach(() => {
-        value = '1';
+        value = uuidv4();
       });
 
       describe('and the user is not found', () => {
@@ -77,11 +76,11 @@ describe('UserByIdPipe', () => {
 
       describe('and the user is found', () => {
         it(`should return the user`, async () => {
-          jest.spyOn(usersService, 'findById').mockResolvedValue(users[0]);
+          jest.spyOn(usersService, 'findById').mockResolvedValue(usersData[0]);
 
           expect(
             await userByIdPipe.transform(value, argumentMetaData),
-          ).toStrictEqual(users[0]);
+          ).toStrictEqual(usersData[0]);
         });
       });
     });

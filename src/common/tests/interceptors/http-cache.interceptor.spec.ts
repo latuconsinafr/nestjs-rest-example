@@ -7,7 +7,7 @@ import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
 import { Reflector } from '@nestjs/core';
 import { mockedCacheManager } from '../../utils/mocks/@nestjs/common/cache-manager.mock';
 
-describe('HttpCacheInterceptor', () => {
+describe(HttpCacheInterceptor.name, () => {
   const executionContext = mockedExecutionContext as any;
 
   let httpCacheInterceptor: HttpCacheInterceptor;
@@ -35,7 +35,7 @@ describe('HttpCacheInterceptor', () => {
     jest.clearAllMocks();
   });
 
-  describe('when trackBy is called', () => {
+  describe(`when ${HttpCacheInterceptor.prototype.intercept.name} is called`, () => {
     describe('and there is no request', () => {
       it('should return undefined', () => {
         mockedGetRequest.mockReturnValue(undefined);
@@ -181,7 +181,7 @@ describe('HttpCacheInterceptor', () => {
 
               beforeEach(() => {
                 originalKey = 'api/users?page=1';
-                splittedKey = originalKey.split('?')[0];
+                splittedKey = originalKey.split('?')[0] ?? '';
 
                 mockedGetRequestMethod.mockReturnValue('GET');
                 mockedGetRequestUrl.mockReturnValue(originalKey);

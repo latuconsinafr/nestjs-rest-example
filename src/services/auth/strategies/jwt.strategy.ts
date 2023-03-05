@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModuleOptions } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
+import { PinoLogger } from 'nestjs-pino';
 import { ExtractJwt } from 'passport-jwt';
 import { Strategy } from 'passport-jwt';
 import { UnauthorizedException } from '../../../common/exceptions/unauthorized.exception';
@@ -22,10 +23,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   /**
    * The constructor.
    *
+   * @param logger The pino logger
    * @param configService The config service
    * @param usersService The users service
    */
   constructor(
+    private readonly logger: PinoLogger,
     private readonly configService: ConfigService,
     private readonly usersService: UsersService,
   ) {
@@ -37,6 +40,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         : false,
       secretOrKey: configService.get<JwtModuleOptions>('jwt')?.secret,
     });
+
+    this.logger.setContext(JwtStrategy.name);
   }
 
   /**
@@ -50,6 +55,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    * @returns The authenticated user entity.
    */
   async validate(payload: TokenPayload): Promise<User> {
+    this.logger.info(`Try to call ${JwtStrategy.prototype.validate.name}`);
+
     const authenticatedUser: User | null = await this.usersService.findById(
       payload.sub,
     );

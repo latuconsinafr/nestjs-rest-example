@@ -68,7 +68,7 @@ export class StoragesService {
    * @returns The flag indicates whether the update process is success or not.
    * Return `true` if the update process is success, otherwise `false`.
    */
-  async updateLocalFile(id: number, file: LocalFile): Promise<boolean> {
+  async updateLocalFile(id: string, file: LocalFile): Promise<boolean> {
     this.logger.info(
       `Try to call ${StoragesService.prototype.updateLocalFile.name}`,
     );
@@ -86,7 +86,7 @@ export class StoragesService {
    * @returns The flag indicates whether the delete process is success or not.
    * Return `true` if the delete process is success, otherwise `false`.
    */
-  async deleteLocalFile(id: number): Promise<boolean> {
+  async deleteLocalFile(id: string): Promise<boolean> {
     this.logger.info(
       `Try to call ${StoragesService.prototype.deleteLocalFile.name}`,
     );

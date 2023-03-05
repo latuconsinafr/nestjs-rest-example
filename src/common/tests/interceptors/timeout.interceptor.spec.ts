@@ -8,7 +8,7 @@ import { TimeoutInterceptor } from '../../interceptors/timeout.interceptor';
 import { Reflector } from '@nestjs/core';
 import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
 
-describe('TimeoutInterceptor', () => {
+describe(TimeoutInterceptor.name, () => {
   const executionContext = mockedExecutionContext as any;
   const callHandler = mockedCallHandler as any;
 
@@ -31,7 +31,7 @@ describe('TimeoutInterceptor', () => {
     jest.clearAllMocks();
   });
 
-  describe('when intercept is called', () => {
+  describe(`when ${TimeoutInterceptor.prototype.intercept.name} is called`, () => {
     const returnedValue: [] = [];
     let reflectorGetSpy: jest.SpyInstance<any>;
 

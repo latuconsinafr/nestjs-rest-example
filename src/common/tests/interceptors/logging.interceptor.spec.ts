@@ -7,7 +7,7 @@ import { LoggingInterceptor } from '../../interceptors/logging.interceptor';
 import { getLoggerToken } from 'nestjs-pino';
 import { mockedPinoLogger } from '../../utils/mocks/nestjs-pino/pino-logger.mock';
 
-describe('LoggingInterceptor', () => {
+describe(LoggingInterceptor.name, () => {
   const executionContext = mockedExecutionContext as any;
   const callHandler = mockedCallHandler as any;
 
@@ -31,7 +31,7 @@ describe('LoggingInterceptor', () => {
     jest.clearAllMocks();
   });
 
-  describe('when intercept is called', () => {
+  describe(`when ${LoggingInterceptor.prototype.intercept.name} is called`, () => {
     const url = '/test';
 
     beforeEach(() => {

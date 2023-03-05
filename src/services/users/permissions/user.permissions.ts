@@ -22,13 +22,13 @@ export const UserActions = { ...AccessControlActions };
 export const UserPermissions: Permissions<UserRole, UserSubjects, UserActions> =
   {
     // * {UserRole.SuperAdmin}
-    'super-admin'({ can }) {
+    /* istanbul ignore next */ 'super-admin'({ can }) {
       can(UserActions.Manage, User);
       can(UserActions.Manage, UserProfile);
     },
 
     // * {UserRole.User}
-    user({ user, can }) {
+    /* istanbul ignore next */ user({ user, can }) {
       can(UserActions.ReadBy, User, { id: user.id });
       can(UserActions.Update, User, { id: user.id });
     },

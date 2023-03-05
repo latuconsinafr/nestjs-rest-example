@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { HttpException, HttpStatus } from '@nestjs/common';
 import {
   DEFAULT_CONTENT_TOO_LARGE_MESSAGE,

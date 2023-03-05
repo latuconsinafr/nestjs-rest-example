@@ -52,10 +52,10 @@ export class AppController {
 
     if (version && version === '1') {
       return {
-        url: `${docsUrl}/v${version}`,
+        url: `${docsUrl}/v1`,
       };
     }
 
-    return { url: `${docsUrl}/v1` };
+    return { url: `${docsUrl}/v${version}` };
   }
 }

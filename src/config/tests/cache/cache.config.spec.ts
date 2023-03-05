@@ -1,6 +1,6 @@
 import { cacheConfig } from '../../cache/cache.config';
 
-describe('when cacheConfig is registered', () => {
+describe(`when ${cacheConfig.name} is registered`, () => {
   const env = process.env;
 
   beforeEach(() => {
@@ -10,10 +10,6 @@ describe('when cacheConfig is registered', () => {
 
   afterEach(() => {
     process.env = env;
-  });
-
-  it('should return true', () => {
-    expect(true).toBeTruthy();
   });
 
   it('should throw error when the env is not valid', () => {

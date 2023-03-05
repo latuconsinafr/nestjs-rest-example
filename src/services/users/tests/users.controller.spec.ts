@@ -2,8 +2,6 @@ import { ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
-import { SuccessResponseDto } from '../../../common/dto/responses/success-response.dto';
-import { FileGeneralAccess } from '../../storages/enums/file-general-access.enum';
 import { ConflictException } from '../../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../../common/exceptions/internal-server-error.exception';
 import { mockedPinoLogger } from '../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
@@ -19,15 +17,22 @@ import { UserProfile } from '../entities/user-profile.entity';
 import { User } from '../entities/user.entity';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
+import { RolesService } from '../../roles/roles.service';
+import { Role } from '../../roles/entities/role.entity';
+import { SuccessResponse } from '../../../common/dto/responses/success-response.dto';
+import { AccessService } from 'nest-casl';
+import { UpdateUserPasswordRequest } from '../dto/requests/users/update-user-password-request.dto';
+import { UpdateUserRolesRequest } from '../dto/requests/users/update-user-roles-request.dto';
+import { UpdateUserProfileAvatarRequest } from '../dto/requests/user-profiles/update-user-profile-avatar-request.dto';
+import { localFilesData } from '../../../database/data/local-files.data';
+import { UserRole } from '../../roles/enums/user-role.enum';
+import { rolesData } from '../../../database/data/roles.data';
 
-describe('UsersController', () => {
+describe(UsersController.name, () => {
   let usersController: UsersController;
   let usersService: UsersService;
+  let rolesService: RolesService;
   let storagesService: StoragesService;
-  let users: User[];
-  let userProfiles: UserProfile[];
-  let userProfileAvatar: Express.Multer.File;
-  let userProfileAvatarLocalFile: LocalFile;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -39,8 +44,9 @@ describe('UsersController', () => {
         },
         UsersService,
         { provide: getRepositoryToken(User), useValue: mockedRepository },
+        RolesService,
         {
-          provide: getRepositoryToken(UserProfile),
+          provide: getRepositoryToken(Role),
           useValue: mockedRepository,
         },
         StoragesService,
@@ -58,85 +64,88 @@ describe('UsersController', () => {
             }),
           },
         },
+        {
+          provide: AccessService,
+          useValue: {},
+        },
       ],
     }).compile();
 
     usersService = moduleRef.get<UsersService>(UsersService);
+    rolesService = moduleRef.get<RolesService>(RolesService);
     storagesService = moduleRef.get<StoragesService>(StoragesService);
     usersController = moduleRef.get<UsersController>(UsersController);
-
-    users = [...usersData];
-    userProfiles = [...userProfilesData];
-    userProfileAvatar = {
-      fieldname: 'avatar',
-      originalname: 'avatar.jpg',
-      encoding: 'base64',
-      mimetype: 'image/jpg',
-      buffer: Buffer.from('test'),
-      size: 51828,
-    } as Express.Multer.File;
-    userProfileAvatarLocalFile = {
-      id: 1,
-      fileName: userProfileAvatar.originalname,
-      path: '/users/profiles/avatars',
-      mimeType: userProfileAvatar.mimetype,
-      generalAccess: FileGeneralAccess.Public,
-    };
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('when createUser is called', () => {
-    let usersServiceCreateSpy: jest.SpyInstance<Promise<User>, [user: User]>;
+  describe(`when ${UsersController.prototype.createUser.name} is called`, () => {
     let userToCreate: CreateUserRequest;
+    let usersServiceCreateSpy: jest.SpyInstance<Promise<User>, [user: User]>;
+    let rolesServiceFindByNamesSpy: jest.SpyInstance<
+      Promise<Role[]>,
+      [names: UserRole[]]
+    >;
 
     beforeEach(() => {
+      userToCreate = {
+        ...usersData[0],
+        roles: usersData[0].roles.map((role) => role.name),
+      };
       usersServiceCreateSpy = jest.spyOn(usersService, 'create');
-      usersServiceCreateSpy.mockResolvedValue(users[0]);
-      userToCreate = { ...users[0] };
+      usersServiceCreateSpy.mockResolvedValue(usersData[0]);
+      rolesServiceFindByNamesSpy = jest.spyOn(rolesService, 'findByNames');
+      rolesServiceFindByNamesSpy.mockResolvedValue([...rolesData]);
     });
 
     describe('and when error occurred', () => {
       it(`should throw ${InternalServerErrorException.name}`, async () => {
-        jest.spyOn(usersService, 'create').mockImplementation(async () => {
+        jest.spyOn(usersService, 'create').mockImplementationOnce(async () => {
           throw new Error();
         });
-
         await expect(usersController.createUser(userToCreate)).rejects.toThrow(
           InternalServerErrorException,
         );
       });
     });
 
-    it(`should call ${UsersService.name} create method`, async () => {
-      await usersController.createUser(userToCreate);
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.create.name} method`, async () => {
+        await usersController.createUser(userToCreate);
 
-      expect(usersServiceCreateSpy).toBeCalledTimes(1);
-    });
+        expect(usersServiceCreateSpy).toBeCalledTimes(1);
+      });
 
-    it('should return the created user', async () => {
-      expect(await usersController.createUser(userToCreate)).toStrictEqual(
-        new SuccessResponseDto({
-          message: 'User created',
-          data: users[0],
-        }),
-      );
+      it(`should call ${RolesService.name} ${RolesService.prototype.findByNames.name} method`, async () => {
+        await usersController.createUser(userToCreate);
+
+        expect(rolesServiceFindByNamesSpy).toBeCalledTimes(1);
+      });
+
+      it('should return a message and data contains the created user', async () => {
+        expect(await usersController.createUser(userToCreate)).toStrictEqual(
+          new SuccessResponse({
+            message: 'User created',
+            data: usersData[0],
+          }),
+        );
+      });
     });
   });
 
-  describe('when findAllUsers is called', () => {
+  describe(`when ${UsersController.prototype.findAllUsers.name} is called`, () => {
     let usersServiceFindAllSpy: jest.SpyInstance<Promise<User[]>, []>;
 
     beforeEach(() => {
       usersServiceFindAllSpy = jest.spyOn(usersService, 'findAll');
-      usersServiceFindAllSpy.mockResolvedValue(users);
+      usersServiceFindAllSpy.mockResolvedValue([...usersData]);
     });
 
     describe('and when error occurred', () => {
       it(`should throw ${InternalServerErrorException.name}`, async () => {
-        jest.spyOn(usersService, 'findAll').mockImplementation(async () => {
+        jest.spyOn(usersService, 'findAll').mockImplementationOnce(async () => {
           throw new Error();
         });
 
@@ -146,44 +155,46 @@ describe('UsersController', () => {
       });
     });
 
-    it(`should call ${UsersService.name} findAll method`, async () => {
-      await usersController.findAllUsers();
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.findAll.name} method`, async () => {
+        await usersController.findAllUsers();
 
-      expect(usersServiceFindAllSpy).toBeCalledTimes(1);
-    });
+        expect(usersServiceFindAllSpy).toBeCalledTimes(1);
+      });
 
-    it(`should return a ${SuccessResponseDto.name} with message and data contains array of users`, async () => {
-      expect(await usersController.findAllUsers()).toStrictEqual(
-        new SuccessResponseDto({
-          message: 'Users retrieved',
-          data: users,
-        }),
-      );
+      it(`should return a message and data contains array of users`, async () => {
+        expect(await usersController.findAllUsers()).toStrictEqual(
+          new SuccessResponse({
+            message: 'Users retrieved',
+            data: usersData,
+          }),
+        );
+      });
     });
   });
 
-  describe('when findUserById is called', () => {
-    it(`should return a ${SuccessResponseDto.name} with message and data contains user`, async () => {
-      expect(await usersController.findUserById(users[0])).toStrictEqual(
-        new SuccessResponseDto({
+  describe(`when ${UsersController.prototype.findUserById.name} is called`, () => {
+    it(`should return a message and data contains a user`, async () => {
+      expect(await usersController.findUserById(usersData[0])).toStrictEqual(
+        new SuccessResponse({
           message: 'User retrieved',
-          data: users[0],
+          data: usersData[0],
         }),
       );
     });
   });
 
-  describe('when updateUser is called', () => {
+  describe(`when ${UsersController.prototype.updateUser.name} is called`, () => {
+    let userToUpdate: UpdateUserRequest;
     let usersServiceUpdateSpy: jest.SpyInstance<
       Promise<boolean>,
-      [id: number, user: User]
+      [id: string, user: User]
     >;
-    let userToUpdate: UpdateUserRequest;
 
     beforeEach(() => {
+      userToUpdate = { ...usersData[0] };
       usersServiceUpdateSpy = jest.spyOn(usersService, 'update');
       usersServiceUpdateSpy.mockResolvedValue(true);
-      userToUpdate = { ...users[0] };
     });
 
     describe('and the given user id between param and body are different', () => {
@@ -191,11 +202,10 @@ describe('UsersController', () => {
         await expect(
           usersController.updateUser(
             {
-              ...users[0],
-              id: users[0].id + 1,
+              ...usersData[1],
               profile: {
-                ...userProfiles[0],
-                fullName: userProfiles[0].fullName,
+                ...userProfilesData[1],
+                fullName: userProfilesData[1].fullName,
               },
             },
             userToUpdate,
@@ -206,22 +216,28 @@ describe('UsersController', () => {
 
     describe('and when error occurred', () => {
       it(`should throw ${InternalServerErrorException.name}`, async () => {
-        jest.spyOn(usersService, 'update').mockImplementation(async () => {
+        jest.spyOn(usersService, 'update').mockImplementationOnce(async () => {
           throw new Error();
         });
 
         await expect(
-          usersController.updateUser(users[0], userToUpdate),
+          usersController.updateUser(usersData[0], userToUpdate),
         ).rejects.toThrow(InternalServerErrorException);
       });
     });
 
-    describe('and the given user id between param and body are match', () => {
-      it(`should return a ${SuccessResponseDto.name} with message`, async () => {
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.update.name} method`, async () => {
+        await usersController.updateUser(usersData[0], userToUpdate);
+
+        expect(usersServiceUpdateSpy).toBeCalledTimes(1);
+      });
+
+      it(`should return a message`, async () => {
         expect(
-          await usersController.updateUser(users[0], userToUpdate),
+          await usersController.updateUser(usersData[0], userToUpdate),
         ).toStrictEqual(
-          new SuccessResponseDto({
+          new SuccessResponse({
             message: 'User updated',
           }),
         );
@@ -229,8 +245,8 @@ describe('UsersController', () => {
     });
   });
 
-  describe('when deleteUser is called', () => {
-    let usersServiceDeleteSpy: jest.SpyInstance<Promise<boolean>, [id: number]>;
+  describe(`when ${UsersController.prototype.deleteUser.name} is called`, () => {
+    let usersServiceDeleteSpy: jest.SpyInstance<Promise<boolean>, [id: string]>;
 
     beforeEach(() => {
       usersServiceDeleteSpy = jest.spyOn(usersService, 'delete');
@@ -239,36 +255,185 @@ describe('UsersController', () => {
 
     describe('and when error occurred', () => {
       it(`should throw ${InternalServerErrorException.name}`, async () => {
-        jest.spyOn(usersService, 'delete').mockImplementation(async () => {
+        jest.spyOn(usersService, 'delete').mockImplementationOnce(async () => {
           throw new Error();
         });
 
-        await expect(usersController.deleteUser(users[0])).rejects.toThrow(
+        await expect(usersController.deleteUser(usersData[0])).rejects.toThrow(
           InternalServerErrorException,
         );
       });
     });
 
-    it(`should return a ${SuccessResponseDto.name} with message`, async () => {
-      expect(await usersController.deleteUser(users[0])).toStrictEqual(
-        new SuccessResponseDto({
-          message: 'User deleted',
-        }),
-      );
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.delete.name} method`, async () => {
+        await usersController.deleteUser(usersData[0]);
+
+        expect(usersServiceDeleteSpy).toBeCalledTimes(1);
+      });
+
+      it(`should return a message`, async () => {
+        expect(await usersController.deleteUser(usersData[0])).toStrictEqual(
+          new SuccessResponse({
+            message: 'User deleted',
+          }),
+        );
+      });
     });
   });
 
-  describe('when updateUserProfile is called', () => {
+  describe(`when ${UsersController.prototype.updateUserPassword.name} is called`, () => {
+    let userPasswordToUpdate: UpdateUserPasswordRequest;
     let usersServiceUpdateSpy: jest.SpyInstance<
       Promise<boolean>,
-      [id: number, userProfile: UserProfile]
+      [id: string, password: string]
     >;
-    let userProfileToUpdate: UpdateUserProfileRequest;
 
     beforeEach(() => {
+      userPasswordToUpdate = { ...usersData[0] };
+      usersServiceUpdateSpy = jest.spyOn(usersService, 'updatePassword');
+      usersServiceUpdateSpy.mockResolvedValue(true);
+    });
+
+    describe('and the given user id between param and body are different', () => {
+      it(`should throw ${ConflictException.name}`, async () => {
+        await expect(
+          usersController.updateUserPassword(
+            {
+              ...usersData[1],
+              profile: {
+                ...userProfilesData[1],
+                fullName: userProfilesData[1].fullName,
+              },
+            },
+            userPasswordToUpdate,
+          ),
+        ).rejects.toThrow(ConflictException);
+      });
+    });
+
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest
+          .spyOn(usersService, 'updatePassword')
+          .mockImplementationOnce(async () => {
+            throw new Error();
+          });
+
+        await expect(
+          usersController.updateUserPassword(
+            usersData[0],
+            userPasswordToUpdate,
+          ),
+        ).rejects.toThrow(InternalServerErrorException);
+      });
+    });
+
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.updatePassword.name} method`, async () => {
+        await usersController.updateUserPassword(
+          usersData[0],
+          userPasswordToUpdate,
+        );
+
+        expect(usersServiceUpdateSpy).toBeCalledTimes(1);
+      });
+
+      it(`should return a message`, async () => {
+        expect(
+          await usersController.updateUserPassword(
+            usersData[0],
+            userPasswordToUpdate,
+          ),
+        ).toStrictEqual(
+          new SuccessResponse({
+            message: 'User password updated',
+          }),
+        );
+      });
+    });
+  });
+
+  describe(`when ${UsersController.prototype.updateUserRoles.name} is called`, () => {
+    let userRolesToUpdate: UpdateUserRolesRequest;
+    let usersServiceUpdateSpy: jest.SpyInstance<
+      Promise<boolean>,
+      [id: string, roles: Role[]]
+    >;
+
+    beforeEach(() => {
+      userRolesToUpdate = {
+        ...usersData[0],
+        roles: usersData[0].roles.map((role) => role.name),
+      };
+      usersServiceUpdateSpy = jest.spyOn(usersService, 'updateRoles');
+      usersServiceUpdateSpy.mockResolvedValue(true);
+    });
+
+    describe('and the given user id between param and body are different', () => {
+      it(`should throw ${ConflictException.name}`, async () => {
+        await expect(
+          usersController.updateUserRoles(
+            {
+              ...usersData[1],
+              profile: {
+                ...userProfilesData[1],
+                fullName: userProfilesData[1].fullName,
+              },
+            },
+            userRolesToUpdate,
+          ),
+        ).rejects.toThrow(ConflictException);
+      });
+    });
+
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest
+          .spyOn(usersService, 'updateRoles')
+          .mockImplementationOnce(async () => {
+            throw new Error();
+          });
+
+        await expect(
+          usersController.updateUserRoles(usersData[0], userRolesToUpdate),
+        ).rejects.toThrow(InternalServerErrorException);
+      });
+    });
+
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.updateRoles.name} method`, async () => {
+        await usersController.updateUserRoles(usersData[0], userRolesToUpdate);
+
+        expect(usersServiceUpdateSpy).toBeCalledTimes(1);
+      });
+
+      it(`should return a message`, async () => {
+        expect(
+          await usersController.updateUserRoles(
+            usersData[0],
+            userRolesToUpdate,
+          ),
+        ).toStrictEqual(
+          new SuccessResponse({
+            message: 'User roles updated',
+          }),
+        );
+      });
+    });
+  });
+
+  describe(`when ${UsersController.prototype.updateUserProfile.name} is called`, () => {
+    let userProfileToUpdate: UpdateUserProfileRequest;
+    let usersServiceUpdateSpy: jest.SpyInstance<
+      Promise<boolean>,
+      [id: string, userProfile: UserProfile]
+    >;
+
+    beforeEach(() => {
+      userProfileToUpdate = { ...userProfilesData[0] };
       usersServiceUpdateSpy = jest.spyOn(usersService, 'updateProfile');
       usersServiceUpdateSpy.mockResolvedValue(true);
-      userProfileToUpdate = { ...userProfiles[0] };
     });
 
     describe('and the given user id between param and body are different', () => {
@@ -276,11 +441,10 @@ describe('UsersController', () => {
         await expect(
           usersController.updateUserProfile(
             {
-              ...users[0],
-              id: users[0].id + 1,
+              ...usersData[1],
               profile: {
-                ...userProfiles[0],
-                fullName: userProfiles[0].fullName,
+                ...userProfilesData[1],
+                fullName: userProfilesData[1].fullName,
               },
             },
             userProfileToUpdate,
@@ -293,25 +457,34 @@ describe('UsersController', () => {
       it(`should throw ${InternalServerErrorException.name}`, async () => {
         jest
           .spyOn(usersService, 'updateProfile')
-          .mockImplementation(async () => {
+          .mockImplementationOnce(async () => {
             throw new Error();
           });
 
         await expect(
-          usersController.updateUserProfile(users[0], userProfileToUpdate),
+          usersController.updateUserProfile(usersData[0], userProfileToUpdate),
         ).rejects.toThrow(InternalServerErrorException);
       });
     });
 
-    describe('and the given user id between param and body are match', () => {
-      it(`should return a ${SuccessResponseDto.name} with message`, async () => {
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.updateProfile.name} method`, async () => {
+        await usersController.updateUserProfile(
+          usersData[0],
+          userProfileToUpdate,
+        );
+
+        expect(usersServiceUpdateSpy).toBeCalledTimes(1);
+      });
+
+      it(`should return a message`, async () => {
         expect(
           await usersController.updateUserProfile(
-            users[0],
+            usersData[0],
             userProfileToUpdate,
           ),
         ).toStrictEqual(
-          new SuccessResponseDto({
+          new SuccessResponse({
             message: 'User profile updated',
           }),
         );
@@ -319,17 +492,29 @@ describe('UsersController', () => {
     });
   });
 
-  describe('when updateUserProfileAvatar is called', () => {
+  describe(`when ${UsersController.prototype.updateUserProfileAvatar.name} is called`, () => {
+    let userProfileAvatar: Express.Multer.File;
+    let userProfileAvatarToUpdate: UpdateUserProfileAvatarRequest;
     let usersServiceUpdateSpy: jest.SpyInstance<
       Promise<boolean>,
-      [id: number, userProfile: UserProfile]
+      [id: string, userProfile: UserProfile]
     >;
-    let userProfileToUpdate: UpdateUserProfileRequest;
 
     beforeEach(() => {
+      userProfileAvatar = {
+        fieldname: 'avatar',
+        originalname: 'avatar.jpg',
+        encoding: 'base64',
+        mimetype: 'image/jpg',
+        buffer: Buffer.from('test'),
+        size: 51828,
+      } as Express.Multer.File;
+      userProfileAvatarToUpdate = {
+        ...userProfilesData[0],
+        avatar: userProfileAvatar,
+      };
       usersServiceUpdateSpy = jest.spyOn(usersService, 'updateProfile');
       usersServiceUpdateSpy.mockResolvedValue(true);
-      userProfileToUpdate = { ...userProfiles[0] };
     });
 
     describe('and the given user id between param and body are different', () => {
@@ -337,14 +522,13 @@ describe('UsersController', () => {
         await expect(
           usersController.updateUserProfileAvatar(
             {
-              ...users[0],
-              id: users[0].id + 1,
+              ...usersData[1],
               profile: {
-                ...userProfiles[0],
-                fullName: userProfiles[0].fullName,
+                ...userProfilesData[1],
+                fullName: userProfilesData[1].fullName,
               },
             },
-            userProfileToUpdate,
+            userProfileAvatarToUpdate,
             userProfileAvatar,
           ),
         ).rejects.toThrow(ConflictException);
@@ -355,39 +539,63 @@ describe('UsersController', () => {
       it(`should throw ${InternalServerErrorException.name}`, async () => {
         jest
           .spyOn(usersService, 'updateProfile')
-          .mockImplementation(async () => {
+          .mockImplementationOnce(async () => {
             throw new Error();
           });
 
         await expect(
           usersController.updateUserProfileAvatar(
-            users[0],
-            userProfileToUpdate,
+            usersData[0],
+            userProfileAvatarToUpdate,
             userProfileAvatar,
           ),
         ).rejects.toThrow(InternalServerErrorException);
       });
     });
 
-    describe('and the given user id between param and body are match', () => {
-      it(`should return a ${SuccessResponseDto.name} with message`, async () => {
-        const storagesServiceCreateLocalFileSpy: jest.SpyInstance<
-          Promise<LocalFile>,
-          [file: LocalFile]
-        > = jest.spyOn(storagesService, 'createLocalFile');
+    describe('and when no error occurred', () => {
+      let storagesServiceCreateLocalFileSpy: jest.SpyInstance<
+        Promise<LocalFile>,
+        [file: LocalFile]
+      >;
 
-        storagesServiceCreateLocalFileSpy.mockResolvedValue(
-          userProfileAvatarLocalFile,
+      beforeEach(() => {
+        storagesServiceCreateLocalFileSpy = jest.spyOn(
+          storagesService,
+          'createLocalFile',
+        );
+        storagesServiceCreateLocalFileSpy.mockResolvedValue(localFilesData[0]);
+      });
+
+      it(`should call ${StoragesService.name} ${StoragesService.prototype.createLocalFile.name} method`, async () => {
+        await usersController.updateUserProfileAvatar(
+          usersData[0],
+          userProfileAvatarToUpdate,
+          userProfileAvatar,
         );
 
+        expect(storagesServiceCreateLocalFileSpy).toBeCalledTimes(1);
+      });
+
+      it(`should call ${UsersService.name} ${UsersService.prototype.updateProfile.name} method`, async () => {
+        await usersController.updateUserProfileAvatar(
+          usersData[0],
+          userProfileAvatarToUpdate,
+          userProfileAvatar,
+        );
+
+        expect(usersServiceUpdateSpy).toBeCalledTimes(1);
+      });
+
+      it(`should return a message`, async () => {
         expect(
           await usersController.updateUserProfileAvatar(
-            users[0],
-            userProfileToUpdate,
+            usersData[0],
+            userProfileAvatarToUpdate,
             userProfileAvatar,
           ),
         ).toStrictEqual(
-          new SuccessResponseDto({
+          new SuccessResponse({
             message: 'User profile avatar updated',
           }),
         );

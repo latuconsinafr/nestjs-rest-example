@@ -2,7 +2,7 @@ import { loggerConfig } from '../../logger/logger.config';
 import { APP_NAME } from '../../../common/constants';
 import pino from 'pino';
 
-describe('when loggerConfig is registered', () => {
+describe(`when ${loggerConfig.name} is registered`, () => {
   const env = process.env;
 
   beforeEach(() => {

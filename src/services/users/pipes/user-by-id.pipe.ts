@@ -1,11 +1,8 @@
-import {
-  Injectable,
-  PipeTransform,
-  ArgumentMetadata,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common';
 import { isUUID } from 'class-validator';
+import { PinoLogger } from 'nestjs-pino';
 import { NotFoundException } from '../../../common/exceptions/not-found.exception';
+import { UnprocessableEntityException } from '../../../common/exceptions/unprocessable-entity.exception';
 import { User } from '../entities/user.entity';
 import { UsersService } from '../users.service';
 
@@ -22,13 +19,26 @@ import { UsersService } from '../users.service';
  */
 @Injectable()
 export class UserByIdPipe implements PipeTransform<string, Promise<User>> {
-  constructor(private readonly usersService: UsersService) {}
+  /**
+   * The constructor.
+   *
+   * @param logger The pino logger
+   * @param usersService The users service
+   */
+  constructor(
+    private readonly logger: PinoLogger,
+    private readonly usersService: UsersService,
+  ) {
+    this.logger.setContext(UserByIdPipe.name);
+  }
 
   /**
    * {@inheritDoc PipeTransform.transform}
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async transform(value: string, metadata: ArgumentMetadata): Promise<User> {
+    this.logger.info(`Try to call ${UserByIdPipe.prototype.transform.name}`);
+
     if (!isUUID(value, '4')) {
       throw new UnprocessableEntityException({
         message: 'The given value is not a valid UUID',
