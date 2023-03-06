@@ -12,7 +12,7 @@ import { User } from '../../users/entities/user.entity';
  * Defines the local file entity.
  *
  * @usageNotes
- * The Local File Entity contains attribute:
+ * The local file entity contains attribute:
  * - `id`: The id of local file
  * - `fileName`: The original file name of local file
  * - `path`: The path location of local file
@@ -39,11 +39,11 @@ export class LocalFile {
   generalAccess: FileGeneralAccess;
 
   @Column('uuid', { nullable: true })
-  ownerId?: string | null | undefined;
+  ownerId?: string | undefined;
 
-  @ManyToOne(/* istanbul ignore next */ () => User)
+  @ManyToOne(/* istanbul ignore next */ () => User, { onDelete: 'CASCADE' })
   @JoinColumn()
-  owner?: User | null | undefined;
+  owner?: User | undefined;
 
   /**
    * The constructor.

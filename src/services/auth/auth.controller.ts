@@ -10,7 +10,7 @@ import { ApiUnprocessableEntityErrorResponse } from '../../common/decorators/ope
 import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes/api-ok-success-response.decorator';
 import { SuccessResponse } from '../../common/dto/responses/success-response.dto';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
-import UserResponse from '../users/dto/responses/users/user-response.dto';
+import { UserResponse } from '../users/dto/responses/users/user-response.dto';
 import { AuthService } from './auth.service';
 import { UseJwtAuth } from './decorators/use-jwt-auth.decorator';
 import { UseLocalAuth } from './decorators/use-local-auth.decorator';

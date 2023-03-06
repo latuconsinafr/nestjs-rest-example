@@ -1,8 +1,8 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { usersData } from '../../../../../database/data/users.data';
-import RoleResponse from '../../../../roles/dto/responses/role-response.dto';
+import { RoleResponse } from '../../../../roles/dto/responses/role-response.dto';
 import { UserIdParam } from '../../params/users/user-id.param';
-import UserProfileResponse from '../user-profiles/user-profile-response.dto';
+import { UserProfileResponse } from '../user-profiles/user-profile-response.dto';
 
 /**
  * Defines the DTO that carries data representing a user.
@@ -17,9 +17,7 @@ import UserProfileResponse from '../user-profiles/user-profile-response.dto';
  * - `roles`: The user roles
  * - `profile`: The user profile
  */
-export default class UserResponse extends PickType(UserIdParam, [
-  'id',
-] as const) {
+export class UserResponse extends PickType(UserIdParam, ['id'] as const) {
   @ApiProperty({
     description: 'The username of user',
     example: usersData[0].username,

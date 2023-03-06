@@ -12,9 +12,7 @@ import { RoleIdParam } from '../params/role-id.param';
  * The RoleResponse also contains role attribute:
  * - `name`: The name of role
  */
-export default class RoleResponse extends PickType(RoleIdParam, [
-  'id',
-] as const) {
+export class RoleResponse extends PickType(RoleIdParam, ['id'] as const) {
   @ApiProperty({
     description: 'The name of role',
     enum: UserRole,

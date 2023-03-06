@@ -6,7 +6,7 @@ import { LocalFile } from './entities/local-file.entity';
 
 // * Service will be responsible for data storage and retrieval
 /**
- * Defines the storages service that responsible for data storage and retrieval for user entity.
+ * Defines the storages service that responsible for data storage and retrieval for local file entity.
  */
 @Injectable()
 export class StoragesService {
@@ -14,6 +14,7 @@ export class StoragesService {
    * The constructor.
    *
    * @param logger The pino logger
+   * @param localFilesRepository The repository of local file entity
    */
   constructor(
     private readonly logger: PinoLogger,

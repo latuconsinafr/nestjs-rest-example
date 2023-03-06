@@ -16,7 +16,7 @@ import { UserIdParam } from '../../params/users/user-id.param';
  * - `website`: The website of user profile
  * - `birthDate`: The birthDate of user profile
  */
-export default class UserProfileResponse extends PickType(UserIdParam, [
+export class UserProfileResponse extends PickType(UserIdParam, [
   'id',
 ] as const) {
   @ApiProperty({

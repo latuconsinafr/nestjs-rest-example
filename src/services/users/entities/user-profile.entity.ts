@@ -7,7 +7,7 @@ import { User } from './user.entity';
  * Defines the user profile entity.
  *
  * @usageNotes
- * The UserProfile Entity contains attribute:
+ * The user profile entity contains attribute:
  * - `id`: The id of user profile, as the same as the id of user
  * - `firstName`: The first name of user profile
  * - `lastName`: The last name of user profile
@@ -49,7 +49,7 @@ export class UserProfile {
   birthDate: Date;
 
   @Column('uuid', { nullable: true })
-  avatarFileId?: string | null | undefined;
+  avatarFileId?: string | undefined;
 
   @OneToOne(
     /* istanbul ignore next */ () => User,
@@ -61,9 +61,11 @@ export class UserProfile {
   @JoinColumn({ name: 'id' })
   user: User;
 
-  @OneToOne(/* istanbul ignore next */ () => LocalFile)
+  @OneToOne(/* istanbul ignore next */ () => LocalFile, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
-  avatarFile: LocalFile;
+  avatarFile?: LocalFile | undefined;
 
   /**
    * The constructor.

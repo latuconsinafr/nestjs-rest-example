@@ -56,7 +56,9 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     this.logger.info(`Try to call ${UsersService.prototype.findAll.name}`);
 
-    return await this.usersRepository.find({ relations: ['roles', 'profile'] });
+    return await this.usersRepository.find({
+      relations: { roles: true, profile: true },
+    });
   }
 
   /**
@@ -71,7 +73,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { id },
-      relations: ['roles', 'profile'],
+      relations: { roles: true, profile: true },
     });
   }
 
@@ -89,7 +91,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { username },
-      relations: ['roles', 'profile'],
+      relations: { roles: true, profile: true },
     });
   }
 
@@ -105,7 +107,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { email },
-      relations: ['roles', 'profile'],
+      relations: { roles: true, profile: true },
     });
   }
 
@@ -121,11 +123,11 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { phone },
-      relations: ['roles', 'profile'],
+      relations: { roles: true, profile: true },
     });
   }
 
-  /**f
+  /**
    * Updates a user by a given id.
    *
    * @param id The user id to update

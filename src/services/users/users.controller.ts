@@ -28,7 +28,7 @@ import { UserActions } from './permissions/user.permissions';
 import { UpdateUserPasswordRequest } from './dto/requests/users/update-user-password-request.dto';
 import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import UserResponse from './dto/responses/users/user-response.dto';
+import { UserResponse } from './dto/responses/users/user-response.dto';
 import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
 import { RolesService } from '../roles/roles.service';
 import { ApiUnprocessableEntityErrorResponse } from '../../common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator';
@@ -254,7 +254,7 @@ export class UsersController {
    *
    * @param id The user id to find
    *
-   * @returns The action string.
+   * @returns The success response with `'User deleted'` message.
    */
   @Delete(':id')
   @UseAccessControl(UserActions.Delete, User)
@@ -272,7 +272,9 @@ export class UsersController {
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
   ])
-  async deleteUser(@Param('id', UserByIdPipe) { id }: User) {
+  async deleteUser(
+    @Param('id', UserByIdPipe) { id }: User,
+  ): Promise<SuccessResponse> {
     this.logger.info(
       `Try to call ${UsersController.prototype.deleteUser.name}`,
     );
@@ -464,7 +466,7 @@ export class UsersController {
   @ApiFile('avatar', {
     dest: '/users/profiles/avatars',
     fileFilter: avatarFileFilterValidator,
-    limits: { fileSize: Math.pow(1024, 1) }, // * 1 MB
+    limits: { fileSize: Math.pow(1024, 2) }, // * 1 MB
   })
   @ApiSuccessesResponse([
     {

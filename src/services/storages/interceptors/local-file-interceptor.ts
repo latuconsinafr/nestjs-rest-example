@@ -48,9 +48,7 @@ export function LocalFileInterceptor(
 
     /* istanbul ignore next */
     intercept(...args: Parameters<NestInterceptor['intercept']>) {
-      this.logger.info(
-        `Try to call ${LocalFileInterceptor.prototype.intercept.name}`,
-      );
+      this.logger.info(`Try to call ${Interceptor.prototype.intercept.name}`);
 
       return this.fileInterceptor.intercept(...args);
     }

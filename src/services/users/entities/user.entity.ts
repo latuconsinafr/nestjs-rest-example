@@ -14,7 +14,7 @@ import { UserProfile } from './user-profile.entity';
  * Defines the user entity.
  *
  * @usageNotes
- * The User Entity contains attribute:
+ * The user entity contains attribute:
  * - `id`: The id of user
  * - `username`: The username of user
  * - `email`: The email of user
@@ -44,7 +44,7 @@ export class User {
   @ManyToMany(
     /* istanbul ignore next */ () => Role,
     /* istanbul ignore next */ (role: Role) => role.users,
-    { cascade: true },
+    { cascade: true, onDelete: 'CASCADE' },
   )
   @JoinTable({ name: 'users_roles' })
   roles: Role[];
