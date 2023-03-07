@@ -1,6 +1,5 @@
 import { localFileUploadConfig } from '../../file-upload/local-file-upload.config';
 import * as fs from 'fs';
-import { mockedFs } from '../../../common/utils/mocks/fs/fs.mock';
 
 describe(`when ${localFileUploadConfig.name} is registered`, () => {
   const env = process.env;
@@ -22,16 +21,28 @@ describe(`when ${localFileUploadConfig.name} is registered`, () => {
     const env = {
       LOCAL_FILE_UPLOAD_DEST: './uploads',
     };
+    const existsSyncSpy = jest.spyOn(fs, 'existsSync');
+    const mkdirSyncSpy = jest.spyOn(fs, 'mkdirSync');
 
     process.env.LOCAL_FILE_UPLOAD_DEST = env.LOCAL_FILE_UPLOAD_DEST;
 
-    mockedFs.existsSync.mockReturnValueOnce(false);
-    (fs.existsSync as jest.Mock) = mockedFs.existsSync;
-    (fs.mkdirSync as jest.Mock) = mockedFs.mkdirSync;
+    existsSyncSpy.mockReturnValueOnce(false);
+    mkdirSyncSpy.mockImplementationOnce(
+      (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        path: fs.PathLike,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        options: fs.MakeDirectoryOptions & {
+          recursive: true;
+        },
+      ) => {
+        return undefined;
+      },
+    );
 
     localFileUploadConfig();
 
-    expect(mockedFs.mkdirSync).toBeCalledTimes(1);
+    expect(mkdirSyncSpy).toBeCalledTimes(1);
   });
 
   it('should return the config when the env is valid', () => {

@@ -11,7 +11,6 @@ import { StoragesController } from '../storages.controller';
 import { StoragesService } from '../storages.service';
 import * as fs from 'fs';
 import { localFilesData } from '../../../database/data/local-files.data';
-import { mockedFs } from '../../../common/utils/mocks/fs/fs.mock';
 import { response } from 'express';
 import { mockedResponse } from '../../../common/utils/mocks/express/response.mock';
 import { NotFoundException } from '../../../common/exceptions/not-found.exception';
@@ -21,6 +20,8 @@ describe(StoragesController.name, () => {
   let storagesController: StoragesController;
   let localFile: LocalFile;
   let file: Express.Multer.File;
+  const existsSyncSpy = jest.spyOn(fs, 'existsSync');
+  const createReadStreamSpy = jest.spyOn(fs, 'createReadStream');
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -73,8 +74,7 @@ describe(StoragesController.name, () => {
 
     describe('and the streamable file does not exist', () => {
       beforeEach(() => {
-        mockedFs.existsSync.mockReturnValue(false);
-        (fs.existsSync as jest.Mock) = mockedFs.existsSync;
+        existsSyncSpy.mockReturnValue(false);
       });
 
       it(`should throw ${NotFoundException.name}`, async () => {
@@ -89,16 +89,14 @@ describe(StoragesController.name, () => {
 
     describe('and the streamable file does exist', () => {
       beforeEach(() => {
-        mockedFs.existsSync.mockReturnValue(true);
-        (fs.existsSync as jest.Mock) = mockedFs.existsSync;
+        existsSyncSpy.mockReturnValue(true);
       });
 
       describe('and when an error occurred', () => {
         it(`should throw ${InternalServerErrorException.name}`, async () => {
-          mockedFs.createReadStream.mockImplementation(() => {
+          createReadStreamSpy.mockImplementation(() => {
             throw new Error();
           });
-          (fs.createReadStream as jest.Mock) = mockedFs.createReadStream;
 
           await expect(
             storagesController.findLocalFileById(
@@ -111,10 +109,9 @@ describe(StoragesController.name, () => {
 
       describe('and no error occurred', () => {
         it('return a streamable file', async () => {
-          const stream = Readable.from([file]);
+          const stream: any = Readable.from([file]);
 
-          mockedFs.createReadStream.mockReturnValue(stream);
-          (fs.createReadStream as jest.Mock) = mockedFs.createReadStream;
+          createReadStreamSpy.mockReturnValue(stream);
 
           // ? Finally it has to be stringified.
           // ? Since, even thou they have an equal value, the Jest keeps on telling me something like 'serializes to the same string'?
