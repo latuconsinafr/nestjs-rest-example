@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
@@ -22,10 +23,14 @@ import { ApiOkSuccessResponse } from '../../common/decorators/open-api/successes
 import { SuccessResponse } from '../../common/dto/responses/success-response.dto';
 import { ConflictException } from '../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
+import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
+import RequestWithAuthUser from '../auth/interface/request-with-auth-user.interface';
 import { CreatePostRequest } from './dto/requests/create-post-request.dto';
 import { UpdatePostRequest } from './dto/requests/update-post-request.dto';
 import { PostResponse } from './dto/responses/post-response.dto';
 import { Post as PostEntity } from './entities/post.entity';
+import { PostByIdHook } from './permissions/hooks/post-by-id.hook';
+import { PostActions } from './permissions/post.permissions';
 import { PostByIdPipe } from './pipes/post-by-id.pipe';
 import { PostsService } from './posts.service';
 
@@ -59,6 +64,7 @@ export class PostsController {
    * @returns The success response with `'Post created'` message and created `post` data.
    */
   @Post()
+  @UseAccessControl(PostActions.Create, PostEntity)
   @ApiBearerAuth()
   @ApiSuccessesResponse([
     {
@@ -75,6 +81,7 @@ export class PostsController {
     { response: ApiUnprocessableEntityErrorResponse },
   ])
   async createPost(
+    @Req() { user }: RequestWithAuthUser,
     @Body() createPostRequest: CreatePostRequest,
   ): Promise<SuccessResponse<PostResponse>> {
     this.logger.info(
@@ -84,9 +91,10 @@ export class PostsController {
     try {
       return new SuccessResponse({
         message: 'Post created',
-        data: await this.postsService.create(
-          CreatePostRequest.toEntity(createPostRequest),
-        ),
+        data: await this.postsService.create({
+          ...CreatePostRequest.toEntity(createPostRequest),
+          authorId: user.id,
+        }),
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);
@@ -101,6 +109,7 @@ export class PostsController {
    * @returns The success response with `'Posts retrieved'` message and `posts` data.
    */
   @Get()
+  @UseAccessControl(PostActions.ReadAll, PostEntity)
   @ApiBearerAuth()
   @ApiSuccessesResponse([
     {
@@ -141,6 +150,7 @@ export class PostsController {
    * @returns The success response with `'Post retrieved'` message and a `post` data.
    */
   @Get(':id')
+  @UseAccessControl(PostActions.ReadById, PostEntity, PostByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of post' })
   @ApiSuccessesResponse([
@@ -179,6 +189,7 @@ export class PostsController {
    * @returns The success response with `'Post updated'` message.
    */
   @Put(':id')
+  @UseAccessControl(PostActions.Update, PostEntity, PostByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of post' })
   @ApiSuccessesResponse([
@@ -231,6 +242,7 @@ export class PostsController {
    * @returns The success response with `'User deleted'` message.
    */
   @Delete(':id')
+  @UseAccessControl(PostActions.Delete, PostEntity, PostByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of post' })
   @ApiSuccessesResponse([

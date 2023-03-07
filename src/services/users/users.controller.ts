@@ -165,7 +165,7 @@ export class UsersController {
    * @returns The success response with `'User retrieved'` message and a `user` data.
    */
   @Get(':id')
-  @UseAccessControl(UserActions.ReadBy, User, UserByIdHook)
+  @UseAccessControl(UserActions.ReadById, User, UserByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
@@ -257,7 +257,7 @@ export class UsersController {
    * @returns The success response with `'User deleted'` message.
    */
   @Delete(':id')
-  @UseAccessControl(UserActions.Delete, User)
+  @UseAccessControl(UserActions.Delete, User, UserByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
@@ -301,7 +301,7 @@ export class UsersController {
    * @returns The success response with `'User updated'` message.
    */
   @Put(':id/password')
-  @UseAccessControl(UserActions.Update, User, UserByIdHook)
+  @UseAccessControl(UserActions.UpdatePassword, User, UserByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
@@ -355,7 +355,7 @@ export class UsersController {
    * @returns The success response with `'User updated'` message.
    */
   @Put(':id/roles')
-  @UseAccessControl(UserActions.Update, User, UserByIdHook)
+  @UseAccessControl(UserActions.UpdateRoles, User, UserByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
@@ -409,7 +409,7 @@ export class UsersController {
    * @returns The success response with `'User profile updated'` message.
    */
   @Put(':id/profile')
-  @UseAccessControl(UserActions.Update, User, UserByIdHook)
+  @UseAccessControl(UserActions.UpdateProfile, User, UserByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiSuccessesResponse([
@@ -460,7 +460,7 @@ export class UsersController {
    * @param avatar The user profile avatar
    */
   @Put(':id/profile/avatar/upload')
-  @UseAccessControl(UserActions.Update, User, UserByIdHook)
+  @UseAccessControl(UserActions.UpdateProfileAvatar, User, UserByIdHook)
   @ApiBearerAuth()
   @ApiUuidParam({ name: 'id', description: 'The id of user' })
   @ApiFile('avatar', {

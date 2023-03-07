@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional, PickType } from '@nestjs/swagger';
+import { localFilesData } from '../../../../../database/data/local-files.data';
 import { userProfilesData } from '../../../../../database/data/user-profiles.data';
 import { UserIdParam } from '../../params/users/user-id.param';
 
@@ -15,6 +16,8 @@ import { UserIdParam } from '../../params/users/user-id.param';
  * - `location`: The location of user profile
  * - `website`: The website of user profile
  * - `birthDate`: The birthDate of user profile
+ * - `avatarFileId`: The avatar file id of user profile
+ * - `fullName`: The full name of user profile
  */
 export class UserProfileResponse extends PickType(UserIdParam, [
   'id',
@@ -54,4 +57,16 @@ export class UserProfileResponse extends PickType(UserIdParam, [
     example: userProfilesData[0].birthDate,
   })
   birthDate: Date;
+
+  @ApiPropertyOptional({
+    description: 'The avatar file id of user profile',
+    example: localFilesData[0].id,
+  })
+  avatarFileId?: string | undefined;
+
+  @ApiProperty({
+    description: 'The full name of user profile',
+    example: `${userProfilesData[0].lastName} ${userProfilesData[0].firstName}`,
+  })
+  fullName: string;
 }

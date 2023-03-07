@@ -1,16 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNotEmpty,
-  IsString,
-  IsUUID,
-  Length,
-  MaxLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, Length, MaxLength } from 'class-validator';
 import { postsData } from '../../../../database/data/posts.data';
-import { usersData } from '../../../../database/data/users.data';
-import { IsUserExist } from '../../../users/validators/is-user-exist.validator';
 import { Post } from '../../entities/post.entity';
 
+/**
+ * Defines the DTO that carries data to create a post.
+ *
+ * @usageNotes
+ * The CreatePostRequest contains post attribute:
+ * - `title`: The title of post
+ * - `content`: The content of post
+ * - `category`: The category of post
+ */
 export class CreatePostRequest {
   @IsNotEmpty()
   @IsString()
@@ -37,16 +38,6 @@ export class CreatePostRequest {
     example: postsData[0].category,
   })
   category: string;
-
-  @IsNotEmpty()
-  @IsUUID('4')
-  @IsUserExist()
-  @ApiProperty({
-    description: 'The author id of post',
-    format: 'uuid',
-    example: usersData[0].id,
-  })
-  authorId: string;
 
   /**
    * Transform the DTO into the related entity.

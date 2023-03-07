@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 import { postsData } from '../../../../database/data/posts.data';
+import { IsPostExist } from '../../validators/is-post-exist.validator';
 
 /**
  * Defines the DTO that carries the post identifier request parameter.
@@ -8,6 +9,7 @@ import { postsData } from '../../../../database/data/posts.data';
 export class PostIdParam {
   @IsNotEmpty()
   @IsUUID('4')
+  @IsPostExist()
   @ApiProperty({
     description: 'The id of post',
     format: 'uuid',

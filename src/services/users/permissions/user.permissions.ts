@@ -1,20 +1,28 @@
 import { InferSubjects } from '@casl/ability';
 import { Permissions } from 'nest-casl';
 import { User } from '../entities/user.entity';
-import { UserProfile } from '../entities/user-profile.entity';
 import { UserRole } from '../../roles/enums/user-role.enum';
 import { AccessControlActions } from '../../auth/enums/access-control-actions.enum';
 
 /**
  * Defines type for User Subjects.
  */
-export type UserSubjects = InferSubjects<typeof User | typeof UserProfile>;
+export type UserSubjects = InferSubjects<typeof User>;
 
 /**
  * Defines type for User Actions.
  */
-export type UserActions = AccessControlActions;
-export const UserActions = { ...AccessControlActions };
+enum UserAdditionalActions {
+  UpdatePassword = 'update-password',
+  UpdateRoles = 'update-roles',
+  UpdateProfile = 'update-profile',
+  UpdateProfileAvatar = 'update-profile-avatar',
+}
+export type UserActions = AccessControlActions & UserAdditionalActions;
+export const UserActions = {
+  ...AccessControlActions,
+  ...UserAdditionalActions,
+};
 
 /**
  * Defines permission for UserSubjects against UserActions.
@@ -24,12 +32,14 @@ export const UserPermissions: Permissions<UserRole, UserSubjects, UserActions> =
     // * {UserRole.SuperAdmin}
     /* istanbul ignore next */ 'super-admin'({ can }) {
       can(UserActions.Manage, User);
-      can(UserActions.Manage, UserProfile);
     },
 
     // * {UserRole.User}
     /* istanbul ignore next */ user({ user, can }) {
-      can(UserActions.ReadBy, User, { id: user.id });
+      can(UserActions.ReadById, User);
       can(UserActions.Update, User, { id: user.id });
+      can(UserActions.UpdatePassword, User, { id: user.id });
+      can(UserActions.UpdateProfile, User, { id: user.id });
+      can(UserActions.UpdateProfileAvatar, User, { id: user.id });
     },
   };

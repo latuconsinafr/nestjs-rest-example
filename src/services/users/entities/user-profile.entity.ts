@@ -33,7 +33,7 @@ export class UserProfile {
 
   @Expose()
   get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
+    return `${this.lastName} ${this.firstName}`;
   }
 
   @Column({ type: 'varchar', nullable: true })

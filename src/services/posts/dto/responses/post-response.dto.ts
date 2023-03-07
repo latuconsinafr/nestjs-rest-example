@@ -3,6 +3,18 @@ import { postsData } from '../../../../database/data/posts.data';
 import { usersData } from '../../../../database/data/users.data';
 import { PostIdParam } from '../params/post-id.param.dto';
 
+/**
+ * Defines the DTO that carries data representing a post.
+ *
+ * @usageNotes
+ * The DTO pick {@link PostIdParam} id attribute.
+ *
+ * The PostResponse also contains post attribute:
+ * - `title`: The title of post
+ * - `content`: The content of post
+ * - `category`: The category of post
+ * - `authorId`: The author id of post
+ */
 export class PostResponse extends PickType(PostIdParam, ['id'] as const) {
   @ApiProperty({
     description: 'The title of post',

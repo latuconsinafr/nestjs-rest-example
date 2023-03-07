@@ -5,7 +5,7 @@ export enum AccessControlActions {
   Manage = 'manage',
   Create = 'create',
   ReadAll = 'read-all',
-  ReadBy = 'read-by',
+  ReadById = 'read-by-id',
   Update = 'update',
   Delete = 'delete',
 }

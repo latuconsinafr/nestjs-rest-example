@@ -1,4 +1,3 @@
-import { OmitType } from '@nestjs/swagger';
 import { IntersectionType } from '@nestjs/swagger';
 import { Post } from '../../entities/post.entity';
 import { PostIdParam } from '../params/post-id.param.dto';
@@ -12,7 +11,7 @@ import { CreatePostRequest } from './create-post-request.dto';
  */
 export class UpdatePostRequest extends IntersectionType(
   PostIdParam,
-  OmitType(CreatePostRequest, ['authorId'] as const),
+  CreatePostRequest,
 ) {
   /**
    * Transform the DTO into the related entity.
