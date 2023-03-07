@@ -1,5 +1,13 @@
 import { Expose } from 'class-transformer';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { LocalFile } from '../../storages/entities/local-file.entity';
 import { User } from './user.entity';
 
@@ -17,6 +25,8 @@ import { User } from './user.entity';
  * - `website`: The website of user profile
  * - `birthDate`: The birthDate of user profile
  * - `avatarFileId`: The id of avatar file of user profile
+ * - `createdAt`: The creation time of user profile
+ * - `updatedAt`: The last updation time of user profile
  * - `user`: The profile user
  * - `avatarFile`: The profile avatar file
  */
@@ -36,13 +46,13 @@ export class UserProfile {
     return `${this.lastName} ${this.firstName}`;
   }
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column('varchar', { nullable: true })
   bio?: string | null | undefined;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column('varchar', { nullable: true })
   location?: string | null | undefined;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column('varchar', { nullable: true })
   website?: string | null | undefined;
 
   @Column()
@@ -50,6 +60,12 @@ export class UserProfile {
 
   @Column('uuid', { nullable: true })
   avatarFileId?: string | undefined;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @OneToOne(
     /* istanbul ignore next */ () => User,

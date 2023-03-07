@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { UserRole } from '../enums/user-role.enum';
 
@@ -9,6 +16,8 @@ import { UserRole } from '../enums/user-role.enum';
  * The User Entity contains attribute:
  * - `id`: The id of role
  * - `name`: The name of role
+ * - `createdAt`: The creation time of role
+ * - `updatedAt`: The last updation time of role
  * - `users`: The role users
  */
 @Entity()
@@ -18,6 +27,12 @@ export class Role {
 
   @Column('enum', { unique: true, enum: UserRole })
   name: UserRole;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @ManyToMany(
     /* istanbul ignore next */ () => User,

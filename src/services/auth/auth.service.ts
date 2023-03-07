@@ -68,6 +68,15 @@ export class AuthService {
     this.logger.info(`Try to call ${AuthService.prototype.signIn.name}`);
 
     const payload = { username: user.username, sub: user.id };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { roles, password, profile, ...userData } = user;
+
+    console.log(new Date());
+
+    await this.usersService.update(user.id, {
+      ...new User(userData),
+      lastSignedInAt: new Date(),
+    });
 
     return {
       accessToken: this.jwtService.sign(payload, {

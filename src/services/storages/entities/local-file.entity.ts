@@ -4,6 +4,8 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { FileGeneralAccess } from '../enums/file-general-access.enum';
 import { User } from '../../users/entities/user.entity';
@@ -19,6 +21,8 @@ import { User } from '../../users/entities/user.entity';
  * - `mimeType`: The mime type of local file
  * - `generalAccess`: The general access of local file
  * - `ownerId`: The id of owner of local file
+ * - `createdAt`: The creation time of local file
+ * - `updatedAt`: The last updation time of local file
  * - `owner`: The local file owner
  */
 @Entity()
@@ -40,6 +44,12 @@ export class LocalFile {
 
   @Column('uuid', { nullable: true })
   ownerId?: string | undefined;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 
   @ManyToOne(/* istanbul ignore next */ () => User, { onDelete: 'CASCADE' })
   @JoinColumn()

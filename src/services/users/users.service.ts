@@ -139,6 +139,8 @@ export class UsersService {
   async update(id: string, user: User): Promise<boolean> {
     this.logger.info(`Try to call ${UsersService.prototype.update.name}`);
 
+    console.log('masuk');
+    console.log(user);
     await this.usersRepository.update(id, {
       ...user,
       ...(user.password
