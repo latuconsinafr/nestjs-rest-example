@@ -1,14 +1,14 @@
 import { Exclude } from 'class-transformer';
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  RelationId,
 } from 'typeorm';
+import { GenericEntity } from '../../../common/entities/generic.entity';
 import { Role } from '../../roles/entities/role.entity';
 import { UserProfile } from './user-profile.entity';
 
@@ -25,11 +25,13 @@ import { UserProfile } from './user-profile.entity';
  * - `lastSignedInAt`: The last signed in time of user
  * - `createdAt`: The creation time of user
  * - `updatedAt`: The last updation time of user
+ * - `roleIds`: The role ids of user
+ * - `profileId`: The profile id of user
  * - `roles`: The user roles
  * - `profile`: The user profile
  */
 @Entity()
-export class User {
+export class User extends GenericEntity<User> {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -46,16 +48,16 @@ export class User {
   @Column()
   password: string;
 
-  // * To be exactly the same with CreateDate & UpdateDate column, the column length should be set to 6 inside the migrations
+  // * To be exactly the same with CreateDate & UpdateDate column, the column length should be set to 6 inside the migrations manually
   // * `ALTER TABLE \`user\` ADD \`lastSignedInAt\` datetime(6) NULL`
   @Column('datetime', { nullable: true })
   lastSignedInAt?: Date | null | undefined;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @RelationId((user: User) => user.roles)
+  roleIds: string[];
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @RelationId((user: User) => user.profile)
+  profileId: string;
 
   @ManyToMany(
     /* istanbul ignore next */ () => Role,
@@ -73,13 +75,4 @@ export class User {
     },
   )
   profile: UserProfile;
-
-  /**
-   * The constructor.
-   *
-   * @param partial The partial object of User
-   */
-  constructor(partial: Partial<User>) {
-    Object.assign(this, partial);
-  }
 }

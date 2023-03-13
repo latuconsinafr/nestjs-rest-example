@@ -15,6 +15,7 @@ import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-r
 import { ApiSuccessesResponse } from '../../common/decorators/open-api/api-successes-response.decorator';
 import { ApiConflictErrorResponse } from '../../common/decorators/open-api/errors/api-conflict-error-response.decorator';
 import { ApiForbiddenErrorResponse } from '../../common/decorators/open-api/errors/api-forbidden-error-response.decorator';
+import { ApiNotFoundErrorResponse } from '../../common/decorators/open-api/errors/api-not-found-error-response.decorator';
 import { ApiUnauthorizedErrorResponse } from '../../common/decorators/open-api/errors/api-unauthorized-error-response.decorator';
 import { ApiUnprocessableEntityErrorResponse } from '../../common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator';
 import { ApiUuidParam } from '../../common/decorators/open-api/params/api-uuid-param.decorator';
@@ -165,6 +166,7 @@ export class PostsController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
   async findPostById(
@@ -203,6 +205,7 @@ export class PostsController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiConflictErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
@@ -256,6 +259,7 @@ export class PostsController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
   ])
   async deletePost(
     @Param('id', PostByIdPipe) { id }: PostEntity,

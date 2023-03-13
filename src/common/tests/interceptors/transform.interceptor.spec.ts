@@ -11,8 +11,8 @@ import { Reflector } from '@nestjs/core';
 import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
 
 describe(TransformInterceptor.name, () => {
-  const executionContext = mockedExecutionContext as any;
-  const callHandler = mockedCallHandler as any;
+  const executionContext = mockedExecutionContext;
+  const callHandler = mockedCallHandler;
 
   let transformInterceptor: TransformInterceptor<any>;
   let reflector: Reflector;

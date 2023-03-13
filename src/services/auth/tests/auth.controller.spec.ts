@@ -72,7 +72,7 @@ describe(AuthController.name, () => {
     let request: RequestWithAuthUser;
 
     beforeEach(() => {
-      request = { user: usersData[0] } as any;
+      request = { ...request, user: usersData[0] };
     });
 
     it(`it should return a message and data contains a user`, async () => {
@@ -93,7 +93,7 @@ describe(AuthController.name, () => {
     >;
 
     beforeEach(() => {
-      request = { user: usersData[0] } as any;
+      request = { ...request, user: usersData[0] };
       authServiceSignInSpy = jest.spyOn(authService, 'signIn');
       authServiceSignInSpy.mockResolvedValue({
         accessToken: jwtSecret,

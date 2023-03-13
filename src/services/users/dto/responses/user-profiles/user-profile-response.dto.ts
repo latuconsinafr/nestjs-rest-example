@@ -22,7 +22,6 @@ import { UserIdParam } from '../../params/users/user-id.param';
  * - `website`: The website of user profile
  * - `birthDate`: The birthDate of user profile
  * - `avatarFileId`: The avatar file id of user profile
- * - `fullName`: The full name of user profile
  */
 export class UserProfileResponse extends IntersectionType(
   UserIdParam,
@@ -69,10 +68,4 @@ export class UserProfileResponse extends IntersectionType(
     example: localFilesData[0].id,
   })
   avatarFileId?: string | undefined;
-
-  @ApiProperty({
-    description: 'The full name of user profile',
-    example: `${userProfilesData[0].lastName} ${userProfilesData[0].firstName}`,
-  })
-  fullName: string;
 }

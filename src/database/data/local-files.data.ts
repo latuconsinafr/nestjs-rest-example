@@ -12,7 +12,7 @@ export const localFilesData = [
     path: 'src/database/data/media/users/profiles/avatars/a36ed5b784054001a0cf4b6772cd4f29',
     mimeType: 'image/png',
     generalAccess: FileGeneralAccess.Public,
-    ownerId: usersData[0].id,
+    uploaderId: usersData[0].id,
   }),
   new LocalFile({
     id: '96c9e630-50ac-41cc-9498-3bf3b8a504f8',
@@ -20,6 +20,6 @@ export const localFilesData = [
     path: 'src/database/data/media/users/profiles/avatars/b36ed5b784054001a0cf4b6772cd4f28',
     mimeType: 'image/png',
     generalAccess: FileGeneralAccess.Public,
-    ownerId: usersData[1].id,
+    uploaderId: usersData[1].id,
   }),
 ] as const; // * Make it tuple to allow checked indexes {@see https://www.youtube.com/watch?v=nNse0r0aRT8&t=957s}

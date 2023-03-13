@@ -25,10 +25,10 @@ export class CreateLocalFileRequest {
   @IsNotEmpty()
   @IsUUID('4')
   @ApiProperty({
-    description: 'The owner id of local file',
-    example: localFilesData[0].ownerId,
+    description: 'The uploader (user) id of local file',
+    example: localFilesData[0].uploaderId,
   })
-  ownerId: string;
+  uploaderId: string;
 
   /**
    * Transform the DTO into the related entity.
@@ -46,7 +46,7 @@ export class CreateLocalFileRequest {
       path: file.path,
       mimeType: file.mimetype,
       generalAccess: request.generalAccess,
-      ownerId: request.ownerId,
+      uploaderId: request.uploaderId,
     });
   }
 }

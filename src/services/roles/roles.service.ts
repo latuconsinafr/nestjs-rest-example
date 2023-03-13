@@ -25,6 +25,17 @@ export class RolesService {
   }
 
   /**
+   * Gets all roles.
+   *
+   * @returns The roles array.
+   */
+  async findAll(): Promise<Role[]> {
+    this.logger.info(`Try to call ${RolesService.prototype.findAll.name}`);
+
+    return await this.rolesRepository.find();
+  }
+
+  /**
    * Gets a role by a given id.
    *
    * @param id The id to find

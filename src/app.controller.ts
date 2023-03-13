@@ -1,9 +1,12 @@
 import { Request } from 'express';
 import { Controller, Get, Query, Redirect, Req } from '@nestjs/common';
-import { ApiExcludeEndpoint, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
 import { PinoLogger } from 'nestjs-pino';
 import { NotToBeCached } from './common/decorators/interceptors/not-to-be-cached.decorator';
 import { NotToBeTransformed } from './common/decorators/interceptors/not-to-be-transformed.decorator';
+import { ApiSuccessesResponse } from './common/decorators/open-api/api-successes-response.decorator';
+import { ApiOkSuccessResponse } from './common/decorators/open-api/successes/api-ok-success-response.decorator';
+import { ApiErrorsResponse } from './common/decorators/open-api/api-errors-response.decorator';
 
 /**
  * Defines the application controller.
@@ -26,7 +29,15 @@ export class AppController {
    * @returns A welcome string in html format.
    */
   @Get()
-  @ApiOkResponse({ description: 'Success' })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'Success' },
+      },
+    },
+  ])
+  @ApiErrorsResponse()
   index(): null {
     this.logger.info(`Try to call ${AppController.prototype.index.name}`);
 
@@ -36,6 +47,7 @@ export class AppController {
   /**
    * Application documentation endpoint.
    *
+   * @param req The incoming request
    * @param version The documentation version
    *
    * @returns The documentation link with specified version if exists, otherwise redirect to the default documentation.

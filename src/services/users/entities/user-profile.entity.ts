@@ -1,13 +1,5 @@
-import { Expose } from 'class-transformer';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { GenericEntity } from '../../../common/entities/generic.entity';
 import { LocalFile } from '../../storages/entities/local-file.entity';
 import { User } from './user.entity';
 
@@ -24,14 +16,14 @@ import { User } from './user.entity';
  * - `location`: The location of user profile
  * - `website`: The website of user profile
  * - `birthDate`: The birthDate of user profile
- * - `avatarFileId`: The id of avatar file of user profile
  * - `createdAt`: The creation time of user profile
  * - `updatedAt`: The last updation time of user profile
+ * - `avatarFileId`: The id of avatar file of user profile
  * - `user`: The profile user
  * - `avatarFile`: The profile avatar file
  */
 @Entity()
-export class UserProfile {
+export class UserProfile extends GenericEntity<UserProfile> {
   @PrimaryColumn()
   id: string;
 
@@ -40,11 +32,6 @@ export class UserProfile {
 
   @Column()
   lastName: string;
-
-  @Expose()
-  get fullName(): string {
-    return `${this.lastName} ${this.firstName}`;
-  }
 
   @Column('varchar', { nullable: true })
   bio?: string | null | undefined;
@@ -61,12 +48,6 @@ export class UserProfile {
   @Column('uuid', { nullable: true })
   avatarFileId?: string | undefined;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @OneToOne(
     /* istanbul ignore next */ () => User,
     /* istanbul ignore next */ (user: User) => user.profile,
@@ -82,13 +63,4 @@ export class UserProfile {
   })
   @JoinColumn()
   avatarFile?: LocalFile | undefined;
-
-  /**
-   * The constructor.
-   *
-   * @param partial The partial object of UserProfile
-   */
-  constructor(partial: Partial<UserProfile>) {
-    Object.assign(this, partial);
-  }
 }

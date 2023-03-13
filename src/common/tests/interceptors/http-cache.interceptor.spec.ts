@@ -8,7 +8,7 @@ import { Reflector } from '@nestjs/core';
 import { mockedCacheManager } from '../../utils/mocks/@nestjs/common/cache-manager.mock';
 
 describe(HttpCacheInterceptor.name, () => {
-  const executionContext = mockedExecutionContext as any;
+  const executionContext = mockedExecutionContext;
 
   let httpCacheInterceptor: HttpCacheInterceptor;
   let cacheManager: any;

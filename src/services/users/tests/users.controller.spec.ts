@@ -27,6 +27,7 @@ import { UpdateUserProfileAvatarRequest } from '../dto/requests/user-profiles/up
 import { localFilesData } from '../../../database/data/local-files.data';
 import { UserRole } from '../../roles/enums/user-role.enum';
 import { rolesData } from '../../../database/data/roles.data';
+import RequestWithAuthUser from '../../auth/interface/request-with-auth-user.interface';
 
 describe(UsersController.name, () => {
   let usersController: UsersController;
@@ -205,7 +206,6 @@ describe(UsersController.name, () => {
               ...usersData[1],
               profile: {
                 ...userProfilesData[1],
-                fullName: userProfilesData[1].fullName,
               },
             },
             userToUpdate,
@@ -303,7 +303,6 @@ describe(UsersController.name, () => {
               ...usersData[1],
               profile: {
                 ...userProfilesData[1],
-                fullName: userProfilesData[1].fullName,
               },
             },
             userPasswordToUpdate,
@@ -378,7 +377,6 @@ describe(UsersController.name, () => {
               ...usersData[1],
               profile: {
                 ...userProfilesData[1],
-                fullName: userProfilesData[1].fullName,
               },
             },
             userRolesToUpdate,
@@ -444,7 +442,6 @@ describe(UsersController.name, () => {
               ...usersData[1],
               profile: {
                 ...userProfilesData[1],
-                fullName: userProfilesData[1].fullName,
               },
             },
             userProfileToUpdate,
@@ -493,6 +490,7 @@ describe(UsersController.name, () => {
   });
 
   describe(`when ${UsersController.prototype.updateUserProfileAvatar.name} is called`, () => {
+    let request: RequestWithAuthUser;
     let userProfileAvatar: Express.Multer.File;
     let userProfileAvatarToUpdate: UpdateUserProfileAvatarRequest;
     let usersServiceUpdateSpy: jest.SpyInstance<
@@ -501,6 +499,7 @@ describe(UsersController.name, () => {
     >;
 
     beforeEach(() => {
+      request = { ...request, user: usersData[0] };
       userProfileAvatar = {
         fieldname: 'avatar',
         originalname: 'avatar.jpg',
@@ -521,11 +520,11 @@ describe(UsersController.name, () => {
       it(`should throw ${ConflictException.name}`, async () => {
         await expect(
           usersController.updateUserProfileAvatar(
+            request,
             {
               ...usersData[1],
               profile: {
                 ...userProfilesData[1],
-                fullName: userProfilesData[1].fullName,
               },
             },
             userProfileAvatarToUpdate,
@@ -545,6 +544,7 @@ describe(UsersController.name, () => {
 
         await expect(
           usersController.updateUserProfileAvatar(
+            request,
             usersData[0],
             userProfileAvatarToUpdate,
             userProfileAvatar,
@@ -569,6 +569,7 @@ describe(UsersController.name, () => {
 
       it(`should call ${StoragesService.name} ${StoragesService.prototype.createLocalFile.name} method`, async () => {
         await usersController.updateUserProfileAvatar(
+          request,
           usersData[0],
           userProfileAvatarToUpdate,
           userProfileAvatar,
@@ -579,6 +580,7 @@ describe(UsersController.name, () => {
 
       it(`should call ${UsersService.name} ${UsersService.prototype.updateProfile.name} method`, async () => {
         await usersController.updateUserProfileAvatar(
+          request,
           usersData[0],
           userProfileAvatarToUpdate,
           userProfileAvatar,
@@ -590,6 +592,7 @@ describe(UsersController.name, () => {
       it(`should return a message`, async () => {
         expect(
           await usersController.updateUserProfileAvatar(
+            request,
             usersData[0],
             userProfileAvatarToUpdate,
             userProfileAvatar,

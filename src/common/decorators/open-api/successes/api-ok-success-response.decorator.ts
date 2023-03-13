@@ -44,7 +44,16 @@ export const ApiOkSuccessResponse = <TModel extends Type<any>>(
                         $ref: getSchemaPath(model),
                       },
                     }
-                : undefined),
+                : {
+                    data: {
+                      oneOf: [
+                        { type: 'string', example: null },
+                        { type: 'number', example: null },
+                        { type: 'integer', example: null },
+                        { type: 'boolean', example: null },
+                      ],
+                    },
+                  }),
             },
           },
         ],

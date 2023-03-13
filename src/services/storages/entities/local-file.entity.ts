@@ -4,11 +4,10 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
-  CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { FileGeneralAccess } from '../enums/file-general-access.enum';
 import { User } from '../../users/entities/user.entity';
+import { GenericEntity } from '../../../common/entities/generic.entity';
 
 /**
  * Defines the local file entity.
@@ -20,13 +19,13 @@ import { User } from '../../users/entities/user.entity';
  * - `path`: The path location of local file
  * - `mimeType`: The mime type of local file
  * - `generalAccess`: The general access of local file
- * - `ownerId`: The id of owner of local file
  * - `createdAt`: The creation time of local file
  * - `updatedAt`: The last updation time of local file
- * - `owner`: The local file owner
+ * - `uploaderId`: The id of uploader (user) of local file
+ * - `uploader`: The local file uploader (user)
  */
 @Entity()
-export class LocalFile {
+export class LocalFile extends GenericEntity<LocalFile> {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -42,25 +41,10 @@ export class LocalFile {
   @Column('enum', { enum: FileGeneralAccess })
   generalAccess: FileGeneralAccess;
 
-  @Column('uuid', { nullable: true })
-  ownerId?: string | undefined;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column('uuid')
+  uploaderId: string;
 
   @ManyToOne(/* istanbul ignore next */ () => User, { onDelete: 'CASCADE' })
   @JoinColumn()
-  owner?: User | undefined;
-
-  /**
-   * The constructor.
-   *
-   * @param partial The partial object of Local File
-   */
-  constructor(partial: Partial<LocalFile>) {
-    Object.assign(this, partial);
-  }
+  uploader: User;
 }

@@ -9,8 +9,8 @@ import { Reflector } from '@nestjs/core';
 import { mockedReflector } from '../../utils/mocks/@nestjs/core/reflector.mock';
 
 describe(TimeoutInterceptor.name, () => {
-  const executionContext = mockedExecutionContext as any;
-  const callHandler = mockedCallHandler as any;
+  const executionContext = mockedExecutionContext;
+  const callHandler = mockedCallHandler;
 
   let timeoutInterceptor: TimeoutInterceptor;
   let reflector: Reflector;

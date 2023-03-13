@@ -1,5 +1,7 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import { TimestampResponse } from '../../../../../common/dto/responses/timestamp-response.dto';
+import { rolesData } from '../../../../../database/data/roles.data';
+import { userProfilesData } from '../../../../../database/data/user-profiles.data';
 import { usersData } from '../../../../../database/data/users.data';
 import { RoleResponse } from '../../../../roles/dto/responses/role-response.dto';
 import { UserIdParam } from '../../params/users/user-id.param';
@@ -15,6 +17,9 @@ import { UserProfileResponse } from '../user-profiles/user-profile-response.dto'
  * - `username`: The username of user
  * - `email`: The email of user
  * - `phone`: The phone of user
+ * - `lastSignedInAt`: The last signed in time of user
+ * - `roleIds`: The role ids of user
+ * - `profileId`: The profile id of user
  * - `roles`: The user roles
  * - `profile`: The user profile
  */
@@ -45,6 +50,20 @@ export class UserResponse extends IntersectionType(
     example: '2023-02-11T05:24:50.680Z',
   })
   lastSignedInAt?: Date | null | undefined;
+
+  @ApiProperty({
+    description: 'The role ids of user',
+    format: 'uuid',
+    example: [rolesData[0].id],
+  })
+  roleIds: string[];
+
+  @ApiProperty({
+    description: 'The profile id of user',
+    format: 'uuid',
+    example: userProfilesData[0].id,
+  })
+  profileId: string;
 
   @ApiProperty({
     description: 'The roles of user',

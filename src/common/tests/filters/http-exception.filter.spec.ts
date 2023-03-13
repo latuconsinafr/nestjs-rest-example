@@ -15,7 +15,7 @@ import { InternalServerErrorException } from '../../exceptions/internal-server-e
 import { getLoggerToken } from 'nestjs-pino';
 import { mockedPinoLogger } from '../../utils/mocks/nestjs-pino/pino-logger.mock';
 
-const argumentsHost = mockedArgumentsHost as any;
+const argumentsHost = mockedArgumentsHost;
 
 describe(HttpExceptionFilter.name, () => {
   let httpExceptionFilter: HttpExceptionFilter;

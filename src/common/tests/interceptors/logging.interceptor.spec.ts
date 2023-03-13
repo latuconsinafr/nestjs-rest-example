@@ -8,8 +8,8 @@ import { getLoggerToken } from 'nestjs-pino';
 import { mockedPinoLogger } from '../../utils/mocks/nestjs-pino/pino-logger.mock';
 
 describe(LoggingInterceptor.name, () => {
-  const executionContext = mockedExecutionContext as any;
-  const callHandler = mockedCallHandler as any;
+  const executionContext = mockedExecutionContext;
+  const callHandler = mockedCallHandler;
 
   let loggingInterceptor: LoggingInterceptor;
 

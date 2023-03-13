@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UploadedFile,
 } from '@nestjs/common';
 import { SuccessResponse } from '../../common/dto/responses/success-response.dto';
@@ -43,6 +44,8 @@ import { ApiUuidParam } from '../../common/decorators/open-api/params/api-uuid-p
 import { ApiFile } from '../../common/decorators/open-api/api-file.decorator';
 import { UpdateUserProfileAvatarRequest } from './dto/requests/user-profiles/update-user-profile-avatar-request.dto';
 import avatarFileFilterValidator from './validators/file-filters/avatar-file-filter.validator';
+import { ApiNotFoundErrorResponse } from '../../common/decorators/open-api/errors/api-not-found-error-response.decorator';
+import RequestWithAuthUser from '../auth/interface/request-with-auth-user.interface';
 
 /**
  * Defines the users controller.
@@ -180,6 +183,7 @@ export class UsersController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
   async findUserById(
@@ -218,6 +222,7 @@ export class UsersController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiConflictErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
@@ -271,6 +276,7 @@ export class UsersController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
   ])
   async deleteUser(
     @Param('id', UserByIdPipe) { id }: User,
@@ -315,6 +321,7 @@ export class UsersController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiConflictErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
@@ -369,6 +376,7 @@ export class UsersController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiConflictErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
@@ -423,6 +431,7 @@ export class UsersController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiConflictErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
@@ -479,10 +488,12 @@ export class UsersController {
   @ApiErrorsResponse([
     { response: ApiUnauthorizedErrorResponse },
     { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
     { response: ApiConflictErrorResponse },
     { response: ApiUnprocessableEntityErrorResponse },
   ])
   async updateUserProfileAvatar(
+    @Req() { user: authUser }: RequestWithAuthUser,
     @Param('id', UserByIdPipe) user: User,
     @Body() updateUserProfileAvatarRequest: UpdateUserProfileAvatarRequest,
     @UploadedFile() avatar: Express.Multer.File,
@@ -499,7 +510,7 @@ export class UsersController {
       const avatarFile = await this.storagesService.createLocalFile(
         CreateLocalFileRequest.toEntity(avatar, {
           generalAccess: FileGeneralAccess.Public,
-          ownerId: user.id,
+          uploaderId: authUser.id,
         }),
       );
 

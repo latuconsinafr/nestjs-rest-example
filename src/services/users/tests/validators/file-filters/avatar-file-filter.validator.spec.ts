@@ -10,10 +10,22 @@ describe(avatarFileFilterValidator.name, () => {
   });
 
   describe(`when ${avatarFileFilterValidator.name} is called`, () => {
-    const file = {
-      fieldname: 'avatar',
-      mimetype: 'file/pdf',
-    } as any;
+    let file: {
+      fieldname: string;
+      originalname: string;
+      encoding: string;
+      mimetype: string;
+      size: number;
+      destination: string;
+      filename: string;
+      path: string;
+      buffer: Buffer;
+    };
+
+    beforeEach(() => {
+      file = { ...file };
+      file.filename = 'avatar';
+    });
 
     describe('and the mimetype is not includes "image"', () => {
       beforeEach(() => {

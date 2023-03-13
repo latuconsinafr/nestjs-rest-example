@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Length, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 import { postsData } from '../../../../database/data/posts.data';
 import { Post } from '../../entities/post.entity';
 
@@ -8,20 +8,10 @@ import { Post } from '../../entities/post.entity';
  *
  * @usageNotes
  * The CreatePostRequest contains post attribute:
- * - `title`: The title of post
  * - `content`: The content of post
  * - `category`: The category of post
  */
 export class CreatePostRequest {
-  @IsNotEmpty()
-  @IsString()
-  @MaxLength(25)
-  @ApiProperty({
-    description: 'The title of post',
-    example: postsData[0].title,
-  })
-  title: string;
-
   @IsNotEmpty()
   @IsString()
   @Length(4, 250)

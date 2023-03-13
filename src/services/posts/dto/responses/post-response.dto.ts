@@ -11,7 +11,6 @@ import { PostIdParam } from '../params/post-id.param.dto';
  * The DTO intersect {@link PostIdParam} with {@link TimestampResponse}.
  *
  * The PostResponse also contains post attribute:
- * - `title`: The title of post
  * - `content`: The content of post
  * - `category`: The category of post
  * - `authorId`: The author id of post
@@ -20,12 +19,6 @@ export class PostResponse extends IntersectionType(
   PostIdParam,
   TimestampResponse,
 ) {
-  @ApiProperty({
-    description: 'The title of post',
-    example: postsData[0].title,
-  })
-  title: string;
-
   @ApiProperty({
     description: 'The content of post',
     example: postsData[0].content,

@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * Defines the DTO that carries data representing timestamp of data.
+ *
+ * @usageNotes
+ * The TimestampResponse contains timestamp attribute:
+ * - `createdAt`: The creation time of data
+ * - `updatedAt`: The last updation time of data
+ */
 export class TimestampResponse {
   @ApiProperty({
     description: 'The creation time of data',
