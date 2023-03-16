@@ -12,8 +12,14 @@ export type PostSubjects = InferSubjects<typeof Post>;
 /**
  * Defines type for Post Actions.
  */
-export type PostActions = AccessControlActions;
-export const PostActions = { ...AccessControlActions };
+enum PostAdditionalActions {
+  UpdateTopics = 'update-topics',
+}
+export type PostActions = AccessControlActions & PostAdditionalActions;
+export const PostActions = {
+  ...AccessControlActions,
+  ...PostAdditionalActions,
+};
 
 /**
  * Defines permission for PostSubjects against PostActions.
@@ -31,6 +37,7 @@ export const PostPermissions: Permissions<UserRole, PostSubjects, PostActions> =
       can(PostActions.ReadAll, Post);
       can(PostActions.ReadById, Post);
       can(PostActions.Update, Post, { authorId: user.id });
+      can(PostActions.UpdateTopics, Post, { authorId: user.id });
       can(PostActions.Delete, Post, { authorId: user.id });
     },
   };

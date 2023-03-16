@@ -2,10 +2,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
 import { GenericEntity } from '../../../common/entities/generic.entity';
+import { Topic } from '../../topics/entities/topic.entity';
 import { User } from '../../users/entities/user.entity';
 
 /**
@@ -29,8 +33,8 @@ export class Post extends GenericEntity<Post> {
   @Column()
   content: string;
 
-  @Column()
-  category: string;
+  @RelationId((post: Post) => post.topics)
+  topicIds: string[];
 
   @Column('uuid')
   authorId: string;
@@ -40,4 +44,12 @@ export class Post extends GenericEntity<Post> {
   })
   @JoinColumn()
   author: User;
+
+  @ManyToMany(
+    /* istanbul ignore next */ () => Topic,
+    /* istanbul ignore next */ (topic: Topic) => topic.posts,
+    { cascade: true, onDelete: 'CASCADE' },
+  )
+  @JoinTable({ name: 'posts_topics' })
+  topics: Topic[];
 }

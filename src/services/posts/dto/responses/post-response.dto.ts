@@ -1,7 +1,9 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import { TimestampResponse } from '../../../../common/dto/responses/timestamp-response.dto';
 import { postsData } from '../../../../database/data/posts.data';
+import { topicsData } from '../../../../database/data/topics.data';
 import { usersData } from '../../../../database/data/users.data';
+import { TopicResponse } from '../../../topics/dto/responses/topic-response.dto';
 import { PostIdParam } from '../params/post-id.param.dto';
 
 /**
@@ -26,14 +28,20 @@ export class PostResponse extends IntersectionType(
   content: string;
 
   @ApiProperty({
-    description: 'The category of post',
-    example: postsData[0].category,
+    description: 'The topic ids of post',
+    example: [topicsData[0].id, topicsData[1].id],
   })
-  category: string;
+  topicIds: string[];
 
   @ApiProperty({
     description: 'The author id of post',
     example: usersData[0].id,
   })
   authorId: string;
+
+  @ApiProperty({
+    description: 'The topics of post',
+    type: [TopicResponse],
+  })
+  topics: TopicResponse[];
 }

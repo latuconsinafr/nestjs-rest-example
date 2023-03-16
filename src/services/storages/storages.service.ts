@@ -36,9 +36,7 @@ export class StoragesService {
       `Try to call ${StoragesService.prototype.createLocalFile.name}`,
     );
 
-    const createdFile: LocalFile = this.localFilesRepository.create({
-      ...file,
-    });
+    const createdFile: LocalFile = this.localFilesRepository.create(file);
 
     await this.localFilesRepository.save(createdFile);
 
@@ -74,7 +72,7 @@ export class StoragesService {
       `Try to call ${StoragesService.prototype.updateLocalFile.name}`,
     );
 
-    await this.localFilesRepository.update(id, { ...file });
+    await this.localFilesRepository.update(id, file);
 
     return true;
   }

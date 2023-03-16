@@ -9,7 +9,7 @@ import { Role } from '../roles/entities/role.entity';
 
 // * Service will be responsible for data storage and retrieval
 /**
- * Defines the users service that responsible for data storage and retrieval for user entity.
+ * Defines the users service that responsible for data storage and retrieval for user related entity.
  */
 @Injectable()
 export class UsersService {
@@ -36,7 +36,7 @@ export class UsersService {
   async create(user: User): Promise<User> {
     this.logger.info(`Try to call ${UsersService.prototype.create.name}`);
 
-    const createdUser: User = this.usersRepository.create({
+    const createdUser = this.usersRepository.create({
       ...user,
       password: await argon2.hash(user.password),
     });
@@ -141,9 +141,7 @@ export class UsersService {
     const { password, roleIds, roles, profile, profileId, ...userToUpdate } =
       user;
 
-    await this.usersRepository.update(id, {
-      ...userToUpdate,
-    });
+    await this.usersRepository.update(id, userToUpdate);
 
     return true;
   }

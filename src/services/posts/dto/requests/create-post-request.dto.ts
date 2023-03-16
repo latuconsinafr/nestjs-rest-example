@@ -1,6 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Length } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  ArrayUnique,
+  IsArray,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  Length,
+} from 'class-validator';
 import { postsData } from '../../../../database/data/posts.data';
+import { topicsData } from '../../../../database/data/topics.data';
 import { Post } from '../../entities/post.entity';
 
 /**
@@ -9,7 +18,7 @@ import { Post } from '../../entities/post.entity';
  * @usageNotes
  * The CreatePostRequest contains post attribute:
  * - `content`: The content of post
- * - `category`: The category of post
+ * - `topicIds`: The topic ids of post
  */
 export class CreatePostRequest {
   @IsNotEmpty()
@@ -22,12 +31,16 @@ export class CreatePostRequest {
   content: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsArray()
+  @ArrayNotEmpty()
+  @ArrayUnique()
+  @IsUUID('4', { each: true })
   @ApiProperty({
-    description: 'The category of post',
-    example: postsData[0].category,
+    description: 'The topic ids of post',
+    isArray: true,
+    example: [topicsData[0].id, topicsData[1].id],
   })
-  category: string;
+  topicIds: string[];
 
   /**
    * Transform the DTO into the related entity.
@@ -37,8 +50,6 @@ export class CreatePostRequest {
    * @returns The `Post` entity
    */
   static toEntity(request: CreatePostRequest): Post {
-    return new Post({
-      ...request,
-    });
+    return new Post(request);
   }
 }

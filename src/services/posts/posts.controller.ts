@@ -26,8 +26,10 @@ import { ConflictException } from '../../common/exceptions/conflict.exception';
 import { InternalServerErrorException } from '../../common/exceptions/internal-server-error.exception';
 import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
 import RequestWithAuthUser from '../auth/interface/request-with-auth-user.interface';
+import { TopicsService } from '../topics/topics.service';
 import { CreatePostRequest } from './dto/requests/create-post-request.dto';
 import { UpdatePostRequest } from './dto/requests/update-post-request.dto';
+import { UpdatePostTopicsRequest } from './dto/requests/update-post-topics-request.dto';
 import { PostResponse } from './dto/responses/post-response.dto';
 import { Post as PostEntity } from './entities/post.entity';
 import { PostByIdHook } from './permissions/hooks/post-by-id.hook';
@@ -48,10 +50,12 @@ export class PostsController {
    * The constructor.
    *
    * @param logger The pino logger
+   * @param topicsService The topics service
    * @param postsService The posts service
    */
   constructor(
     private readonly logger: PinoLogger,
+    private readonly topicsService: TopicsService,
     private readonly postsService: PostsService,
   ) {
     this.logger.setContext(PostsController.name);
@@ -94,6 +98,9 @@ export class PostsController {
         message: 'Post created',
         data: await this.postsService.create({
           ...CreatePostRequest.toEntity(createPostRequest),
+          topics: await this.topicsService.findByIds(
+            createPostRequest.topicIds,
+          ),
           authorId: user.id,
         }),
       });
@@ -273,6 +280,61 @@ export class PostsController {
 
       return new SuccessResponse({
         message: 'Post deleted',
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
+   * Update a post's topics by a given id endpoint.
+   *
+   * @param id The post id request parameter
+   * @param updatePostTopicsRequest The DTO that carries data to update a user's topics
+   *
+   * @returns The success response with `'User updated'` message.
+   */
+  @Put(':id/topics')
+  @UseAccessControl(PostActions.UpdateTopics, PostEntity, PostByIdHook)
+  @ApiBearerAuth()
+  @ApiUuidParam({ name: 'id', description: 'The id of post' })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'Post topics updated' },
+      },
+    },
+  ])
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
+    { response: ApiConflictErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
+  ])
+  async updatePostTopics(
+    @Param('id', PostByIdPipe) { id }: PostEntity,
+    @Body() updatePostTopicsRequest: UpdatePostTopicsRequest,
+  ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${PostsController.prototype.updatePostTopics.name}`,
+    );
+
+    if (id !== updatePostTopicsRequest.id) {
+      throw new ConflictException({ message: `Inconsistent post id` });
+    }
+
+    try {
+      await this.postsService.updateTopics(
+        id,
+        await this.topicsService.findByIds(updatePostTopicsRequest.topicIds),
+      );
+
+      return new SuccessResponse({
+        message: `Post topics updated`,
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

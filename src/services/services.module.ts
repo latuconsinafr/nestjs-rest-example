@@ -3,6 +3,7 @@ import { AuthModule } from './auth/auth.module';
 import { PostsModule } from './posts/posts.module';
 import { RolesModule } from './roles/roles.module';
 import { StoragesModule } from './storages/storages.module';
+import { TopicsModule } from './topics/topics.module';
 import { UsersModule } from './users/users.module';
 
 /**
@@ -14,9 +15,17 @@ import { UsersModule } from './users/users.module';
  * - {@link RolesModule}: The module that responsible for role-related operations
  * - {@link UsersModule}: The module that responsible for user-related operations
  * - {@link StoragesModule}: The module that responsible for storage-related operations
+ * - {@link TopicsModule}: The module that responsible for topic-related operations
  * - {@link PostsModule}: The module that responsible for post-related operations
  */
 @Module({
-  imports: [AuthModule, RolesModule, UsersModule, StoragesModule, PostsModule],
+  imports: [
+    AuthModule,
+    RolesModule,
+    UsersModule,
+    StoragesModule,
+    TopicsModule,
+    PostsModule,
+  ],
 })
 export class ServicesModule {}

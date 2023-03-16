@@ -57,17 +57,17 @@ export class AppController {
   @NotToBeTransformed()
   @Redirect('https://docs.nestjs.com', 302)
   @ApiExcludeEndpoint()
-  getDocs(@Req() req: Request, @Query('version') version: string) {
+  getDocs(@Req() req: Request, @Query('version') version?: string) {
     this.logger.info(`Try to call ${AppController.prototype.getDocs.name}`);
 
     const docsUrl = `${req.protocol}://${req.get('Host')}/docs`;
 
-    if (version && version === '1') {
-      return {
-        url: `${docsUrl}/v1`,
-      };
+    if (!version) {
+      return { url: `${docsUrl}/v1` };
     }
 
-    return { url: `${docsUrl}/v${version}` };
+    return {
+      url: `${docsUrl}/v${version}`,
+    };
   }
 }

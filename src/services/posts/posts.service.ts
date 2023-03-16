@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
 import { Repository } from 'typeorm';
+import { Topic } from '../topics/entities/topic.entity';
 import { Post } from './entities/post.entity';
 
 // * Service will be responsible for data storage and retrieval
@@ -34,7 +35,7 @@ export class PostsService {
   async create(post: Post): Promise<Post> {
     this.logger.info(`Try to call ${PostsService.prototype.create.name}`);
 
-    const createdPost: Post = this.postsRepository.create({ ...post });
+    const createdPost: Post = this.postsRepository.create(post);
 
     await this.postsRepository.save(createdPost);
 
@@ -79,8 +80,29 @@ export class PostsService {
   async update(id: string, post: Post): Promise<boolean> {
     this.logger.info(`Try to call ${PostsService.prototype.update.name}`);
 
-    await this.postsRepository.update(id, {
-      ...post,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { topics, topicIds, ...postToUpdate } = post;
+
+    await this.postsRepository.update(id, postToUpdate);
+
+    return true;
+  }
+
+  /**
+   * Updates a post topics by a given id.
+   *
+   * @param id The post id to update
+   * @param topics The post topics to update
+   *
+   * @returns The flag indicates whether the update process is success or not.
+   * Return `true` if the update process is success, otherwise `false`.
+   */
+  async updateTopics(id: string, topics: Topic[]): Promise<boolean> {
+    this.logger.info(`Try to call ${PostsService.prototype.updateTopics.name}`);
+
+    await this.postsRepository.save({
+      ...(await this.findById(id)),
+      topics: topics,
     });
 
     return true;
