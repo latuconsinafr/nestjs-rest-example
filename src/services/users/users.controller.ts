@@ -44,6 +44,7 @@ import { UpdateUserProfileAvatarRequest } from './dto/requests/user-profiles/upd
 import avatarFileFilterValidator from './validators/file-filters/avatar-file-filter.validator';
 import { ApiNotFoundErrorResponse } from '../../common/decorators/open-api/errors/api-not-found-error-response.decorator';
 import RequestWithAuthUser from '../auth/interface/request-with-auth-user.interface';
+import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
 
 /**
  * Defines the users controller.
@@ -338,6 +339,61 @@ export class UsersController {
 
       return new SuccessResponse({
         message: `User password updated`,
+      });
+    } catch (error) {
+      this.logger.error(`Error occurred: ${error}`);
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  /**
+   * Update a user's roles by a given id endpoint.
+   *
+   * @param id The user id request parameter
+   * @param updateUserRolesRequest The DTO that carries data to update a user's roles
+   *
+   * @returns The success response with `'User updated'` message.
+   */
+  @Put(':id/roles')
+  @UseAccessControl(UserActions.UpdateRoles, User, UserByIdHook)
+  @ApiBearerAuth()
+  @ApiUuidParam({ name: 'id', description: 'The id of user' })
+  @ApiSuccessesResponse([
+    {
+      response: ApiOkSuccessResponse,
+      options: {
+        options: { description: 'User roles updated' },
+      },
+    },
+  ])
+  @ApiErrorsResponse([
+    { response: ApiUnauthorizedErrorResponse },
+    { response: ApiForbiddenErrorResponse },
+    { response: ApiNotFoundErrorResponse },
+    { response: ApiConflictErrorResponse },
+    { response: ApiUnprocessableEntityErrorResponse },
+  ])
+  async updateUserRoles(
+    @Param('id', UserByIdPipe) { id }: User,
+    @Body() updateUserRolesRequest: UpdateUserRolesRequest,
+  ): Promise<SuccessResponse> {
+    this.logger.info(
+      `Try to call ${UsersController.prototype.updateUserRoles.name}`,
+    );
+
+    if (id !== updateUserRolesRequest.id) {
+      throw new ConflictException({ message: `Inconsistent user id` });
+    }
+
+    try {
+      await this.usersService.update(
+        id,
+        UpdateUserRolesRequest.toEntity(updateUserRolesRequest),
+      );
+
+      return new SuccessResponse({
+        message: `User roles updated`,
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

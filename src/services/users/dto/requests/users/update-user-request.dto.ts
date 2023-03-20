@@ -22,7 +22,7 @@ import { CreateUserRequest } from './create-user-request.dto';
  */
 export class UpdateUserRequest extends IntersectionType(
   UserIdParam,
-  OmitType(CreateUserRequest, ['password', 'profile'] as const),
+  OmitType(CreateUserRequest, ['password', 'roles', 'profile'] as const),
 ) {
   @IsNotEmpty()
   @IsString()
