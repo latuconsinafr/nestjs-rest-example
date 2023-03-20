@@ -102,11 +102,11 @@ export class UsersController {
     );
 
     try {
-      const user = CreateUserRequest.toEntity(createUserRequest);
-
       return new SuccessResponse({
         message: 'User created',
-        data: await this.usersService.create(user),
+        data: await this.usersService.create(
+          CreateUserRequest.toEntity(createUserRequest),
+        ),
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);
@@ -196,7 +196,7 @@ export class UsersController {
   /**
    * Update a user by a given id endpoint.
    *
-   * @param id The user id request parameter
+   * @param id The specified user id to update
    * @param updateUserRequest The DTO that carries data to update a user
    *
    * @returns The success response with `'User updated'` message.
@@ -251,7 +251,7 @@ export class UsersController {
   /**
    * Delete a user by a given id endpoint.
    *
-   * @param id The user id to find
+   * @param id The specified user id to delete
    *
    * @returns The success response with `'User deleted'` message.
    */
@@ -295,10 +295,10 @@ export class UsersController {
   /**
    * Update a user's password by a given id endpoint.
    *
-   * @param id The user id request parameter
+   * @param id The specified user id to update
    * @param updateUserPasswordRequest The DTO that carries data to update a user's password
    *
-   * @returns The success response with `'User updated'` message.
+   * @returns The success response with `'User password updated'` message.
    */
   @Put(':id/password')
   @UseAccessControl(UserActions.UpdatePassword, User, UserByIdHook)
@@ -350,10 +350,10 @@ export class UsersController {
   /**
    * Update a user's roles by a given id endpoint.
    *
-   * @param id The user id request parameter
+   * @param id The specified user id to update
    * @param updateUserRolesRequest The DTO that carries data to update a user's roles
    *
-   * @returns The success response with `'User updated'` message.
+   * @returns The success response with `'User roles updated'` message.
    */
   @Put(':id/roles')
   @UseAccessControl(UserActions.UpdateRoles, User, UserByIdHook)
@@ -405,7 +405,7 @@ export class UsersController {
   /**
    * Update a user profile by a given id endpoint.
    *
-   * @param id The user id request parameter
+   * @param id The specified user id to update
    * @param updateUserProfileRequest The DTO that carries data to update a user profile
    *
    * @returns The success response with `'User profile updated'` message.
@@ -461,6 +461,17 @@ export class UsersController {
    * Upload a user profile avatar by a given id endpoint.
    *
    * @param avatar The user profile avatar
+   */
+
+  /**
+   * Upload a user profile avatar by a given id endpoint.
+   *
+   * @param authUser The authenticated user
+   * @param user The specified user to update
+   * @param updateUserProfileAvatarRequest The DTO that carries data to update a user profile avatar
+   * @param avatar The user profile avatar to update
+   *
+   * @returns The success response with `'User profile avatar updated'` message.
    */
   @Put(':id/profile/avatar/upload')
   @UseAccessControl(UserActions.UpdateProfileAvatar, User, UserByIdHook)

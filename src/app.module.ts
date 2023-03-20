@@ -17,8 +17,8 @@ import { ThrottlerGuard } from '@nestjs/throttler';
  * - {@link ServicesModule}: The module contains service module(s) which is the primary application business process
  *
  * And provides a global providers as follow:
- * - {@link HttpCacheInterceptor} Global cache interceptor
- * - {@link HttpCacheInterceptor} Global throttler guard
+ * - {@link HttpCacheInterceptor} Global http cache interceptor
+ * - {@link ThrottlerGuard} Global throttler guard
  */
 @Module({
   imports: [ConfigModule, CommonServicesModule, ServicesModule],

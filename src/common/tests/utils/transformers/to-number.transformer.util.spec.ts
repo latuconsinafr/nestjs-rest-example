@@ -1,5 +1,5 @@
-import { UnprocessableEntityException } from '../../../../exceptions/unprocessable-entity.exception';
-import { toNumber } from '../../../../utils/transformers/to-number.transformer.util';
+import { UnprocessableEntityException } from '../../../exceptions/unprocessable-entity.exception';
+import { toNumber } from '../../../utils/transformers/to-number.transformer.util';
 
 describe(`when ${toNumber.name} is called`, () => {
   describe('and the incoming value could be parsed into number', () => {

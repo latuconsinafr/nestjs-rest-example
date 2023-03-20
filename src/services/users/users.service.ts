@@ -26,7 +26,7 @@ export class UsersService {
   }
 
   /**
-   * Creates a user with its whole relations {@link Role} and {@link UserProfile}.
+   * Creates a user.
    *
    * @param user A user to create
    *
@@ -35,8 +35,6 @@ export class UsersService {
   async create(user: User): Promise<User> {
     this.logger.info(`Try to call ${UsersService.prototype.create.name}`);
 
-    console.log('masuk');
-    console.log(user);
     const createdUser = this.usersRepository.create({
       ...user,
       password: await argon2.hash(user.password),
@@ -139,9 +137,25 @@ export class UsersService {
     this.logger.info(`Try to call ${UsersService.prototype.update.name}`);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, profile, profileId, ...userToUpdate } = user;
+    const { password, profile, ...userToUpdate } = user;
 
     await this.usersRepository.update(id, userToUpdate);
+
+    return true;
+  }
+
+  /**
+   * Deletes a user by a given id.
+   *
+   * @param id The id to find
+   *
+   * @returns The flag indicates whether the delete process is success or not.
+   * Return `true` if the delete process is success, otherwise `false`.
+   */
+  async delete(id: string): Promise<boolean> {
+    this.logger.info(`Try to call ${UsersService.prototype.delete.name}`);
+
+    await this.usersRepository.delete(id);
 
     return true;
   }
@@ -185,22 +199,6 @@ export class UsersService {
       ...(await this.findById(id)),
       profile: userProfile,
     });
-
-    return true;
-  }
-
-  /**
-   * Deletes a user by a given id.
-   *
-   * @param id The id to find
-   *
-   * @returns The flag indicates whether the delete process is success or not.
-   * Return `true` if the delete process is success, otherwise `false`.
-   */
-  async delete(id: string): Promise<boolean> {
-    this.logger.info(`Try to call ${UsersService.prototype.delete.name}`);
-
-    await this.usersRepository.delete(id);
 
     return true;
   }

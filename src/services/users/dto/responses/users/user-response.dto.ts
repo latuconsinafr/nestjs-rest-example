@@ -1,6 +1,5 @@
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import { TimestampResponse } from '../../../../../common/dto/responses/timestamp-response.dto';
-import { userProfilesData } from '../../../../../database/data/user-profiles.data';
 import { usersData } from '../../../../../database/data/users.data';
 import { UserRole } from '../../../enums/user-role.enum';
 import { UserIdParam } from '../../params/users/user-id.param';
@@ -18,7 +17,6 @@ import { UserProfileResponse } from '../user-profiles/user-profile-response.dto'
  * - `phone`: The phone of user
  * - `roles`: The roles of user
  * - `lastSignedInAt`: The last signed in time of user
- * - `profileId`: The profile id of user
  * - `profile`: The user profile
  */
 export class UserResponse extends IntersectionType(
@@ -56,13 +54,6 @@ export class UserResponse extends IntersectionType(
     example: '2023-02-11T05:24:50.680Z',
   })
   lastSignedInAt?: Date | null | undefined;
-
-  @ApiProperty({
-    description: 'The profile id of user',
-    format: 'uuid',
-    example: userProfilesData[0].id,
-  })
-  profileId: string;
 
   @ApiProperty({
     description: 'The profile of user',

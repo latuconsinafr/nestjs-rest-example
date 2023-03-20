@@ -64,6 +64,7 @@ export class PostsController {
   /**
    * Create a post endpoint.
    *
+   * @param user The authenticated user
    * @param createPostRequest The DTO that carries data to create a post
    *
    * @returns The success response with `'Post created'` message and created `post` data.
@@ -247,9 +248,9 @@ export class PostsController {
   /**
    * Delete a post by a given id endpoint.
    *
-   * @param id The post id to find
+   * @param id The specified post id to delete
    *
-   * @returns The success response with `'User deleted'` message.
+   * @returns The success response with `'Post deleted'` message.
    */
   @Delete(':id')
   @UseAccessControl(PostActions.Delete, PostEntity, PostByIdHook)
@@ -291,10 +292,10 @@ export class PostsController {
   /**
    * Update a post's topics by a given id endpoint.
    *
-   * @param id The post id request parameter
-   * @param updatePostTopicsRequest The DTO that carries data to update a user's topics
+   * @param id The specified post id to update
+   * @param updatePostTopicsRequest The DTO that carries data to update a post's topics
    *
-   * @returns The success response with `'User updated'` message.
+   * @returns The success response with `'Post topics updated'` message.
    */
   @Put(':id/topics')
   @UseAccessControl(PostActions.UpdateTopics, PostEntity, PostByIdHook)

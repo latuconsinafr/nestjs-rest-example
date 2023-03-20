@@ -50,6 +50,7 @@ async function bootstrap() {
     environment: Environment.Development,
     host: 'localhost',
     port: 3000,
+    debug: true,
   };
 
   // * Logger section
@@ -98,6 +99,7 @@ async function bootstrap() {
   //   app.use(csurf({ cookie: { sameSite: true } }));
   //   app.use(csurfMiddleware);
   // }
+
   // app.use(loggerMiddleware); // * Disabled, since the app using automatic logging from pino
 
   // * For high-traffic websites in production, it is strongly recommended to offload compression from the application server - typically in a reverse proxy (e.g., Nginx).

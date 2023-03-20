@@ -180,7 +180,7 @@ export class TopicsController {
   /**
    * Update a topic by a given id endpoint.
    *
-   * @param id The topic id request parameter
+   * @param id The specified topic id to update
    * @param updateTopicRequest The DTO that carries data to update a topic
    *
    * @returns The success response with `'Topic updated'` message.
@@ -235,9 +235,9 @@ export class TopicsController {
   /**
    * Delete a topic by a given id endpoint.
    *
-   * @param id The topic id to find
+   * @param id The specified topic id to delete
    *
-   * @returns The success response with `'User deleted'` message.
+   * @returns The success response with `'Topic deleted'` message.
    */
   @Delete(':id')
   @UseAccessControl(TopicActions.Delete, Topic)

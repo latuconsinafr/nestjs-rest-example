@@ -21,8 +21,8 @@ describe(AppController.name, () => {
   });
 
   describe(`when ${AppController.prototype.index.name} is called`, () => {
-    it('should return null', () => {
-      expect(appController.index()).toBe(null);
+    it('should return undefined', () => {
+      expect(appController.index()).toBeUndefined();
     });
   });
 

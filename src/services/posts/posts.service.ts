@@ -92,6 +92,22 @@ export class PostsService {
   }
 
   /**
+   * Deletes a post by a given id.
+   *
+   * @param id The id to find
+   *
+   * @returns The flag indicated whether the delete process is success or not
+   * Return `true` if the delete process is success, otherwise `false`.
+   */
+  async delete(id: string): Promise<boolean> {
+    this.logger.info(`Try to call ${PostsService.prototype.delete.name}`);
+
+    await this.postsRepository.delete(id);
+
+    return true;
+  }
+
+  /**
    * Updates a post topics by a given id.
    *
    * @param id The post id to update
@@ -107,22 +123,6 @@ export class PostsService {
       ...(await this.findById(id)),
       topics: topics,
     });
-
-    return true;
-  }
-
-  /**
-   * Deletes a post by a given id.
-   *
-   * @param id The id to find
-   *
-   * @returns The flag indicated whether the delete process is success or not
-   * Return `true` if the delete process is success, otherwise `false`.
-   */
-  async delete(id: string): Promise<boolean> {
-    this.logger.info(`Try to call ${PostsService.prototype.delete.name}`);
-
-    await this.postsRepository.delete(id);
 
     return true;
   }

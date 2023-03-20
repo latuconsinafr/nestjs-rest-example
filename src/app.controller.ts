@@ -26,7 +26,7 @@ export class AppController {
   /**
    * Index page endpoint.
    *
-   * @returns A welcome string in html format.
+   * @returns
    */
   @Get()
   @ApiSuccessesResponse([
@@ -38,10 +38,10 @@ export class AppController {
     },
   ])
   @ApiErrorsResponse()
-  index(): null {
+  index() {
     this.logger.info(`Try to call ${AppController.prototype.index.name}`);
 
-    return null;
+    return;
   }
 
   /**
@@ -57,7 +57,10 @@ export class AppController {
   @NotToBeTransformed()
   @Redirect('https://docs.nestjs.com', 302)
   @ApiExcludeEndpoint()
-  getDocs(@Req() req: Request, @Query('version') version?: string) {
+  getDocs(
+    @Req() req: Request,
+    @Query('version') version?: string,
+  ): { url: string } {
     this.logger.info(`Try to call ${AppController.prototype.getDocs.name}`);
 
     const docsUrl = `${req.protocol}://${req.get('Host')}/docs`;

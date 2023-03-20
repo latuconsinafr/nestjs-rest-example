@@ -1,11 +1,5 @@
 import { Exclude } from 'class-transformer';
-import {
-  Column,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { GenericEntity } from '../../../common/entities/generic.entity';
 import { UserRole } from '../enums/user-role.enum';
 import { UserProfile } from './user-profile.entity';
@@ -24,7 +18,6 @@ import { UserProfile } from './user-profile.entity';
  * - `lastSignedInAt`: The last signed in time of user
  * - `createdAt`: The creation time of user
  * - `updatedAt`: The last updation time of user
- * - `profileId`: The profile id of user
  * - `profile`: The user profile
  */
 @Entity()
@@ -52,9 +45,6 @@ export class User extends GenericEntity<User> {
   // * `ALTER TABLE \`user\` ADD \`lastSignedInAt\` datetime(6) NULL`
   @Column('datetime', { nullable: true })
   lastSignedInAt?: Date | null | undefined;
-
-  @RelationId((user: User) => user.profile)
-  profileId: string;
 
   @OneToOne(
     /* istanbul ignore next */ () => UserProfile,
