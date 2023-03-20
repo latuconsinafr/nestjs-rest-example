@@ -7,7 +7,7 @@ import { CreatePostRequest } from './create-post-request.dto';
  * Defines the DTO that carries data to update a post.
  *
  * @usageNotes
- * This DTO intersect {@link PostIdParam} with {@link CreatePostRequest} with omitted `authorId` attribute.
+ * This DTO intersect {@link PostIdParam} with {@link CreatePostRequest} with omitted `topicIds` attribute.
  */
 export class UpdatePostRequest extends IntersectionType(
   PostIdParam,

@@ -13,9 +13,8 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { usersData } from '../../../../../database/data/users.data';
-import { UserRole } from '../../../../roles/enums/user-role.enum';
-import { IsRoleExistByName } from '../../../../roles/validators/is-role-exist-by-name.validator';
 import { User } from '../../../entities/user.entity';
+import { UserRole } from '../../../enums/user-role.enum';
 import { IsEmailUnique } from '../../../validators/is-email-unique-validator';
 import { IsPhoneNumberUnique } from '../../../validators/is-phone-number-unique.validator';
 import { IsUsernameUnique } from '../../../validators/is-username-unique.validator';
@@ -30,7 +29,7 @@ import { CreateUserProfileRequest } from '../user-profiles/create-user-profile-r
  * - `email`: The email of user
  * - `phone`: The phone of user
  * - `password`: The password of user
- * - `roles`: The user roles
+ * - `roles`: The roles of user
  * - `profile`: The user profile
  */
 export class CreateUserRequest {
@@ -78,12 +77,11 @@ export class CreateUserRequest {
   @ArrayNotEmpty()
   @ArrayUnique()
   @IsEnum(UserRole, { each: true })
-  @IsRoleExistByName({ each: true })
   @ApiProperty({
     description: 'The roles of user',
     enum: UserRole,
     isArray: true,
-    example: usersData[0].roles.map((role) => role.name),
+    examples: [UserRole.SuperAdmin],
   })
   roles: UserRole[];
 
@@ -104,8 +102,7 @@ export class CreateUserRequest {
    * @returns The `User` entity
    */
   static toEntity(request: CreateUserRequest): User {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { profile, roles, ...user } = request;
+    const { profile, ...user } = request;
 
     return new User({
       ...user,

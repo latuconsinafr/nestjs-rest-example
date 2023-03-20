@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { topicsData } from '../../../../database/data/topics.data';
 import { Topic } from '../../entities/topic.entity';
+import { IsNameUnique } from '../../validators/is-name-unique.validator';
 
 /**
  * Defines the DTO that carries data to create a topic.
@@ -13,7 +14,7 @@ import { Topic } from '../../entities/topic.entity';
 export class CreateTopicRequest {
   @IsNotEmpty()
   @IsString()
-  // TODO: Unique validation
+  @IsNameUnique()
   @ApiProperty({
     description: 'The name of topic',
     example: topicsData[0].name,

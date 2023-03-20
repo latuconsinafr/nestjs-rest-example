@@ -1,7 +1,7 @@
 import { InferSubjects } from '@casl/ability';
 import { Permissions } from 'nest-casl';
-import { UserRole } from '../../roles/enums/user-role.enum';
 import { AccessControlActions } from '../../auth/enums/access-control-actions.enum';
+import { UserRole } from '../../users/enums/user-role.enum';
 import { Post } from '../entities/post.entity';
 
 /**

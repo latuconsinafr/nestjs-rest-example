@@ -17,22 +17,16 @@ import { UserProfile } from '../entities/user-profile.entity';
 import { User } from '../entities/user.entity';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
-import { RolesService } from '../../roles/roles.service';
-import { Role } from '../../roles/entities/role.entity';
 import { SuccessResponse } from '../../../common/dto/responses/success-response.dto';
 import { AccessService } from 'nest-casl';
 import { UpdateUserPasswordRequest } from '../dto/requests/users/update-user-password-request.dto';
-import { UpdateUserRolesRequest } from '../dto/requests/users/update-user-roles-request.dto';
 import { UpdateUserProfileAvatarRequest } from '../dto/requests/user-profiles/update-user-profile-avatar-request.dto';
 import { localFilesData } from '../../../database/data/local-files.data';
-import { UserRole } from '../../roles/enums/user-role.enum';
-import { rolesData } from '../../../database/data/roles.data';
 import RequestWithAuthUser from '../../auth/interface/request-with-auth-user.interface';
 
 describe(UsersController.name, () => {
   let usersController: UsersController;
   let usersService: UsersService;
-  let rolesService: RolesService;
   let storagesService: StoragesService;
 
   beforeEach(async () => {
@@ -45,11 +39,6 @@ describe(UsersController.name, () => {
         },
         UsersService,
         { provide: getRepositoryToken(User), useValue: mockedRepository },
-        RolesService,
-        {
-          provide: getRepositoryToken(Role),
-          useValue: mockedRepository,
-        },
         StoragesService,
         {
           provide: getRepositoryToken(LocalFile),
@@ -73,7 +62,6 @@ describe(UsersController.name, () => {
     }).compile();
 
     usersService = moduleRef.get<UsersService>(UsersService);
-    rolesService = moduleRef.get<RolesService>(RolesService);
     storagesService = moduleRef.get<StoragesService>(StoragesService);
     usersController = moduleRef.get<UsersController>(UsersController);
   });
@@ -85,20 +73,13 @@ describe(UsersController.name, () => {
   describe(`when ${UsersController.prototype.createUser.name} is called`, () => {
     let userToCreate: CreateUserRequest;
     let usersServiceCreateSpy: jest.SpyInstance<Promise<User>, [user: User]>;
-    let rolesServiceFindByNamesSpy: jest.SpyInstance<
-      Promise<Role[]>,
-      [names: UserRole[]]
-    >;
 
     beforeEach(() => {
       userToCreate = {
         ...usersData[0],
-        roles: usersData[0].roles.map((role) => role.name),
       };
       usersServiceCreateSpy = jest.spyOn(usersService, 'create');
       usersServiceCreateSpy.mockResolvedValue(usersData[0]);
-      rolesServiceFindByNamesSpy = jest.spyOn(rolesService, 'findByNames');
-      rolesServiceFindByNamesSpy.mockResolvedValue([...rolesData]);
     });
 
     describe('and when error occurred', () => {
@@ -117,12 +98,6 @@ describe(UsersController.name, () => {
         await usersController.createUser(userToCreate);
 
         expect(usersServiceCreateSpy).toBeCalledTimes(1);
-      });
-
-      it(`should call ${RolesService.name} ${RolesService.prototype.findByNames.name} method`, async () => {
-        await usersController.createUser(userToCreate);
-
-        expect(rolesServiceFindByNamesSpy).toBeCalledTimes(1);
       });
 
       it('should return a message and data contains the created user', async () => {
@@ -347,74 +322,6 @@ describe(UsersController.name, () => {
         ).toStrictEqual(
           new SuccessResponse({
             message: 'User password updated',
-          }),
-        );
-      });
-    });
-  });
-
-  describe(`when ${UsersController.prototype.updateUserRoles.name} is called`, () => {
-    let userRolesToUpdate: UpdateUserRolesRequest;
-    let usersServiceUpdateSpy: jest.SpyInstance<
-      Promise<boolean>,
-      [id: string, roles: Role[]]
-    >;
-
-    beforeEach(() => {
-      userRolesToUpdate = {
-        ...usersData[0],
-        roles: usersData[0].roles.map((role) => role.name),
-      };
-      usersServiceUpdateSpy = jest.spyOn(usersService, 'updateRoles');
-      usersServiceUpdateSpy.mockResolvedValue(true);
-    });
-
-    describe('and the given user id between param and body are different', () => {
-      it(`should throw ${ConflictException.name}`, async () => {
-        await expect(
-          usersController.updateUserRoles(
-            {
-              ...usersData[1],
-              profile: {
-                ...userProfilesData[1],
-              },
-            },
-            userRolesToUpdate,
-          ),
-        ).rejects.toThrow(ConflictException);
-      });
-    });
-
-    describe('and when error occurred', () => {
-      it(`should throw ${InternalServerErrorException.name}`, async () => {
-        jest
-          .spyOn(usersService, 'updateRoles')
-          .mockImplementationOnce(async () => {
-            throw new Error();
-          });
-
-        await expect(
-          usersController.updateUserRoles(usersData[0], userRolesToUpdate),
-        ).rejects.toThrow(InternalServerErrorException);
-      });
-    });
-
-    describe('and when no error occurred', () => {
-      it(`should call ${UsersService.name} ${UsersService.prototype.updateRoles.name} method`, async () => {
-        await usersController.updateUserRoles(usersData[0], userRolesToUpdate);
-
-        expect(usersServiceUpdateSpy).toBeCalledTimes(1);
-      });
-
-      it(`should return a message`, async () => {
-        expect(
-          await usersController.updateUserRoles(
-            usersData[0],
-            userRolesToUpdate,
-          ),
-        ).toStrictEqual(
-          new SuccessResponse({
-            message: 'User roles updated',
           }),
         );
       });

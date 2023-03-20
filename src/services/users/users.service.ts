@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { UserProfile } from './entities/user-profile.entity';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
-import { Role } from '../roles/entities/role.entity';
 
 // * Service will be responsible for data storage and retrieval
 /**
@@ -36,6 +35,8 @@ export class UsersService {
   async create(user: User): Promise<User> {
     this.logger.info(`Try to call ${UsersService.prototype.create.name}`);
 
+    console.log('masuk');
+    console.log(user);
     const createdUser = this.usersRepository.create({
       ...user,
       password: await argon2.hash(user.password),
@@ -55,7 +56,7 @@ export class UsersService {
     this.logger.info(`Try to call ${UsersService.prototype.findAll.name}`);
 
     return await this.usersRepository.find({
-      relations: { roles: true, profile: true },
+      relations: { profile: true },
     });
   }
 
@@ -71,7 +72,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { id },
-      relations: { roles: true, profile: true },
+      relations: { profile: true },
     });
   }
 
@@ -89,7 +90,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { username },
-      relations: { roles: true, profile: true },
+      relations: { profile: true },
     });
   }
 
@@ -105,7 +106,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { email },
-      relations: { roles: true, profile: true },
+      relations: { profile: true },
     });
   }
 
@@ -121,7 +122,7 @@ export class UsersService {
 
     return await this.usersRepository.findOne({
       where: { phone },
-      relations: { roles: true, profile: true },
+      relations: { profile: true },
     });
   }
 
@@ -138,8 +139,7 @@ export class UsersService {
     this.logger.info(`Try to call ${UsersService.prototype.update.name}`);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, roleIds, roles, profile, profileId, ...userToUpdate } =
-      user;
+    const { password, profile, profileId, ...userToUpdate } = user;
 
     await this.usersRepository.update(id, userToUpdate);
 
@@ -162,26 +162,6 @@ export class UsersService {
 
     await this.usersRepository.update(id, {
       password: await argon2.hash(password),
-    });
-
-    return true;
-  }
-
-  /**
-   * Updates a user roles by a given id.
-   *
-   * @param id The user id to update
-   * @param roles The user roles to update
-   *
-   * @returns The flag indicates whether the update process is success or not.
-   * Return `true` if the update process is success, otherwise `false`.
-   */
-  async updateRoles(id: string, roles: Role[]): Promise<boolean> {
-    this.logger.info(`Try to call ${UsersService.prototype.updateRoles.name}`);
-
-    await this.usersRepository.save({
-      ...(await this.findById(id)),
-      roles: roles,
     });
 
     return true;

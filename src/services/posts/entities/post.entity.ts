@@ -18,12 +18,13 @@ import { User } from '../../users/entities/user.entity';
  * @usageNotes
  * The post entity contains attribute:
  * - `id`: The id of post
- * - `title`: The title of post
- * - `category`: The category of post
+ * - `content`: The content of post
+ * - `authorId`: The id of author of post
+ * - `topicIds`: The ids of topic of post
  * - `createdAt`: The creation time of post
  * - `updatedAt`: The last updation time of post
- * - `authorId`: The id of author of post
  * - `author`: The post author
+ * - `topics`: The post topics
  */
 @Entity()
 export class Post extends GenericEntity<Post> {
@@ -33,9 +34,6 @@ export class Post extends GenericEntity<Post> {
   @Column()
   content: string;
 
-  @RelationId((post: Post) => post.topics)
-  topicIds: string[];
-
   @Column('uuid')
   authorId: string;
 
@@ -44,6 +42,9 @@ export class Post extends GenericEntity<Post> {
   })
   @JoinColumn()
   author: User;
+
+  @RelationId((post: Post) => post.topics)
+  topicIds: string[];
 
   @ManyToMany(
     /* istanbul ignore next */ () => Topic,

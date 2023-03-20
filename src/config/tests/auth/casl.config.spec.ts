@@ -1,5 +1,5 @@
 import RequestWithAuthUser from '../../../services/auth/interface/request-with-auth-user.interface';
-import { UserRole } from '../../../services/roles/enums/user-role.enum';
+import { UserRole } from '../../../services/users/enums/user-role.enum';
 import { caslConfig } from '../../auth/casl.config';
 
 describe(`when ${caslConfig.name} is registered`, () => {

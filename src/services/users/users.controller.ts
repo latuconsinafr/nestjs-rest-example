@@ -27,11 +27,9 @@ import { UserByIdHook } from './permissions/hooks/users/user-by-id.hook';
 import { UseAccessControl } from '../auth/decorators/use-access-control.decorator';
 import { UserActions } from './permissions/user.permissions';
 import { UpdateUserPasswordRequest } from './dto/requests/users/update-user-password-request.dto';
-import { UpdateUserRolesRequest } from './dto/requests/users/update-user-roles-request.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserResponse } from './dto/responses/users/user-response.dto';
 import { ApiErrorsResponse } from '../../common/decorators/open-api/api-errors-response.decorator';
-import { RolesService } from '../roles/roles.service';
 import { ApiUnprocessableEntityErrorResponse } from '../../common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator';
 import { ApiUnauthorizedErrorResponse } from '../../common/decorators/open-api/errors/api-unauthorized-error-response.decorator';
 import { ApiForbiddenErrorResponse } from '../../common/decorators/open-api/errors/api-forbidden-error-response.decorator';
@@ -61,13 +59,11 @@ export class UsersController {
    *
    * @param logger The pino logger
    * @param usersService The users service
-   * @param rolesService The roles service
    * @param storagesService The storages service
    */
   constructor(
     private readonly logger: PinoLogger,
     private readonly usersService: UsersService,
-    private readonly rolesService: RolesService,
     private readonly storagesService: StoragesService,
   ) {
     this.logger.setContext(UsersController.name);
@@ -109,10 +105,7 @@ export class UsersController {
 
       return new SuccessResponse({
         message: 'User created',
-        data: await this.usersService.create({
-          ...user,
-          roles: await this.rolesService.findByNames(createUserRequest.roles),
-        }),
+        data: await this.usersService.create(user),
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);
@@ -345,61 +338,6 @@ export class UsersController {
 
       return new SuccessResponse({
         message: `User password updated`,
-      });
-    } catch (error) {
-      this.logger.error(`Error occurred: ${error}`);
-
-      throw new InternalServerErrorException();
-    }
-  }
-
-  /**
-   * Update a user's roles by a given id endpoint.
-   *
-   * @param id The user id request parameter
-   * @param updateUserRolesRequest The DTO that carries data to update a user's roles
-   *
-   * @returns The success response with `'User updated'` message.
-   */
-  @Put(':id/roles')
-  @UseAccessControl(UserActions.UpdateRoles, User, UserByIdHook)
-  @ApiBearerAuth()
-  @ApiUuidParam({ name: 'id', description: 'The id of user' })
-  @ApiSuccessesResponse([
-    {
-      response: ApiOkSuccessResponse,
-      options: {
-        options: { description: 'User roles updated' },
-      },
-    },
-  ])
-  @ApiErrorsResponse([
-    { response: ApiUnauthorizedErrorResponse },
-    { response: ApiForbiddenErrorResponse },
-    { response: ApiNotFoundErrorResponse },
-    { response: ApiConflictErrorResponse },
-    { response: ApiUnprocessableEntityErrorResponse },
-  ])
-  async updateUserRoles(
-    @Param('id', UserByIdPipe) { id }: User,
-    @Body() updateUserRolesRequest: UpdateUserRolesRequest,
-  ): Promise<SuccessResponse> {
-    this.logger.info(
-      `Try to call ${UsersController.prototype.updateUserRoles.name}`,
-    );
-
-    if (id !== updateUserRolesRequest.id) {
-      throw new ConflictException({ message: `Inconsistent user id` });
-    }
-
-    try {
-      await this.usersService.updateRoles(
-        id,
-        await this.rolesService.findByNames(updateUserRolesRequest.roles),
-      );
-
-      return new SuccessResponse({
-        message: `User roles updated`,
       });
     } catch (error) {
       this.logger.error(`Error occurred: ${error}`);

@@ -1,8 +1,8 @@
 import { InferSubjects } from '@casl/ability';
 import { Permissions } from 'nest-casl';
 import { User } from '../entities/user.entity';
-import { UserRole } from '../../roles/enums/user-role.enum';
 import { AccessControlActions } from '../../auth/enums/access-control-actions.enum';
+import { UserRole } from '../enums/user-role.enum';
 
 /**
  * Defines type for User Subjects.

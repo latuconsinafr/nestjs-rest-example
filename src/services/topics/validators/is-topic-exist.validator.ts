@@ -7,32 +7,32 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { RolesService } from '../roles.service';
+import { TopicsService } from '../topics.service';
 
 /**
- * Defines the IsRoleExistById validator constraint.
+ * Defines the IsTopicExist validator constraint.
  */
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class IsRoleExistByIdValidator implements ValidatorConstraintInterface {
+export class IsTopicExistValidator implements ValidatorConstraintInterface {
   /**
    * The constructor.
    *
-   * @param rolesService The roles service
+   * @param topicsService The topics service
    */
-  constructor(private rolesService: RolesService) {}
+  constructor(private topicsService: TopicsService) {}
 
   /**
-   * Validates the role existence by its identifier.
+   * Validates the topic existence by its identifier.
    *
    * @param value The identifier to validate
    *
-   * @returns The flag indicates whether the given role by its related identifier already exists or not.
+   * @returns The flag indicates whether the given topic by its related identifier already exists or not.
    */
   async validate(value: string): Promise<boolean> {
-    if (isUUID(value)) {
-      return await this.rolesService.findById(value).then((role) => {
-        if (role) return true;
+    if (isUUID(value, '4')) {
+      return await this.topicsService.findById(value).then((topic) => {
+        if (topic) return true;
         return false;
       });
     }
@@ -44,28 +44,28 @@ export class IsRoleExistByIdValidator implements ValidatorConstraintInterface {
    * {@inheritDoc ValidatorConstraintInterface.defaultMessage}
    */
   defaultMessage(validationArguments?: ValidationArguments): string {
-    return `role with ${validationArguments?.property} ${validationArguments?.value} doesn't exist`;
+    return `topic with ${validationArguments?.property} ${validationArguments?.value} doesn't exist`;
   }
 }
 
 /**
- * IsRoleExistById decorator.
+ * IsTopicExist decorator.
  *
  * @example
- * `@IsRoleExistById()`
+ * `@IsTopicExist()`
  *
  * @param validationOptions The additional validation options
  *
- * @returns custom IsRoleExistById validation decorator
+ * @returns custom IsTopicExist validation decorator
  */
-export function IsRoleExistById(validationOptions?: ValidationOptions) {
+export function IsTopicExist(validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
     registerDecorator({
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
       constraints: [],
-      validator: IsRoleExistByIdValidator,
+      validator: IsTopicExistValidator,
     });
   };
 }

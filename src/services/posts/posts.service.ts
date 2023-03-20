@@ -50,7 +50,9 @@ export class PostsService {
   async findAll(): Promise<Post[]> {
     this.logger.info(`Try to call ${PostsService.prototype.findAll.name}`);
 
-    return await this.postsRepository.find();
+    return await this.postsRepository.find({
+      relations: { topics: true, author: { profile: true } },
+    });
   }
 
   /**
@@ -65,6 +67,7 @@ export class PostsService {
 
     return await this.postsRepository.findOne({
       where: { id },
+      relations: { topics: true, author: { profile: true } },
     });
   }
 

@@ -53,6 +53,21 @@ export class TopicsService {
   }
 
   /**
+   * Get topics by a given ids.
+   *
+   * @param ids The ids to find
+   *
+   * @returns The topics array.
+   */
+  async findByIds(ids: string[]): Promise<Topic[]> {
+    this.logger.info(`Try to call ${TopicsService.prototype.findByIds.name}`);
+
+    return await this.topicsRepository.find({
+      where: { id: In(ids) },
+    });
+  }
+
+  /**
    * Gets a topic by a given id.
    *
    * @param id The id to find
@@ -68,17 +83,17 @@ export class TopicsService {
   }
 
   /**
-   * Get topics by a given ids.
+   * Gets a topic by a given name.
    *
-   * @param ids The ids to find
+   * @param name The name to find
    *
-   * @returns The topics array.
+   * @returns The topic if it exists, otherwise null.
    */
-  async findByIds(ids: string[]): Promise<Topic[]> {
-    this.logger.info(`Try to call ${TopicsService.prototype.findByIds.name}`);
+  async findByName(name: string): Promise<Topic | null> {
+    this.logger.info(`Try to call ${TopicsService.prototype.findByName.name}`);
 
-    return await this.topicsRepository.find({
-      where: { id: In(ids) },
+    return await this.topicsRepository.findOne({
+      where: { name },
     });
   }
 

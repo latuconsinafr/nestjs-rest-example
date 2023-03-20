@@ -175,18 +175,6 @@ describe(UsersService.name, () => {
     });
   });
 
-  describe(`when ${UsersService.prototype.updateRoles.name} is called`, () => {
-    beforeEach(() => {
-      mockedRepository.update.mockResolvedValue(true);
-    });
-
-    it('should return true', async () => {
-      expect(
-        await usersService.updateRoles(usersData[0].id, usersData[0].roles),
-      ).toBeTruthy();
-    });
-  });
-
   describe(`when ${UsersService.prototype.updateProfile.name} is called`, () => {
     beforeEach(() => {
       mockedRepository.update.mockResolvedValue(true);

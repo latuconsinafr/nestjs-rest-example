@@ -101,7 +101,7 @@ export class PostsController {
           topics: await this.topicsService.findByIds(
             createPostRequest.topicIds,
           ),
-          authorId: user.id,
+          author: user,
         }),
       });
     } catch (error) {

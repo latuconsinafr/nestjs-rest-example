@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CaslModule } from 'nest-casl';
-import { RolesModule } from '../roles/roles.module';
 import { StoragesModule } from '../storages/storages.module';
 import { UserProfile } from './entities/user-profile.entity';
 import { User } from './entities/user.entity';
@@ -21,7 +20,6 @@ import { IsUsernameUniqueValidator } from './validators/is-username-unique.valid
   imports: [
     TypeOrmModule.forFeature([User, UserProfile]),
     CaslModule.forFeature({ permissions: UserPermissions }),
-    RolesModule,
     StoragesModule,
   ],
   providers: [

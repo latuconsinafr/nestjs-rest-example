@@ -1,5 +1,5 @@
 import { User } from '../../services/users/entities/user.entity';
-import { rolesData } from './roles.data';
+import { UserRole } from '../../services/users/enums/user-role.enum';
 
 /**
  * Dummy data for {@link User} entity.
@@ -12,7 +12,7 @@ export const usersData = [
     phone: '+6282246924950',
     password:
       '$argon2id$v=19$m=65536,t=3,p=4$AJgltBJ0WY3dCBHs8/Hmgw$56y+zKfzef2qaaFWXYRLXw4VTjHjm1KJwgc8zngSp80',
-    roles: [rolesData[0]],
+    roles: [UserRole.SuperAdmin],
   }),
   new User({
     id: '3e4c44dc-9382-458a-a8db-289b54b7e34e',
@@ -21,6 +21,6 @@ export const usersData = [
     phone: '+6281231142801',
     password:
       '$argon2id$v=19$m=65536,t=3,p=4$AJgltBJ0WY3dCBHs8/Hmgw$56y+zKfzef2qaaFWXYRLXw4VTjHjm1KJwgc8zngSp80',
-    roles: [rolesData[1]],
+    roles: [UserRole.User],
   }),
 ] as const; // * Make it tuple to allow checked indexes {@see https://www.youtube.com/watch?v=nNse0r0aRT8&t=957s}
