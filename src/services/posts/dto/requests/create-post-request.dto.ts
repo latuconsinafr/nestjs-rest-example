@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import { postsData } from '../../../../database/data/posts.data';
 import { topicsData } from '../../../../database/data/topics.data';
+import { IsTopicExist } from '../../../topics/validators/is-topic-exist.validator';
 import { Post } from '../../entities/post.entity';
 
 /**
@@ -35,9 +36,9 @@ export class CreatePostRequest {
   @ArrayNotEmpty()
   @ArrayUnique()
   @IsUUID('4', { each: true })
+  @IsTopicExist({ each: true })
   @ApiProperty({
     description: 'The topic ids of post',
-    isArray: true,
     example: [topicsData[0].id, topicsData[1].id],
   })
   topicIds: string[];

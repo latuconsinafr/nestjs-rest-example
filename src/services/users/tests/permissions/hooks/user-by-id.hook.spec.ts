@@ -23,10 +23,6 @@ describe(UserByIdHook.name, () => {
           useValue: mockedPinoLogger,
         },
         UsersService,
-        {
-          provide: PinoLogger,
-          useValue: mockedPinoLogger,
-        },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
       ],
     }).compile();

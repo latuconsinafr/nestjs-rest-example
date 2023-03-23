@@ -2,36 +2,36 @@ import { ArgumentMetadata } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
+import { v4 as uuidv4 } from 'uuid';
 import { NotFoundException } from '../../../../common/exceptions/not-found.exception';
 import { UnprocessableEntityException } from '../../../../common/exceptions/unprocessable-entity.exception';
 import { mockedPinoLogger } from '../../../../common/utils/mocks/nestjs-pino/pino-logger.mock';
 import { mockedRepository } from '../../../../common/utils/mocks/typeorm/repository.mock';
-import { User } from '../../entities/user.entity';
-import { UserByIdPipe } from '../../pipes/user-by-id.pipe';
-import { UsersService } from '../../users.service';
-import { v4 as uuidv4 } from 'uuid';
-import { usersData } from '../../../../database/data/users.data';
+import { postsData } from '../../../../database/data/posts.data';
+import { Post } from '../../entities/post.entity';
+import { PostByIdPipe } from '../../pipes/post-by-id.pipe';
+import { PostsService } from '../../posts.service';
 
-describe(UserByIdPipe.name, () => {
-  let userByIdPipe: UserByIdPipe;
-  let usersService: UsersService;
+describe(PostByIdPipe.name, () => {
+  let postByIdPipe: PostByIdPipe;
+  let postsService: PostsService;
   let argumentMetaData: ArgumentMetadata;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
-        UserByIdPipe,
+        PostByIdPipe,
         {
           provide: PinoLogger,
           useValue: mockedPinoLogger,
         },
-        UsersService,
-        { provide: getRepositoryToken(User), useValue: mockedRepository },
+        PostsService,
+        { provide: getRepositoryToken(Post), useValue: mockedRepository },
       ],
     }).compile();
 
-    userByIdPipe = moduleRef.get<UserByIdPipe>(UserByIdPipe);
-    usersService = moduleRef.get<UsersService>(UsersService);
+    postByIdPipe = moduleRef.get<PostByIdPipe>(PostByIdPipe);
+    postsService = moduleRef.get<PostsService>(PostsService);
 
     argumentMetaData = {
       type: 'param',
@@ -44,11 +44,11 @@ describe(UserByIdPipe.name, () => {
     jest.clearAllMocks();
   });
 
-  describe(`when ${UserByIdPipe.prototype.transform.name} is called`, () => {
+  describe(`when ${PostByIdPipe.prototype.transform.name} is called`, () => {
     describe('and the given value is not a valid UUID v4', () => {
       it(`should throw ${UnprocessableEntityException.name}`, async () => {
         await expect(
-          userByIdPipe.transform('asdxxxasd', argumentMetaData),
+          postByIdPipe.transform('asdxxxasd', argumentMetaData),
         ).rejects.toThrow(UnprocessableEntityException);
       });
     });
@@ -60,23 +60,23 @@ describe(UserByIdPipe.name, () => {
         value = uuidv4();
       });
 
-      describe('and the user is not found', () => {
+      describe('and the post is not found', () => {
         it(`should throw ${NotFoundException.name}`, async () => {
-          jest.spyOn(usersService, 'findById').mockResolvedValue(null);
+          jest.spyOn(postsService, 'findById').mockResolvedValue(null);
 
           await expect(
-            userByIdPipe.transform(value, argumentMetaData),
+            postByIdPipe.transform(value, argumentMetaData),
           ).rejects.toThrow(NotFoundException);
         });
       });
 
-      describe('and the user is found', () => {
-        it(`should return the user`, async () => {
-          jest.spyOn(usersService, 'findById').mockResolvedValue(usersData[0]);
+      describe('and the post is found', () => {
+        it(`should return the post`, async () => {
+          jest.spyOn(postsService, 'findById').mockResolvedValue(postsData[0]);
 
           expect(
-            await userByIdPipe.transform(value, argumentMetaData),
-          ).toStrictEqual(usersData[0]);
+            await postByIdPipe.transform(value, argumentMetaData),
+          ).toStrictEqual(postsData[0]);
         });
       });
     });

@@ -30,15 +30,7 @@ describe(LocalStrategy.name, () => {
           useValue: mockedPinoLogger,
         },
         AuthService,
-        {
-          provide: PinoLogger,
-          useValue: mockedPinoLogger,
-        },
         UsersService,
-        {
-          provide: PinoLogger,
-          useValue: mockedPinoLogger,
-        },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
         { provide: JwtService, useValue: mockedJwtService },
         {

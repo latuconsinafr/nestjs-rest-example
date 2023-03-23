@@ -40,10 +40,6 @@ describe(JwtStrategy.name, () => {
           },
         },
         UsersService,
-        {
-          provide: PinoLogger,
-          useValue: mockedPinoLogger,
-        },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
       ],
     }).compile();

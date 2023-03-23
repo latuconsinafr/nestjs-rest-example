@@ -28,10 +28,6 @@ describe(AuthService.name, () => {
           useValue: mockedPinoLogger,
         },
         UsersService,
-        {
-          provide: PinoLogger,
-          useValue: mockedPinoLogger,
-        },
         { provide: getRepositoryToken(User), useValue: mockedRepository },
         { provide: JwtService, useValue: mockedJwtService },
         {

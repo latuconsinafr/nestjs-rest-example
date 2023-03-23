@@ -43,7 +43,7 @@ export class Post extends GenericEntity<Post> {
   @JoinColumn()
   author: User;
 
-  @RelationId((post: Post) => post.topics)
+  @RelationId(/* istanbul ignore next */ (post: Post) => post.topics)
   topicIds: string[];
 
   @ManyToMany(

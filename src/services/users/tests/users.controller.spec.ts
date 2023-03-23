@@ -23,6 +23,7 @@ import { UpdateUserPasswordRequest } from '../dto/requests/users/update-user-pas
 import { UpdateUserProfileAvatarRequest } from '../dto/requests/user-profiles/update-user-profile-avatar-request.dto';
 import { localFilesData } from '../../../database/data/local-files.data';
 import RequestWithAuthUser from '../../auth/interface/request-with-auth-user.interface';
+import { UpdateUserRolesRequest } from '../dto/requests/users/update-user-roles-request.dto';
 
 describe(UsersController.name, () => {
   let usersController: UsersController;
@@ -87,6 +88,7 @@ describe(UsersController.name, () => {
         jest.spyOn(usersService, 'create').mockImplementationOnce(async () => {
           throw new Error();
         });
+
         await expect(usersController.createUser(userToCreate)).rejects.toThrow(
           InternalServerErrorException,
         );
@@ -322,6 +324,66 @@ describe(UsersController.name, () => {
         ).toStrictEqual(
           new SuccessResponse({
             message: 'User password updated',
+          }),
+        );
+      });
+    });
+  });
+
+  describe(`when ${UsersController.prototype.updateUserRoles.name} is called`, () => {
+    let userRolesToUpdate: UpdateUserRolesRequest;
+    let usersServiceUpdateSpy: jest.SpyInstance<
+      Promise<boolean>,
+      [id: string, user: User]
+    >;
+
+    beforeEach(() => {
+      userRolesToUpdate = { ...usersData[0] };
+      usersServiceUpdateSpy = jest.spyOn(usersService, 'update');
+      usersServiceUpdateSpy.mockResolvedValue(true);
+    });
+
+    describe('and the given user id between param and body are different', () => {
+      it(`should throw ${ConflictException.name}`, async () => {
+        await expect(
+          usersController.updateUserRoles(
+            {
+              ...usersData[1],
+            },
+            userRolesToUpdate,
+          ),
+        ).rejects.toThrow(ConflictException);
+      });
+    });
+
+    describe('and when error occurred', () => {
+      it(`should throw ${InternalServerErrorException.name}`, async () => {
+        jest.spyOn(usersService, 'update').mockImplementationOnce(async () => {
+          throw new Error();
+        });
+
+        await expect(
+          usersController.updateUserRoles(usersData[0], userRolesToUpdate),
+        ).rejects.toThrow(InternalServerErrorException);
+      });
+    });
+
+    describe('and when no error occurred', () => {
+      it(`should call ${UsersService.name} ${UsersService.prototype.update.name} method`, async () => {
+        await usersController.updateUserRoles(usersData[0], userRolesToUpdate);
+
+        expect(usersServiceUpdateSpy).toBeCalledTimes(1);
+      });
+
+      it(`should return a message`, async () => {
+        expect(
+          await usersController.updateUserRoles(
+            usersData[0],
+            userRolesToUpdate,
+          ),
+        ).toStrictEqual(
+          new SuccessResponse({
+            message: 'User roles updated',
           }),
         );
       });
