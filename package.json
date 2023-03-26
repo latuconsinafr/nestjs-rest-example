@@ -23,10 +23,14 @@
     "test:e2e:watch": "jest --config ./tests/jest-e2e.json --watch",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:create": "npm run typeorm -- migration:create",
-    "schema:drop": "npm run typeorm -- schema:drop -d src/config/database/migration.config.ts",
-    "migration:generate": "npm run typeorm -- migration:generate -d src/config/database/migration.config.ts",
-    "migration:run": "npm run typeorm -- migration:run -d src/config/database/migration.config.ts",
-    "migration:revert": "npm run typeorm -- migration:revert -d src/config/database/migration.config.ts"
+    "schema:drop": "npm run typeorm -- schema:drop -d src/database/data-source.ts",
+    "migration:generate": "npm run typeorm -- migration:generate -d src/database/data-source.ts",
+    "migration:run": "npm run typeorm -- migration:run -d src/database/data-source.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d src/database/data-source.ts",
+    "seed:run": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -d src/database/data-source.ts",
+    "db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create -d src/database/data-source.ts",
+    "db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:drop -d src/database/data-source.ts",
+    "db:refresh": "rimraf uploads/*/ && npm run schema:drop && npm run migration:run && npm run seed:run"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -61,6 +65,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.10",
+    "typeorm-extension": "^2.6.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
