@@ -1,0 +1,3791 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>personal-practice documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">personal-practice documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Miscellaneous</li>
+  <li>Variables</li>
+</ol>
+
+<section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#ApiConflictErrorResponse" title="src/common/decorators/open-api/errors/api-conflict-error-response.decorator.ts" ><b>ApiConflictErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-conflict-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiCreatedSuccessResponse" title="src/common/decorators/open-api/successes/api-created-success-response.decorator.ts" ><b>ApiCreatedSuccessResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-created-success-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiErrorResponse" title="src/common/decorators/open-api/api-error-response.decorator.ts" ><b>ApiErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiErrorsResponse" title="src/common/decorators/open-api/api-errors-response.decorator.ts" ><b>ApiErrorsResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-errors-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiFile" title="src/common/decorators/open-api/api-file.decorator.ts" ><b>ApiFile</b>&nbsp;&nbsp;&nbsp;(src/.../api-file.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiForbiddenErrorResponse" title="src/common/decorators/open-api/errors/api-forbidden-error-response.decorator.ts" ><b>ApiForbiddenErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-forbidden-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiInternalServerErrorErrorResponse" title="src/common/decorators/open-api/errors/api-internal-server-error-response.decorator.ts" ><b>ApiInternalServerErrorErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-internal-server-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiNoContentSuccessResponse" title="src/common/decorators/open-api/successes/api-no-content-success-response.decorator.ts" ><b>ApiNoContentSuccessResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-no-content-success-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiNotFoundErrorResponse" title="src/common/decorators/open-api/errors/api-not-found-error-response.decorator.ts" ><b>ApiNotFoundErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-not-found-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiOkSuccessResponse" title="src/common/decorators/open-api/successes/api-ok-success-response.decorator.ts" ><b>ApiOkSuccessResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-ok-success-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiRequestTimeoutErrorResponse" title="src/common/decorators/open-api/errors/api-request-timeout-error-response.decorator.ts" ><b>ApiRequestTimeoutErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-request-timeout-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiSuccessesResponse" title="src/common/decorators/open-api/api-successes-response.decorator.ts" ><b>ApiSuccessesResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-successes-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiSuccessResponse" title="src/common/decorators/open-api/api-success-response.decorator.ts" ><b>ApiSuccessResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-success-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiTooManyRequestsErrorResponse" title="src/common/decorators/open-api/errors/api-too-many-requests-error-response.decorator.ts" ><b>ApiTooManyRequestsErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-too-many-requests-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiUnauthorizedErrorResponse" title="src/common/decorators/open-api/errors/api-unauthorized-error-response.decorator.ts" ><b>ApiUnauthorizedErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-unauthorized-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiUnprocessableEntityErrorResponse" title="src/common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator.ts" ><b>ApiUnprocessableEntityErrorResponse</b>&nbsp;&nbsp;&nbsp;(src/.../api-unprocessable-entity-error-response.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ApiUuidParam" title="src/common/decorators/open-api/params/api-uuid-param.decorator.ts" ><b>ApiUuidParam</b>&nbsp;&nbsp;&nbsp;(src/.../api-uuid-param.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_AUTHOR_EMAIL" title="src/common/constants.ts" ><b>APP_AUTHOR_EMAIL</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_AUTHOR_NAME" title="src/common/constants.ts" ><b>APP_AUTHOR_NAME</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_AUTHOR_URL" title="src/common/constants.ts" ><b>APP_AUTHOR_URL</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_DESCRIPTION" title="src/common/constants.ts" ><b>APP_DESCRIPTION</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_GLOBAL_PREFIX" title="src/common/constants.ts" ><b>APP_GLOBAL_PREFIX</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_LICENSE" title="src/common/constants.ts" ><b>APP_LICENSE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_LICENSE_URL" title="src/common/constants.ts" ><b>APP_LICENSE_URL</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_MAX_TIMEOUT" title="src/common/constants.ts" ><b>APP_MAX_TIMEOUT</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_NAME" title="src/common/constants.ts" ><b>APP_NAME</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_TERMS_OF_SERVICE" title="src/common/constants.ts" ><b>APP_TERMS_OF_SERVICE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_VERSION" title="src/common/constants.ts" ><b>APP_VERSION</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#appConfig" title="src/config/app/app.config.ts" ><b>appConfig</b>&nbsp;&nbsp;&nbsp;(src/.../app.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#cacheConfig" title="src/config/cache/cache.config.ts" ><b>cacheConfig</b>&nbsp;&nbsp;&nbsp;(src/.../cache.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#caslConfig" title="src/config/auth/casl.config.ts" ><b>caslConfig</b>&nbsp;&nbsp;&nbsp;(src/.../casl.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#databaseConfig" title="src/config/database/database.config.ts" ><b>databaseConfig</b>&nbsp;&nbsp;&nbsp;(src/.../database.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_CONFLICT_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_CONFLICT_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_CONTENT_TOO_LARGE_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_CONTENT_TOO_LARGE_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_CREATED_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_CREATED_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_FORBIDDEN_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_FORBIDDEN_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_HELP_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_HELP_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_NO_CONTENT_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_NO_CONTENT_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_NOT_FOUND_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_NOT_FOUND_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_OK_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_OK_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_REQUEST_TIMEOUT_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_REQUEST_TIMEOUT_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_TOO_MANY_REQUESTS_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_TOO_MANY_REQUESTS_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_UNAUTHORIZED_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_UNAUTHORIZED_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE" title="src/common/constants.ts" ><b>DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#jwtConfig" title="src/config/auth/jwt.config.ts" ><b>jwtConfig</b>&nbsp;&nbsp;&nbsp;(src/.../jwt.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#localFilesData" title="src/database/data/local-files.data.ts" ><b>localFilesData</b>&nbsp;&nbsp;&nbsp;(src/.../local-files.data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#localFileUploadConfig" title="src/config/file-upload/local-file-upload.config.ts" ><b>localFileUploadConfig</b>&nbsp;&nbsp;&nbsp;(src/.../local-file-upload.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#loggerConfig" title="src/config/logger/logger.config.ts" ><b>loggerConfig</b>&nbsp;&nbsp;&nbsp;(src/.../logger.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mapChildrenToValidationErrorResponses" title="src/common/exceptions/unprocessable-entity.exception.ts" ><b>mapChildrenToValidationErrorResponses</b>&nbsp;&nbsp;&nbsp;(src/.../unprocessable-entity.exception.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedAndWhere" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedAndWhere</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedArgumentsHost" title="src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts" ><b>mockedArgumentsHost</b>&nbsp;&nbsp;&nbsp;(src/.../arguments-host.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedCacheManager" title="src/common/utils/mocks/@nestjs/common/cache-manager.mock.ts" ><b>mockedCacheManager</b>&nbsp;&nbsp;&nbsp;(src/.../cache-manager.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedCacheManagerRedisStore" title="src/common/utils/mocks/cache-manager-redis-store/cache-manager-redis-store.mock.ts" ><b>mockedCacheManagerRedisStore</b>&nbsp;&nbsp;&nbsp;(src/.../cache-manager-redis-store.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedCallHandler" title="src/common/utils/mocks/@nestjs/common/call-handler.mock.ts" ><b>mockedCallHandler</b>&nbsp;&nbsp;&nbsp;(src/.../call-handler.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedExecutionContext" title="src/common/utils/mocks/@nestjs/common/execution-context.mock.ts" ><b>mockedExecutionContext</b>&nbsp;&nbsp;&nbsp;(src/.../execution-context.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedGetMany" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedGetMany</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedGetManyAndCount" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedGetManyAndCount</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedGetNext" title="src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts" ><b>mockedGetNext</b>&nbsp;&nbsp;&nbsp;(src/.../arguments-host.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedGetRawMany" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedGetRawMany</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedGetRequest" title="src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts" ><b>mockedGetRequest</b>&nbsp;&nbsp;&nbsp;(src/.../arguments-host.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedGetResponse" title="src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts" ><b>mockedGetResponse</b>&nbsp;&nbsp;&nbsp;(src/.../arguments-host.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedInnerJoinAndSelect" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedInnerJoinAndSelect</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedJson" title="src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts" ><b>mockedJson</b>&nbsp;&nbsp;&nbsp;(src/.../arguments-host.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedJwtService" title="src/common/utils/mocks/@nestjs/jwt/jwt-service.mock.ts" ><b>mockedJwtService</b>&nbsp;&nbsp;&nbsp;(src/.../jwt-service.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedLeftJoin" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedLeftJoin</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedOrderBy" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedOrderBy</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedPinoLogger" title="src/common/utils/mocks/nestjs-pino/pino-logger.mock.ts" ><b>mockedPinoLogger</b>&nbsp;&nbsp;&nbsp;(src/.../pino-logger.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedReflector" title="src/common/utils/mocks/@nestjs/core/reflector.mock.ts" ><b>mockedReflector</b>&nbsp;&nbsp;&nbsp;(src/.../reflector.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedRepository" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedRepository</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedResponse" title="src/common/utils/mocks/express/response.mock.ts" ><b>mockedResponse</b>&nbsp;&nbsp;&nbsp;(src/.../response.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedSelect" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedSelect</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedSkip" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedSkip</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedStatus" title="src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts" ><b>mockedStatus</b>&nbsp;&nbsp;&nbsp;(src/.../arguments-host.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedSwitchToHttp" title="src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts" ><b>mockedSwitchToHttp</b>&nbsp;&nbsp;&nbsp;(src/.../arguments-host.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedTake" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedTake</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#mockedWhere" title="src/common/utils/mocks/typeorm/repository.mock.ts" ><b>mockedWhere</b>&nbsp;&nbsp;&nbsp;(src/.../repository.mock.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#NOT_TO_BE_CACHED_KEY" title="src/common/constants.ts" ><b>NOT_TO_BE_CACHED_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#NOT_TO_BE_TIMEOUTED_KEY" title="src/common/constants.ts" ><b>NOT_TO_BE_TIMEOUTED_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#NOT_TO_BE_TRANSFORMED_KEY" title="src/common/constants.ts" ><b>NOT_TO_BE_TRANSFORMED_KEY</b>&nbsp;&nbsp;&nbsp;(src/.../constants.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PostActions" title="src/services/posts/permissions/post.permissions.ts" ><b>PostActions</b>&nbsp;&nbsp;&nbsp;(src/.../post.permissions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#PostPermissions" title="src/services/posts/permissions/post.permissions.ts" ><b>PostPermissions</b>&nbsp;&nbsp;&nbsp;(src/.../post.permissions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#postsData" title="src/database/data/posts.data.ts" ><b>postsData</b>&nbsp;&nbsp;&nbsp;(src/.../posts.data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#rateLimitingConfig" title="src/config/rate-limiting/rate-limiting.config.ts" ><b>rateLimitingConfig</b>&nbsp;&nbsp;&nbsp;(src/.../rate-limiting.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#redisStoreConfig" title="src/config/cache/redis-store.config.ts" ><b>redisStoreConfig</b>&nbsp;&nbsp;&nbsp;(src/.../redis-store.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TopicActions" title="src/services/topics/permissions/topic.permissions.ts" ><b>TopicActions</b>&nbsp;&nbsp;&nbsp;(src/.../topic.permissions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TopicPermissions" title="src/services/topics/permissions/topic.permissions.ts" ><b>TopicPermissions</b>&nbsp;&nbsp;&nbsp;(src/.../topic.permissions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#topicsData" title="src/database/data/topics.data.ts" ><b>topicsData</b>&nbsp;&nbsp;&nbsp;(src/.../topics.data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UseJwtAuth" title="src/services/auth/decorators/use-jwt-auth.decorator.ts" ><b>UseJwtAuth</b>&nbsp;&nbsp;&nbsp;(src/.../use-jwt-auth.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UseLocalAuth" title="src/services/auth/decorators/use-local-auth.decorator.ts" ><b>UseLocalAuth</b>&nbsp;&nbsp;&nbsp;(src/.../use-local-auth.decorator.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserActions" title="src/services/users/permissions/user.permissions.ts" ><b>UserActions</b>&nbsp;&nbsp;&nbsp;(src/.../user.permissions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#UserPermissions" title="src/services/users/permissions/user.permissions.ts" ><b>UserPermissions</b>&nbsp;&nbsp;&nbsp;(src/.../user.permissions.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#userProfilesData" title="src/database/data/user-profiles.data.ts" ><b>userProfilesData</b>&nbsp;&nbsp;&nbsp;(src/.../user-profiles.data.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#usersData" title="src/database/data/users.data.ts" ><b>usersData</b>&nbsp;&nbsp;&nbsp;(src/.../users.data.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/common/decorators/open-api/errors/api-conflict-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiConflictErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiConflictErrorResponse</b></span>
+                        <a href="#ApiConflictErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(ConflictErrorResponse),
+    ApiConflictResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(ConflictErrorResponse) }],
+      },
+      description: DEFAULT_CONFLICT_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiConflictResponse">ApiConflictResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/successes/api-created-success-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiCreatedSuccessResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiCreatedSuccessResponse</b></span>
+                        <a href="#ApiCreatedSuccessResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  options: ApiSuccessResponseMetadataOptions&lt;TModel&gt;,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  const { model, isArray, ...apiResponseOptions } &#x3D; options;
+
+  return applyDecorators(
+    model
+      ? ApiExtraModels(CreatedSuccessResponse, model)
+      : ApiExtraModels(CreatedSuccessResponse),
+    ApiCreatedResponse({
+      description: DEFAULT_CREATED_MESSAGE,
+      schema: {
+        allOf: [
+          { $ref: getSchemaPath(CreatedSuccessResponse) }, // * Base schema
+          {
+            ...(model ? { required: [&#x27;data&#x27;] } : undefined), // * Required schema conditional
+            properties: {
+              // * Adjusting data type of model[&#x27;data&#x27;]
+              ...(model
+                ? isArray
+                  ? {
+                      data: {
+                        type: &#x27;array&#x27;,
+                        items: { $ref: getSchemaPath(model) },
+                      },
+                    }
+                  : {
+                      data: {
+                        type: &#x27;object&#x27;,
+                        $ref: getSchemaPath(model),
+                      },
+                    }
+                : {
+                    data: {
+                      oneOf: [
+                        { type: &#x27;string&#x27;, example: null },
+                        { type: &#x27;number&#x27;, example: null },
+                        { type: &#x27;integer&#x27;, example: null },
+                        { type: &#x27;boolean&#x27;, example: null },
+                      ],
+                    },
+                  }),
+            },
+          },
+        ],
+      },
+      ...apiResponseOptions.options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorators that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiCreatedResponse">ApiCreatedResponse</a>
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/api-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiErrorResponse</b></span>
+                        <a href="#ApiErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  metadata: ApiErrorResponseMetadata,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  const { response, options } &#x3D; metadata;
+
+  return response({ ...options });
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that encapsulates any error response of type of <a href="../miscellaneous/typealiases.html#ApiClientErrorResponse">ApiClientErrorResponse</a>, <a href="../miscellaneous/typealiases.html#ApiServerErrorResponse">ApiServerErrorResponse</a> and <a href="../miscellaneous/typealiases.html#ApiCustomErrorResponse">ApiCustomErrorResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/api-errors-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiErrorsResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiErrorsResponse</b></span>
+                        <a href="#ApiErrorsResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  metadata?: ApiErrorResponseMetadata[],
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  const decorators &#x3D; [
+    ApiRequestTimeoutErrorResponse(),
+    ApiTooManyRequestsErrorResponse(),
+    ApiInternalServerErrorErrorResponse(),
+  ];
+
+  if (metadata &amp;&amp; metadata.length &gt; 0) {
+    metadata.map((data) &#x3D;&gt; decorators.push(ApiErrorResponse(data)));
+  }
+
+  return applyDecorators(...decorators);
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combines multiple <a href="../miscellaneous/variables.html#ApiErrorResponse">ApiErrorResponse</a> decorators to apply swagger error response(s),
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/api-file.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiFile"></a>
+                    <span class="name">
+                        <span ><b>ApiFile</b></span>
+                        <a href="#ApiFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  fieldName &#x3D; &#x27;file&#x27;,
+  localOptions?: MulterOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    UseInterceptors(LocalFileInterceptor(fieldName, localOptions)),
+    ApiConsumes(&#x27;multipart/form-data&#x27;),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorators that combine <a href="UseInterceptors">UseInterceptors</a> of <a href="../miscellaneous/functions.html#LocalFileInterceptor">LocalFileInterceptor</a> and <a href="ApiConsumes">ApiConsumes</a> to set the <code>multipart/form-data</code>
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/errors/api-forbidden-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiForbiddenErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiForbiddenErrorResponse</b></span>
+                        <a href="#ApiForbiddenErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(ForbiddenErrorResponse),
+    ApiForbiddenResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(ForbiddenErrorResponse) }],
+      },
+      description: DEFAULT_FORBIDDEN_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiForbiddenResponse">ApiForbiddenResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/errors/api-internal-server-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiInternalServerErrorErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiInternalServerErrorErrorResponse</b></span>
+                        <a href="#ApiInternalServerErrorErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(InternalServerErrorErrorResponse),
+    ApiInternalServerErrorResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(InternalServerErrorErrorResponse) }],
+      },
+      description: DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiInternalServerErrorResponse">ApiInternalServerErrorResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/successes/api-no-content-success-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiNoContentSuccessResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiNoContentSuccessResponse</b></span>
+                        <a href="#ApiNoContentSuccessResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  options: ApiSuccessResponseMetadataOptions&lt;TModel&gt;,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  const { model, isArray, ...apiResponseOptions } &#x3D; options;
+
+  return applyDecorators(
+    model
+      ? ApiExtraModels(NoContentSuccessResponse, model)
+      : ApiExtraModels(NoContentSuccessResponse),
+    ApiNoContentResponse({
+      description: DEFAULT_NO_CONTENT_MESSAGE,
+      schema: {
+        allOf: [
+          { $ref: getSchemaPath(NoContentSuccessResponse) }, // * Base schema
+          {
+            ...(model ? { required: [&#x27;data&#x27;] } : undefined), // * Required schema conditional
+            properties: {
+              // * Adjusting data type of model[&#x27;data&#x27;]
+              ...(model
+                ? isArray
+                  ? {
+                      data: {
+                        type: &#x27;array&#x27;,
+                        items: { $ref: getSchemaPath(model) },
+                      },
+                    }
+                  : {
+                      data: {
+                        type: &#x27;object&#x27;,
+                        $ref: getSchemaPath(model),
+                      },
+                    }
+                : {
+                    data: {
+                      oneOf: [
+                        { type: &#x27;string&#x27;, example: null },
+                        { type: &#x27;number&#x27;, example: null },
+                        { type: &#x27;integer&#x27;, example: null },
+                        { type: &#x27;boolean&#x27;, example: null },
+                      ],
+                    },
+                  }),
+            },
+          },
+        ],
+      },
+      ...apiResponseOptions.options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorators that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiNoContentResponse">ApiNoContentResponse</a>
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/errors/api-not-found-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiNotFoundErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiNotFoundErrorResponse</b></span>
+                        <a href="#ApiNotFoundErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(NotFoundErrorResponse),
+    ApiNotFoundResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(NotFoundErrorResponse) }],
+      },
+      description: DEFAULT_NOT_FOUND_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiNotFoundResponse">ApiNotFoundResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/successes/api-ok-success-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiOkSuccessResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiOkSuccessResponse</b></span>
+                        <a href="#ApiOkSuccessResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  options: ApiSuccessResponseMetadataOptions&lt;TModel&gt;,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  const { model, isArray, ...apiResponseOptions } &#x3D; options;
+
+  return applyDecorators(
+    model
+      ? ApiExtraModels(OkSuccessResponse, model)
+      : ApiExtraModels(OkSuccessResponse),
+    ApiOkResponse({
+      description: DEFAULT_OK_MESSAGE,
+      schema: {
+        allOf: [
+          { $ref: getSchemaPath(OkSuccessResponse) }, // * Base schema
+          {
+            ...(model ? { required: [&#x27;data&#x27;] } : undefined), // * Required schema conditional
+            properties: {
+              // * Adjusting data type of model[&#x27;data&#x27;]
+              ...(model
+                ? isArray
+                  ? {
+                      data: {
+                        type: &#x27;array&#x27;,
+                        items: { $ref: getSchemaPath(model) },
+                      },
+                    }
+                  : {
+                      data: {
+                        type: &#x27;object&#x27;,
+                        $ref: getSchemaPath(model),
+                      },
+                    }
+                : {
+                    data: {
+                      oneOf: [
+                        { type: &#x27;string&#x27;, example: null },
+                        { type: &#x27;number&#x27;, example: null },
+                        { type: &#x27;integer&#x27;, example: null },
+                        { type: &#x27;boolean&#x27;, example: null },
+                      ],
+                    },
+                  }),
+            },
+          },
+        ],
+      },
+      ...apiResponseOptions.options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorators that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiOkResponse">ApiOkResponse</a>
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/errors/api-request-timeout-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiRequestTimeoutErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiRequestTimeoutErrorResponse</b></span>
+                        <a href="#ApiRequestTimeoutErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(RequestTimeoutErrorResponse),
+    ApiRequestTimeoutResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(RequestTimeoutErrorResponse) }],
+      },
+      description: DEFAULT_REQUEST_TIMEOUT_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiRequestTimeoutResponse">ApiRequestTimeoutResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/api-successes-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiSuccessesResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiSuccessesResponse</b></span>
+                        <a href="#ApiSuccessesResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  metadata: ApiSuccessResponseMetadata&lt;TModel&gt;[],
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(...metadata.map((data) &#x3D;&gt; ApiSuccessResponse(data)));
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combines multiple <a href="../miscellaneous/variables.html#ApiSuccessResponse">ApiSuccessResponse</a> decorators to apply swagger success response(s),
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/api-success-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiSuccessResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiSuccessResponse</b></span>
+                        <a href="#ApiSuccessResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&lt;TModel extends Type&lt;any&gt;&gt;(
+  metadata: ApiSuccessResponseMetadata&lt;TModel&gt;,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  const { response, options } &#x3D; metadata;
+
+  return response({ ...options });
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that encapsulates any success response of type of <a href="../miscellaneous/typealiases.html#ApiSuccessfulResponse">ApiSuccessfulResponse</a> and <a href="../miscellaneous/typealiases.html#ApiCustomSuccessfulResponse">ApiCustomSuccessfulResponse</a>
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/errors/api-too-many-requests-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiTooManyRequestsErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiTooManyRequestsErrorResponse</b></span>
+                        <a href="#ApiTooManyRequestsErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(TooManyRequestsErrorResponse),
+    ApiTooManyRequestsResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(TooManyRequestsErrorResponse) }],
+      },
+      description: DEFAULT_TOO_MANY_REQUESTS_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiTooManyRequestsResponse">ApiTooManyRequestsResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/errors/api-unauthorized-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiUnauthorizedErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiUnauthorizedErrorResponse</b></span>
+                        <a href="#ApiUnauthorizedErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(UnauthorizedErrorResponse),
+    ApiUnauthorizedResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(UnauthorizedErrorResponse) }],
+      },
+      description: DEFAULT_UNAUTHORIZED_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiUnauthorizedResponse">ApiUnauthorizedResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/errors/api-unprocessable-entity-error-response.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiUnprocessableEntityErrorResponse"></a>
+                    <span class="name">
+                        <span ><b>ApiUnprocessableEntityErrorResponse</b></span>
+                        <a href="#ApiUnprocessableEntityErrorResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options?: ApiResponseOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt; {
+  return applyDecorators(
+    ApiExtraModels(UnprocessableEntityErrorResponse),
+    ApiUnprocessableEntityResponse({
+      schema: {
+        allOf: [{ $ref: getSchemaPath(UnprocessableEntityErrorResponse) }],
+      },
+      description: DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE,
+      ...options,
+    }),
+  );
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that combine <a href="ApiExtraModels">ApiExtraModels</a> and <a href="ApiUnprocessableEntityResponse">ApiUnprocessableEntityResponse</a>,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/decorators/open-api/params/api-uuid-param.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ApiUuidParam"></a>
+                    <span class="name">
+                        <span ><b>ApiUuidParam</b></span>
+                        <a href="#ApiUuidParam"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  options: ApiParamOptions,
+): MethodDecorator &amp; ClassDecorator &amp; PropertyDecorator &#x3D;&gt;
+  applyDecorators(
+    ApiParam({
+      type: String,
+      format: &#x27;uuid&#x27;,
+      description: &#x27;The identifier&#x27;,
+      example: &#x27;dafaa89e-232c-42b8-a33e-3b75288645f1&#x27;,
+      ...options,
+    }),
+  )</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that encapsulates <a href="ApiParam">ApiParam</a> for param with type of String with UUID format,
+to the scope of controller or method or route handler, depending on its context.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/constants.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_AUTHOR_EMAIL"></a>
+                    <span class="name">
+                        <span ><b>APP_AUTHOR_EMAIL</b></span>
+                        <a href="#APP_AUTHOR_EMAIL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;faristalatuconsina@gmail.com&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application author e-maul address.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_AUTHOR_NAME"></a>
+                    <span class="name">
+                        <span ><b>APP_AUTHOR_NAME</b></span>
+                        <a href="#APP_AUTHOR_NAME"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Farista Latuconsina&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application author name.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_AUTHOR_URL"></a>
+                    <span class="name">
+                        <span ><b>APP_AUTHOR_URL</b></span>
+                        <a href="#APP_AUTHOR_URL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;https://github.com/latuconsinafr&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application author url.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_DESCRIPTION"></a>
+                    <span class="name">
+                        <span ><b>APP_DESCRIPTION</b></span>
+                        <a href="#APP_DESCRIPTION"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;This is an API of Personal Practice Application&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application description.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_GLOBAL_PREFIX"></a>
+                    <span class="name">
+                        <span ><b>APP_GLOBAL_PREFIX</b></span>
+                        <a href="#APP_GLOBAL_PREFIX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;api&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines current application global prefix.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_LICENSE"></a>
+                    <span class="name">
+                        <span ><b>APP_LICENSE</b></span>
+                        <a href="#APP_LICENSE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;MIT&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application license.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_LICENSE_URL"></a>
+                    <span class="name">
+                        <span ><b>APP_LICENSE_URL</b></span>
+                        <a href="#APP_LICENSE_URL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;https://opensource.org/licenses/MIT&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application license url.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_MAX_TIMEOUT"></a>
+                    <span class="name">
+                        <span ><b>APP_MAX_TIMEOUT</b></span>
+                        <a href="#APP_MAX_TIMEOUT"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>2500</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application maximum timeout in ms.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_NAME"></a>
+                    <span class="name">
+                        <span ><b>APP_NAME</b></span>
+                        <a href="#APP_NAME"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Personal Practice&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the application name.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_TERMS_OF_SERVICE"></a>
+                    <span class="name">
+                        <span ><b>APP_TERMS_OF_SERVICE</b></span>
+                        <a href="#APP_TERMS_OF_SERVICE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;tos&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines current application terms of service.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_VERSION"></a>
+                    <span class="name">
+                        <span ><b>APP_VERSION</b></span>
+                        <a href="#APP_VERSION"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;1&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines current application version.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_CONFLICT_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_CONFLICT_MESSAGE</b></span>
+                        <a href="#DEFAULT_CONFLICT_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Conflict&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the conflict error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_CONTENT_TOO_LARGE_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_CONTENT_TOO_LARGE_MESSAGE</b></span>
+                        <a href="#DEFAULT_CONTENT_TOO_LARGE_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Content too large&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the content too large error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_CREATED_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_CREATED_MESSAGE</b></span>
+                        <a href="#DEFAULT_CREATED_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Created&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the created success response.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_FORBIDDEN_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_FORBIDDEN_MESSAGE</b></span>
+                        <a href="#DEFAULT_FORBIDDEN_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Forbidden&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the forbidden error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_HELP_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_HELP_MESSAGE</b></span>
+                        <a href="#DEFAULT_HELP_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Help is not available&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the default message for help response.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE</b></span>
+                        <a href="#DEFAULT_INTERNAL_SERVER_ERROR_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Internal server error&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the internal server error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_NO_CONTENT_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_NO_CONTENT_MESSAGE</b></span>
+                        <a href="#DEFAULT_NO_CONTENT_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;No content&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the no content success response.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_NOT_FOUND_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_NOT_FOUND_MESSAGE</b></span>
+                        <a href="#DEFAULT_NOT_FOUND_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Resource not found&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the resource not found error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_OK_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_OK_MESSAGE</b></span>
+                        <a href="#DEFAULT_OK_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Ok&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the ok success response.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_REQUEST_TIMEOUT_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_REQUEST_TIMEOUT_MESSAGE</b></span>
+                        <a href="#DEFAULT_REQUEST_TIMEOUT_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Request timeout&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the request timeout error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_TOO_MANY_REQUESTS_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_TOO_MANY_REQUESTS_MESSAGE</b></span>
+                        <a href="#DEFAULT_TOO_MANY_REQUESTS_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Too many requests&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the too many requests error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_UNAUTHORIZED_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_UNAUTHORIZED_MESSAGE</b></span>
+                        <a href="#DEFAULT_UNAUTHORIZED_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Unauthorized&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the unauthorized error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE</b></span>
+                        <a href="#DEFAULT_UNPROCESSABLE_ENTITY_MESSAGE"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>miscellaneous</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;Unprocessable entity&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines default message for the unprocessable entity error exception.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NOT_TO_BE_CACHED_KEY"></a>
+                    <span class="name">
+                        <span ><b>NOT_TO_BE_CACHED_KEY</b></span>
+                        <a href="#NOT_TO_BE_CACHED_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;cache_interceptor:not_to_be_cached&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the not to be cached metadata key.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NOT_TO_BE_TIMEOUTED_KEY"></a>
+                    <span class="name">
+                        <span ><b>NOT_TO_BE_TIMEOUTED_KEY</b></span>
+                        <a href="#NOT_TO_BE_TIMEOUTED_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;timeout_interceptor:not_to_be_timeouted&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the not to be timeout-ed metadata key.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NOT_TO_BE_TRANSFORMED_KEY"></a>
+                    <span class="name">
+                        <span ><b>NOT_TO_BE_TRANSFORMED_KEY</b></span>
+                        <a href="#NOT_TO_BE_TRANSFORMED_KEY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;transform_interceptor:not_to_be_transformed&#x27;</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the not to be transformed metadata key.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/app/app.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appConfig"></a>
+                    <span class="name">
+                        <span ><b>appConfig</b></span>
+                        <a href="#appConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(&#x27;app&#x27;, (): AppConfigOptions &#x3D;&gt; {
+  const env: AppEnvironmentVariables &#x3D; isEnvValid(
+    process.env,
+    AppEnvironmentVariables,
+  );
+
+  return {
+    environment: env.NODE_ENV as Environment,
+    host: env.HOST,
+    port: env.PORT,
+    debug: env.DEBUG,
+  };
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the app configuration.
+This configuration is registered under <code>app</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/cache/cache.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cacheConfig"></a>
+                    <span class="name">
+                        <span ><b>cacheConfig</b></span>
+                        <a href="#cacheConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(&#x27;cache&#x27;, (): CacheManagerOptions &#x3D;&gt; {
+  const env: CacheEnvironmentVariables &#x3D; isEnvValid(
+    process.env,
+    CacheEnvironmentVariables,
+  );
+
+  return {
+    ttl: env.CACHE_TTL,
+    max: env.CACHE_MAX,
+  };
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the cache configuration.
+This configuration is registered under <code>cache</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/auth/casl.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="caslConfig"></a>
+                    <span class="name">
+                        <span ><b>caslConfig</b></span>
+                        <a href="#caslConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(
+  &#x27;casl&#x27;,
+  (): OptionsForRoot&lt;UserRole, User, RequestWithAuthUser&gt; &#x3D;&gt; {
+    return {
+      superuserRole: UserRole.SuperAdmin,
+      /* istanbul ignore next */ getUserFromRequest(
+        request: RequestWithAuthUser,
+      ) {
+        const user &#x3D; request.user;
+
+        return user;
+      },
+    };
+  },
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the CASL configuration using nest-casl.
+This configuration is registered under <code>casl</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/database/database.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="databaseConfig"></a>
+                    <span class="name">
+                        <span ><b>databaseConfig</b></span>
+                        <a href="#databaseConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(
+  &#x27;database&#x27;,
+  (): DataSourceOptions &amp; SeederOptions &#x3D;&gt; {
+    const env: DatabaseEnvironmentVariables &#x3D; isEnvValid(
+      process.env,
+      DatabaseEnvironmentVariables,
+    );
+
+    const appConfigOptions &#x3D; appConfig();
+
+    return {
+      type: &#x27;mysql&#x27;,
+      host: env.DATABASE_HOST,
+      port: env.DATABASE_PORT,
+      username: env.DATABASE_USERNAME,
+      password: env.DATABASE_PASSWORD,
+      database: env.DATABASE_NAME,
+      ...(env.DATABASE_SSL
+        ? {
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          }
+        : undefined),
+      logging: appConfigOptions.debug
+        ? &#x27;all&#x27;
+        : appConfigOptions.environment !&#x3D;&#x3D; Environment.Production
+        ? [&#x27;migration&#x27;, &#x27;query&#x27;, &#x27;warn&#x27;, &#x27;error&#x27;]
+        : [&#x27;warn&#x27;, &#x27;error&#x27;],
+      entities: [__dirname + &#x27;/../../**/*.entity{.ts,.js}&#x27;],
+      migrations: [__dirname + &#x27;/../../database/migrations/*{.ts,.js}&#x27;],
+      migrationsTableName: &#x60;${APP_NAME.replace(
+        /\s+/g,
+        &#x27;-&#x27;,
+      ).toLowerCase()}-migrations&#x60;,
+      seeds: [
+        &#x27;src/database/seeds/user.seeder.ts&#x27;,
+        &#x27;src/database/seeds/local-file.seeder.ts&#x27;,
+        &#x27;src/database/seeds/user-profile.seeder.ts&#x27;,
+        &#x27;src/database/seeds/topic.seeder.ts&#x27;,
+        &#x27;src/database/seeds/post.seeder.ts&#x27;,
+        // &#x27;src/database/seeds/**/*{.ts,.js}&#x27;, // * Disabled due to specify the order of seeds
+      ],
+      factories: [&#x27;src/database/factories/**/*{.ts,.js}&#x27;],
+    };
+  },
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the database configuration using TypeORM.
+This configuration is registered under <code>database</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/auth/jwt.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="jwtConfig"></a>
+                    <span class="name">
+                        <span ><b>jwtConfig</b></span>
+                        <a href="#jwtConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(&#x27;jwt&#x27;, (): JwtModuleOptions &#x3D;&gt; {
+  const env: JwtEnvironmentVariables &#x3D; isEnvValid(
+    process.env,
+    JwtEnvironmentVariables,
+  );
+
+  return {
+    secret: env.JWT_SECRET,
+    signOptions: {
+      expiresIn: env.JWT_EXPIRES_IN,
+    },
+  };
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the JWT configuration.
+This configuration is registered under <code>jwt</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/database/data/local-files.data.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="localFilesData"></a>
+                    <span class="name">
+                        <span ><b>localFilesData</b></span>
+                        <a href="#localFilesData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new LocalFile({
+    id: &#x27;3ba92036-75c8-4881-a7cf-410b70150e69&#x27;,
+    fileName: &#x27;avatar.png&#x27;,
+    path: &#x27;src/database/data/media/users/profiles/avatars/a36ed5b784054001a0cf4b6772cd4f29&#x27;,
+    mimeType: &#x27;image/png&#x27;,
+    generalAccess: FileGeneralAccess.Public,
+    uploaderId: usersData[0].id,
+  }),
+  new LocalFile({
+    id: &#x27;96c9e630-50ac-41cc-9498-3bf3b8a504f8&#x27;,
+    fileName: &#x27;avatar.png&#x27;,
+    path: &#x27;src/database/data/media/users/profiles/avatars/b36ed5b784054001a0cf4b6772cd4f28&#x27;,
+    mimeType: &#x27;image/png&#x27;,
+    generalAccess: FileGeneralAccess.Public,
+    uploaderId: usersData[1].id,
+  }),
+] as const</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dummy data for <a href="../entitys/LocalFile.html">LocalFile</a> entity.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/file-upload/local-file-upload.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="localFileUploadConfig"></a>
+                    <span class="name">
+                        <span ><b>localFileUploadConfig</b></span>
+                        <a href="#localFileUploadConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(
+  &#x27;local-file-upload&#x27;,
+  (): MulterOptions &#x3D;&gt; {
+    const env: LocalFileUploadEnvironmentVariables &#x3D; isEnvValid(
+      process.env,
+      LocalFileUploadEnvironmentVariables,
+    );
+
+    // * Create the local file upload destination if it doesn&#x27;t exist
+    if (!fs.existsSync(env.LOCAL_FILE_UPLOAD_DEST)) {
+      fs.mkdirSync(env.LOCAL_FILE_UPLOAD_DEST);
+    }
+
+    return {
+      dest: env.LOCAL_FILE_UPLOAD_DEST,
+    };
+  },
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the local file upload configuration.
+This configuration is registered under <code>local-file-upload</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/logger/logger.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loggerConfig"></a>
+                    <span class="name">
+                        <span ><b>loggerConfig</b></span>
+                        <a href="#loggerConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(&#x27;logger&#x27;, (): Params &#x3D;&gt; {
+  const env: LoggerEnvironmentVariables &#x3D; isEnvValid(
+    process.env,
+    LoggerEnvironmentVariables,
+  );
+
+  const appConfigOptions &#x3D; appConfig();
+
+  return {
+    pinoHttp: {
+      name: APP_NAME,
+      level: appConfigOptions.debug ? &#x27;debug&#x27; : &#x27;info&#x27;,
+      transport:
+        appConfigOptions.environment !&#x3D;&#x3D; Environment.Production
+          ? {
+              target: &#x27;pino-pretty&#x27;,
+              options: {
+                singleLine: true,
+              },
+            }
+          : undefined,
+      stream: pino.destination({
+        dest: join(process.cwd(), env.LOGGER_STREAM_DESTINATION),
+        minLength: env.LOGGER_STREAM_BUFFER,
+        sync: env.LOGGER_STREAM_SYNC,
+      }),
+      customProps: /* istanbul ignore next */ () &#x3D;&gt; ({
+        context: &#x27;Http&#x27;,
+      }),
+    },
+  };
+})</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the logger configuration under nestjs-pino.
+This configuration is registered as <code>logger</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/exceptions/unprocessable-entity.exception.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mapChildrenToValidationErrorResponses"></a>
+                    <span class="name">
+                        <span ><b>mapChildrenToValidationErrorResponses</b></span>
+                        <a href="#mapChildrenToValidationErrorResponses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(
+  errors: ValidationError[],
+): ValidationErrors[] &#x3D;&gt; {
+  return errors.map((error) &#x3D;&gt; ({
+    property: error.property,
+    constraints:
+      Array.isArray(error.children) &amp;&amp; error.children.length &gt; 0
+        ? mapChildrenToValidationErrorResponses(error.children)
+        : Object.values(error.constraints ?? []),
+  }));
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Maps an array of validation error to array of validation error response.
+This function maps the nested <code>children</code> <code>constraints</code> value.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/typeorm/repository.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedAndWhere"></a>
+                    <span class="name">
+                        <span ><b>mockedAndWhere</b></span>
+                        <a href="#mockedAndWhere"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedGetMany"></a>
+                    <span class="name">
+                        <span ><b>mockedGetMany</b></span>
+                        <a href="#mockedGetMany"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedGetManyAndCount"></a>
+                    <span class="name">
+                        <span ><b>mockedGetManyAndCount</b></span>
+                        <a href="#mockedGetManyAndCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedGetRawMany"></a>
+                    <span class="name">
+                        <span ><b>mockedGetRawMany</b></span>
+                        <a href="#mockedGetRawMany"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedInnerJoinAndSelect"></a>
+                    <span class="name">
+                        <span ><b>mockedInnerJoinAndSelect</b></span>
+                        <a href="#mockedInnerJoinAndSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedLeftJoin"></a>
+                    <span class="name">
+                        <span ><b>mockedLeftJoin</b></span>
+                        <a href="#mockedLeftJoin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedOrderBy"></a>
+                    <span class="name">
+                        <span ><b>mockedOrderBy</b></span>
+                        <a href="#mockedOrderBy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedRepository"></a>
+                    <span class="name">
+                        <span ><b>mockedRepository</b></span>
+                        <a href="#mockedRepository"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  find: jest.fn(),
+  findAndCount: jest.fn(),
+  findBy: jest.fn(),
+  findOne: jest.fn(),
+  findOneBy: jest.fn(),
+  create: jest.fn(),
+  update: jest.fn(),
+  save: jest.fn(),
+  delete: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedSelect"></a>
+                    <span class="name">
+                        <span ><b>mockedSelect</b></span>
+                        <a href="#mockedSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedSkip"></a>
+                    <span class="name">
+                        <span ><b>mockedSkip</b></span>
+                        <a href="#mockedSkip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedTake"></a>
+                    <span class="name">
+                        <span ><b>mockedTake</b></span>
+                        <a href="#mockedTake"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedWhere"></a>
+                    <span class="name">
+                        <span ><b>mockedWhere</b></span>
+                        <a href="#mockedWhere"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockReturnThis()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/@nestjs/common/arguments-host.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedArgumentsHost"></a>
+                    <span class="name">
+                        <span ><b>mockedArgumentsHost</b></span>
+                        <a href="#mockedArgumentsHost"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  getArgs: jest.fn(),
+  getArgByIndex: jest.fn(),
+  switchToRpc: jest.fn(),
+  switchToHttp: mockedSwitchToHttp,
+  switchToWs: jest.fn(),
+  getType: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedGetNext"></a>
+                    <span class="name">
+                        <span ><b>mockedGetNext</b></span>
+                        <a href="#mockedGetNext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedGetRequest"></a>
+                    <span class="name">
+                        <span ><b>mockedGetRequest</b></span>
+                        <a href="#mockedGetRequest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedGetResponse"></a>
+                    <span class="name">
+                        <span ><b>mockedGetResponse</b></span>
+                        <a href="#mockedGetResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockImplementation(() &#x3D;&gt; ({
+  status: mockedStatus,
+}))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedJson"></a>
+                    <span class="name">
+                        <span ><b>mockedJson</b></span>
+                        <a href="#mockedJson"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn()</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedStatus"></a>
+                    <span class="name">
+                        <span ><b>mockedStatus</b></span>
+                        <a href="#mockedStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockImplementation(() &#x3D;&gt; ({
+  json: mockedJson,
+}))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedSwitchToHttp"></a>
+                    <span class="name">
+                        <span ><b>mockedSwitchToHttp</b></span>
+                        <a href="#mockedSwitchToHttp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>jest.fn().mockImplementation(() &#x3D;&gt; ({
+  getRequest: mockedGetRequest,
+  getResponse: mockedGetResponse,
+  getNext: mockedGetNext,
+}))</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/@nestjs/common/cache-manager.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedCacheManager"></a>
+                    <span class="name">
+                        <span ><b>mockedCacheManager</b></span>
+                        <a href="#mockedCacheManager"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  get: jest.fn(),
+  set: jest.fn(),
+  del: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/cache-manager-redis-store/cache-manager-redis-store.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedCacheManagerRedisStore"></a>
+                    <span class="name">
+                        <span ><b>mockedCacheManagerRedisStore</b></span>
+                        <a href="#mockedCacheManagerRedisStore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  redisStore: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/@nestjs/common/call-handler.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedCallHandler"></a>
+                    <span class="name">
+                        <span ><b>mockedCallHandler</b></span>
+                        <a href="#mockedCallHandler"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  handle: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/@nestjs/common/execution-context.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedExecutionContext"></a>
+                    <span class="name">
+                        <span ><b>mockedExecutionContext</b></span>
+                        <a href="#mockedExecutionContext"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  ...mockedArgumentsHost,
+  getClass: jest.fn(),
+  getHandler: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/@nestjs/jwt/jwt-service.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedJwtService"></a>
+                    <span class="name">
+                        <span ><b>mockedJwtService</b></span>
+                        <a href="#mockedJwtService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  sign: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/nestjs-pino/pino-logger.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedPinoLogger"></a>
+                    <span class="name">
+                        <span ><b>mockedPinoLogger</b></span>
+                        <a href="#mockedPinoLogger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  setContext: jest.fn(),
+
+  log: jest.fn(),
+  info: jest.fn(),
+  debug: jest.fn(),
+  warn: jest.fn(),
+  error: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/@nestjs/core/reflector.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedReflector"></a>
+                    <span class="name">
+                        <span ><b>mockedReflector</b></span>
+                        <a href="#mockedReflector"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  get: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/common/utils/mocks/express/response.mock.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mockedResponse"></a>
+                    <span class="name">
+                        <span ><b>mockedResponse</b></span>
+                        <a href="#mockedResponse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  json: jest.fn(),
+  locals: jest.fn(),
+  send: jest.fn(),
+  set: jest.fn(),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/services/posts/permissions/post.permissions.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PostActions"></a>
+                    <span class="name">
+                        <span ><b>PostActions</b></span>
+                        <a href="#PostActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  ...AccessControlActions,
+  ...PostAdditionalActions,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="PostPermissions"></a>
+                    <span class="name">
+                        <span ><b>PostPermissions</b></span>
+                        <a href="#PostPermissions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#PostActions" target="_self" >Permissions&lt;UserRole, PostSubjects, PostActions&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    // * {UserRole.SuperAdmin}
+    /* istanbul ignore next */ &#x27;super-admin&#x27;({ can }) {
+      can(PostActions.Manage, Post);
+    },
+
+    // * {UserRole.User}
+    /* istanbul ignore next */ user({ user, can }) {
+      can(PostActions.Create, Post);
+      can(PostActions.ReadAll, Post);
+      can(PostActions.ReadById, Post);
+      can(PostActions.Update, Post, { authorId: user.id });
+      can(PostActions.UpdateTopics, Post, { authorId: user.id });
+      can(PostActions.Delete, Post, { authorId: user.id });
+    },
+  }</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines permission for PostSubjects against PostActions.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/database/data/posts.data.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="postsData"></a>
+                    <span class="name">
+                        <span ><b>postsData</b></span>
+                        <a href="#postsData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new Post({
+    id: &#x27;5d43ec16-25fb-4de3-9b79-8dee1816ce95&#x27;,
+    content: &#x27;Art is only the beginning, the end would be utterly chaos.&#x27;,
+    topics: [topicsData[1], topicsData[3]],
+    authorId: usersData[1].id,
+  }),
+  new Post({
+    id: &#x27;8b8e0aad-a697-4e1c-ac77-48ed34998c39&#x27;,
+    content: &quot;Is a leaf&#x27;s only purpose to fall?&quot;,
+    topics: [topicsData[5]],
+    authorId: usersData[1].id,
+  }),
+] as const</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dummy data for <a href="../entitys/Post.html">Post</a> entity.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/rate-limiting/rate-limiting.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rateLimitingConfig"></a>
+                    <span class="name">
+                        <span ><b>rateLimitingConfig</b></span>
+                        <a href="#rateLimitingConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(
+  &#x27;rate-limiting&#x27;,
+  (): ThrottlerModuleOptions &#x3D;&gt; {
+    const env: RateLimitingEnvironmentVariables &#x3D; isEnvValid(
+      process.env,
+      RateLimitingEnvironmentVariables,
+    );
+
+    return {
+      ttl: env.THROTTLER_TTL,
+      limit: env.THROTTLER_LIMIT,
+    };
+  },
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the rate-limiting configuration.
+This configuration is registered as <code>rate-limiting</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/config/cache/redis-store.config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="redisStoreConfig"></a>
+                    <span class="name">
+                        <span ><b>redisStoreConfig</b></span>
+                        <a href="#redisStoreConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>registerAs(
+  &#x27;redis-store&#x27;,
+  (): RedisClientOptions &#x3D;&gt; {
+    const env: RedisStoreEnvironmentVariables &#x3D; isEnvValid(
+      process.env,
+      RedisStoreEnvironmentVariables,
+    );
+
+    return {
+      socket: {
+        host: env.REDIS_STORE_HOST,
+        port: env.REDIS_STORE_PORT,
+      },
+    };
+  },
+)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines the redis store configuration.
+This configuration is registered under <code>redis-store</code> namespace.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/services/topics/permissions/topic.permissions.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TopicActions"></a>
+                    <span class="name">
+                        <span ><b>TopicActions</b></span>
+                        <a href="#TopicActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  ...AccessControlActions,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TopicPermissions"></a>
+                    <span class="name">
+                        <span ><b>TopicPermissions</b></span>
+                        <a href="#TopicPermissions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#TopicActions" target="_self" >Permissions&lt;UserRole, TopicSubjects, TopicActions&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  // * {UserRole.SuperAdmin}
+  /* istanbul ignore next */ &#x27;super-admin&#x27;({ can }) {
+    can(TopicActions.Manage, Topic);
+  },
+
+  // * {UserRole.User}
+  /* istanbul ignore next */ user({ can }) {
+    can(TopicActions.ReadAll, Topic);
+    can(TopicActions.ReadById, Topic);
+  },
+}</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines permission for TopicSubjects against TopicActions.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/database/data/topics.data.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="topicsData"></a>
+                    <span class="name">
+                        <span ><b>topicsData</b></span>
+                        <a href="#topicsData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new Topic({
+    id: &#x27;13402672-72ba-4d00-a9b0-1c2379ed7d65&#x27;,
+    name: &#x27;Entertainment&#x27;,
+  }),
+  new Topic({
+    id: &#x27;28b6cd6a-49fc-4b84-a3c8-3158a9b4e3cb&#x27;,
+    name: &#x27;Art&#x27;,
+  }),
+  new Topic({
+    id: &#x27;6c305b13-be87-46fd-aa75-d94a693087ce&#x27;,
+    name: &#x27;Science&#x27;,
+  }),
+  new Topic({
+    id: &#x27;f6861074-7b7a-4ca3-a6d8-7e3eac4c8dcc&#x27;,
+    name: &#x27;Fiction&#x27;,
+  }),
+  new Topic({
+    id: &#x27;9260dbe7-47c1-4a86-9d83-032af62f0509&#x27;,
+    name: &#x27;Lifestyle&#x27;,
+  }),
+  new Topic({
+    id: &#x27;e3c8cb59-2d59-44d8-a3c9-299daf05aa5e&#x27;,
+    name: &#x27;Other&#x27;,
+  }),
+] as const</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dummy data for <a href="../entitys/Topic.html">Topic</a> entity.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/services/auth/decorators/use-jwt-auth.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UseJwtAuth"></a>
+                    <span class="name">
+                        <span ><b>UseJwtAuth</b></span>
+                        <a href="#UseJwtAuth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; UseGuards(JwtAuthGuard)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that set a specified route path or controller or any below method to be accessible
+controlled by <a href="../injectables/JwtAuthGuard.html">JwtAuthGuard</a>.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/services/auth/decorators/use-local-auth.decorator.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UseLocalAuth"></a>
+                    <span class="name">
+                        <span ><b>UseLocalAuth</b></span>
+                        <a href="#UseLocalAuth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; UseGuards(LocalAuthGuard)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Decorator that set a specified route path or controller or any below method to be accessible
+controlled by <a href="../injectables/LocalAuthGuard.html">LocalAuthGuard</a>.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/services/users/permissions/user.permissions.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserActions"></a>
+                    <span class="name">
+                        <span ><b>UserActions</b></span>
+                        <a href="#UserActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  ...AccessControlActions,
+  ...UserAdditionalActions,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="UserPermissions"></a>
+                    <span class="name">
+                        <span ><b>UserPermissions</b></span>
+                        <a href="#UserPermissions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../entitys/User.html" target="_self" >Permissions&lt;UserRole, UserSubjects, UserActions&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    // * {UserRole.SuperAdmin}
+    /* istanbul ignore next */ &#x27;super-admin&#x27;({ can }) {
+      can(UserActions.Manage, User);
+    },
+
+    // * {UserRole.User}
+    /* istanbul ignore next */ user({ user, can }) {
+      can(UserActions.ReadById, User);
+      can(UserActions.Update, User, { id: user.id });
+      can(UserActions.UpdatePassword, User, { id: user.id });
+      can(UserActions.UpdateProfile, User, { id: user.id });
+      can(UserActions.UpdateProfileAvatar, User, { id: user.id });
+    },
+  }</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines permission for UserSubjects against UserActions.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/database/data/user-profiles.data.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userProfilesData"></a>
+                    <span class="name">
+                        <span ><b>userProfilesData</b></span>
+                        <a href="#userProfilesData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new UserProfile({
+    id: usersData[0].id,
+    firstName: &#x27;Super&#x27;,
+    lastName: &#x27;Admin&#x27;,
+    bio: null,
+    location: &#x27;Indonesia&#x27;,
+    website: null,
+    birthDate: new Date(&#x27;1995-08-06&#x27;),
+    avatarFileId: localFilesData[0].id,
+  }),
+  new UserProfile({
+    id: usersData[1].id,
+    firstName: &#x27;A&#x27;,
+    lastName: &#x27;User&#x27;,
+    bio: null,
+    location: &#x27;Indonesia&#x27;,
+    website: null,
+    birthDate: new Date(&#x27;1995-08-06&#x27;),
+    avatarFileId: localFilesData[1].id,
+  }),
+] as const</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dummy data for <a href="../entitys/UserProfile.html">UserProfile</a> entity.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+    <h3>src/database/data/users.data.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usersData"></a>
+                    <span class="name">
+                        <span ><b>usersData</b></span>
+                        <a href="#usersData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  new User({
+    id: &#x27;279f5342-cbf3-45bf-96ab-4f295da3cd0e&#x27;,
+    username: &#x27;super-admin&#x27;,
+    email: &#x27;super_admin@mail.com&#x27;,
+    phone: &#x27;+6282246924950&#x27;,
+    password:
+      &#x27;$argon2id$v&#x3D;19$m&#x3D;65536,t&#x3D;3,p&#x3D;4$AJgltBJ0WY3dCBHs8/Hmgw$56y+zKfzef2qaaFWXYRLXw4VTjHjm1KJwgc8zngSp80&#x27;,
+    roles: [UserRole.SuperAdmin],
+  }),
+  new User({
+    id: &#x27;3e4c44dc-9382-458a-a8db-289b54b7e34e&#x27;,
+    username: &#x27;user&#x27;,
+    email: &#x27;user@mail.com&#x27;,
+    phone: &#x27;+6281231142801&#x27;,
+    password:
+      &#x27;$argon2id$v&#x3D;19$m&#x3D;65536,t&#x3D;3,p&#x3D;4$AJgltBJ0WY3dCBHs8/Hmgw$56y+zKfzef2qaaFWXYRLXw4VTjHjm1KJwgc8zngSp80&#x27;,
+    roles: [UserRole.User],
+  }),
+] as const</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dummy data for <a href="../entitys/User.html">User</a> entity.</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

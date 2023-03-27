@@ -30,7 +30,8 @@
     "seed:run": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -d src/database/data-source.ts",
     "db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create -d src/database/data-source.ts",
     "db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:drop -d src/database/data-source.ts",
-    "db:refresh": "rimraf uploads/*/ && npm run schema:drop && npm run migration:run && npm run seed:run"
+    "db:refresh": "rimraf uploads/*/ && npm run schema:drop && npm run migration:run && npm run seed:run",
+    "documentation:serve": "npx @compodoc/compodoc -p tsconfig.json --serve"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -69,6 +70,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.19",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.2.0",
