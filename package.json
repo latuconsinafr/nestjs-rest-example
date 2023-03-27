@@ -31,7 +31,7 @@
     "db:create": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:create -d src/database/data-source.ts",
     "db:drop": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js db:drop -d src/database/data-source.ts",
     "db:refresh": "rimraf uploads/*/ && npm run schema:drop && npm run migration:run && npm run seed:run",
-    "documentation:serve": "npx @compodoc/compodoc -p tsconfig.json --serve"
+    "docs:serve": "npx @compodoc/compodoc -p tsconfig.json -d ./docs --serve"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
