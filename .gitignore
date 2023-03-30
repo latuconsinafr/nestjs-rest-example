@@ -389,7 +389,7 @@ Temporary Items
 
 =======
 # Local
-.env
+*.env
 dist
 
 # Local File Uploads
