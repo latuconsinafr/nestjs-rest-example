@@ -187,7 +187,7 @@ AutoTest.Net/
 .sass-cache/
 
 # Installshield output folder
-[Ee]xpress/
+# [Ee]xpress/ disabled due existing express folder inside /src/common/utils/mocks/
 
 # DocProject is a documentation generator add-in
 DocProject/buildhelp/
