@@ -1,0 +1,409 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>personal-practice documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">personal-practice documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >HttpCacheInterceptor</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/common/interceptors/http-cache.interceptor.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>By default, Nest uses the request URL (in an HTTP app) or cache key (in websockets and microservices apps,
+set through the <code>@CacheKey()</code> decorator) to associate cache records with endpoints.</p>
+<p>This class is created in order to accomplish custom tracking set by override the <code>trackBy()</code> method.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                    <code>CacheInterceptor</code>
+            </p>
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#cachedRoutes" >cachedRoutes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#trackBy" >trackBy</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="trackBy"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>trackBy</b></span>
+                        <a href="#trackBy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>trackBy(context: ExecutionContext)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/common/interceptors/http-cache.interceptor.ts:19</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>context</td>
+                                    <td>
+                                            <code>ExecutionContext</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cachedRoutes"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>cachedRoutes</b></span>
+                        <a href="#cachedRoutes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Map&lt;string, any&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/common/interceptors/http-cache.interceptor.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  CacheInterceptor,
+  CACHE_KEY_METADATA,
+  ExecutionContext,
+  Injectable,
+} from &#x27;@nestjs/common&#x27;;
+import { NOT_TO_BE_CACHED_KEY } from &#x27;../constants&#x27;;
+
+/**
+ * By default, Nest uses the request URL (in an HTTP app) or cache key (in websockets and microservices apps,
+ * set through the &#x60;@CacheKey()&#x60; decorator) to associate cache records with endpoints.
+ *
+ * This class is created in order to accomplish custom tracking set by override the &#x60;trackBy()&#x60; method.
+ */
+@Injectable()
+export class HttpCacheInterceptor extends CacheInterceptor {
+  protected cachedRoutes &#x3D; new Map&lt;string, any&gt;();
+
+  protected trackBy(context: ExecutionContext): string | undefined {
+    const request &#x3D; context.switchToHttp().getRequest();
+
+    // * if there is no request, the incoming request is graphql, therefore bypass response caching.
+    if (!request) {
+      return undefined;
+    }
+
+    // * Get the not to be cached status meta data by the NOT_TO_BE_CACHED_KEY
+    const notToBeCachedMetaData &#x3D; this.reflector.get(
+      NOT_TO_BE_CACHED_KEY,
+      context.getHandler(),
+    );
+
+    // * If the route handler not to be cached, then return undefined
+    if (notToBeCachedMetaData) {
+      return undefined;
+    }
+
+    const { httpAdapter } &#x3D; this.httpAdapterHost;
+    const isHttpApp &#x3D; httpAdapter &amp;&amp; !!httpAdapter.getRequestMethod;
+
+    // * Get the cache key meta data by the CACHE_KEY_METADATA
+    const cacheMetaData &#x3D; this.reflector.get(
+      CACHE_KEY_METADATA,
+      context.getHandler(),
+    );
+
+    // * If the app is not http (since websockets and microservices apps set through the @CacheKey() decorator)
+    // * or the cache meta data exists then return the cache meta data immediately
+    if (!isHttpApp || cacheMetaData) {
+      return cacheMetaData;
+    }
+
+    const isGetRequest &#x3D; httpAdapter.getRequestMethod(request) &#x3D;&#x3D;&#x3D; &#x27;GET&#x27;;
+
+    // * If the incoming request is other than GET, then perform delete cache
+    if (!isGetRequest) {
+      // * setTimeout is used to not throttle the incoming http request and make it wait for the in-validating process
+      // * (summary: this action would be on the next event cycle)
+      setTimeout(async () &#x3D;&gt; {
+        for (const values of this.cachedRoutes.values()) {
+          for (const value of values) {
+            // * Don&#x27;t need to worry about the cache manager as this class is extending the origin nestjs interceptor
+            await this.cacheManager.del(value);
+          }
+        }
+      }, 0);
+      return undefined;
+    }
+
+    // * Get base url of the incoming get request.
+    // * Example: &#x60;api/users/1&#x60;, &#x60;api/users?page&#x3D;1&amp;take&#x3D;1&#x60; will be &#x60;api/users&#x60;
+    const key &#x3D; httpAdapter.getRequestUrl(request).split(&#x27;?&#x27;)[0];
+
+    // * The resulted cachedRoutes will be something like:
+    // * (e.g: &#x27;/api/users&#x27; &#x3D;&gt; [&#x27;/api/users&#x27;, &#x27;/api/users/1&#x27;, &#x27;/api/users?search&#x3D;username&#x27;])
+    if (
+      this.cachedRoutes.has(key) &amp;&amp;
+      !this.cachedRoutes.get(key).includes(httpAdapter.getRequestUrl(request))
+    ) {
+      this.cachedRoutes.set(key, [
+        ...this.cachedRoutes.get(key),
+        httpAdapter.getRequestUrl(request),
+      ]);
+
+      return httpAdapter.getRequestUrl(request);
+    }
+
+    this.cachedRoutes.set(key, [httpAdapter.getRequestUrl(request)]);
+
+    return httpAdapter.getRequestUrl(request);
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'HttpCacheInterceptor.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
