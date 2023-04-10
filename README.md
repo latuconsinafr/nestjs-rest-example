@@ -155,16 +155,54 @@ $ npm run docs:serve
 ## OpenAPI
 The [OpenAPI](https://swagger.io/specification/) specification is a language-agnostic definition format used to describe RESTful APIs. Nest provides a dedicated module which allows generating such a specification by leveraging decorators.
 
+![screencapture-localhost-8080-docs-v1-2023-04-10-12_23_40](https://user-images.githubusercontent.com/23124690/230832035-2e63b3d1-14d3-401b-b12a-b6f7fed2cf09.png)
+
+The list of end-points are:
+### App
+- **{GET}** / (main app end-point)
+
+### Auth
+- **{GET}** /v1/auth (get authenticated user)
+- **{POST}** /v1/auth/sign-in (sign in)
+
+### Users
+- **{POST}** /v1/users (create a new user)
+- **{GET}** /v1/users (get all users)
+- **{GET}** /v1/users/{id} (get a specified user)
+- **{PUT}** /v1/users/{id} (update a specified user)
+- **{DELETE}** /v1/users/{id} (delete a specified user)
+- **{PUT}** /v1/users/{id}/password (update a specified user's password)
+- **{PUT}** /v1/users/{id}/roles (update a specified user's roles)
+- **{PUT}** /v1/users/{id}/profile (update a specified user's profile)
+- **{PUT}** /v1/users/{id}/profile/avatar/upload (upload a specified user's profile avatar)
+
+### Storages
+- **{GET}** /v1/storages/local/{id} (get a specified file via streamable)
+
+### Topics
+- **{POST}** /v1/topics/ (create a new topic)
+- **{GET}** /v1/topics/ (get all topics)
+- **{GET}** /v1/topics/{id} (get a specified topic)
+- **{PUT}** /v1/topics/{id} (update a specified topic)
+- **{DELETE}** /v1/topics/{id} (delete a specified topic)
+
+### Posts
+- **{POST}** /v1/posts/ (create a new post)
+- **{GET}** /v1/posts/ (get all posts)
+- **{GET}** /v1/posts/{id} (get a specified post)
+- **{PUT}** /v1/posts/{id} (update a specified post)
+- **{DELETE}** /v1/posts/{id} (delete a specified post)
+- **{PUT}** /v1/posts/{id}/topics (update a specified post's topics)
 
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+This starter or boilerplate is built under NestJS and NestJS is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
 - Author - [Farista Latuconsina](https://github.com/latuconsinafr)
-- Twitter - [@nestframework](https://twitter.com/latuconsinafr)
+- Twitter - [@latuconsinafr](https://twitter.com/latuconsinafr)
 
 ## License
 
