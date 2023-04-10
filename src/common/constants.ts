@@ -2,13 +2,13 @@
 /**
  * Defines the application name.
  */
-export const APP_NAME = 'Personal Practice';
+export const APP_NAME = 'NestJS API';
 
 /**
  * Defines the application description.
  */
 export const APP_DESCRIPTION =
-  'This is an API of Personal Practice Application';
+  'This is an API using NestJS';
 
 /**
  * Defines current application global prefix.
