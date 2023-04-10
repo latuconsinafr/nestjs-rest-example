@@ -1,7 +1,7 @@
 {
-  "name": "personal-practice",
+  "name": "nestjs-rest-example",
   "version": "0.0.1",
-  "description": "This is my personal full and long-term-practice.",
+  "description": "This is an example of REST application using Nest JS.",
   "author": "Farista Latuconsina",
   "private": true,
   "license": "MIT",
